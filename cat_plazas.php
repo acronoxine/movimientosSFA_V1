@@ -343,15 +343,15 @@ function cargasueldo(idcategoria)
 							<td><select name="categoria" style="width: 180px;"
 								onChange="cargasueldo(this.value);">
 									<option value="">Seleccione</option>
-                  <?php
+                  			<?php
 																		do {
 																			?>
-                  <option
+                  			<option
 										value="<?php echo $row_categorias['idcategoria']; ?>"><?php echo $row_categorias['clave'], " ", $row_categorias['descripcion']?></option>
-                  <?php
+                  				<?php
 																		} while ( $row_categorias = mysql_fetch_assoc ( $categorias ) );
 																		?>
-                </select><label class="label">*</label></td>
+                			</select><label class="label">*</label></td>
 
 							
 						</tr>

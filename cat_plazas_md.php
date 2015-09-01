@@ -225,8 +225,8 @@ function movimientob(){
  * Made by Jose Luis Zirangua Mejia
  */
 	function get_programas(){
-		var ur = $( "#getUR" ).val();
-			$.ajax({
+		var ur = jQuery( "#getUR" ).val();
+		jQuery.ajax({
 			      type		: "POST",
 			      dataType	: "json",
 			      url		: "ajax_programas.php", //Relative or absolute path to response.php file
@@ -237,36 +237,36 @@ function movimientob(){
 			        );*/
 			        //alert("Form submitted successfully.\nReturned json: " + data["2"]);
 				        if(ur != 0){
-							$( "#programas" ).empty();
-							$( "#subprogramas" ).empty();
+				        	jQuery( "#programas" ).empty();
+							jQuery( "#subprogramas" ).empty();
 								jQuery.each(data,function(i,val){
-									$( "#programas" ).append("<option value="+val+">"+ val +"</option>");
+									jQuery( "#programas" ).append("<option value="+val+">"+ val +"</option>");
 								});
 				        }
 						else{
-							$( "#programas" ).empty();
-							$( "#programas" ).append('<option value="0">Seleccione</option>');
+							jQuery( "#programas" ).empty();
+							jQuery( "#programas" ).append('<option value="0">Seleccione</option>');
 						}
 			      }
 			    });
 	}
 	function get_subprogramas(){
-			var programa = $( "#programas" ).val();
-			$.ajax({
+			var programa = jQuery( "#programas" ).val();
+			jQuery.ajax({
 				type		: "POST",
 				dataType	: "json",
 				url 		: "jQuery_suprogramas.php",
 				data		: {id_programa: programa},
 				success		: function (data) {
 					if(programa != 0){
-						$( "#subprogramas" ).empty();
+						jQuery( "#subprogramas" ).empty();
 						jQuery.each(data,function(i,val){
-							$( "#subprogramas" ).append("<option value="+val+">"+ val +"</option>");
+							jQuery( "#subprogramas" ).append("<option value="+val+">"+ val +"</option>");
 						});
 				}
 				else{
-						$( "#subprogramas" ).empty();
-						$( "#subprogramas" ).append('<option value="0">Seleccione</option>');
+					jQuery( "#subprogramas" ).empty();
+					jQuery( "#subprogramas" ).append('<option value="0">Seleccione</option>');
 					}
 				}
 			});		
@@ -288,29 +288,70 @@ function movimientob(){
 								maxlength="4" placeholder="Dato no capturado" required onclick="getClave()">*
 							</td>
 						</tr>
-						<tr valign="baseline">
-							<td nowrap align="LEFT"><label class="label">UR:</label></td>
-							<td><input class="campo" type="text" name="estado"
-								value="<?php echo $row['ur']; ?>" size="30"
-								placeholder="Dato no capturado" required>*</td>
+												<tr valign="baseline">
+							<!-- Start UR -->
+							<td nowrap align="left"><label class="label">UR:</label></td>
+							<td><select id="getUR" style="width: 180px;"
+								onchange="get_programas()">
+									<option value="0">Seleccione</option>
+									<option value="01">01</option>
+									<option value="02">02</option>
+									<option value="03">03</option>
+									<option value="04">04</option>
+									<option value="05">05</option>
+									<option value="06">06</option>
+									<option value="07">07</option>
+									<option value="08">08</option>
+									<option value="09">09</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+									<option value="13">13</option>
+									<option value="14">14</option>
+									<option value="15">15</option>
+									<option value="16">16</option>
+									<option value="17">17</option>
+									<option value="18">18</option>
+									<option value="19">19</option>
+							</select></td>
 						</tr>
+						<!-- Start programas -->
 						<tr valign="baseline">
-							<td nowrap align="LEFT"><label class="label">PROGRAMA:</label></td>
-							<td><input class="campo" type="text" name="empleado"
-								value="<?php echo $row['programa']; ?>" size="30"
-								placeholder="Dato no capturado" required>*</td>
+							<td nowrap align="left"><label class="label">Programa:</label></td>
+							<td colspan="3">
+								<select id="programas" style="width: 180px;"
+								onchange="get_subprogramas()">
+									<option value="0">Seleccione</option>
+								</select>
+							</td>
 						</tr>
+						<!-- Start Subprogramas -->
 						<tr valign="baseline">
-							<td nowrap align="LEFT"><label class="label">SUBPROGRAMA:</label></td>
-							<td><input class="campo" type="text" name="empleado"
-								value="<?php echo $row['subprograma']; ?>" size="30"
-								placeholder="Dato no capturado" required>*</td>
+							<td nowrap align="left"><label class="label">Subprograma:</label></td>
+							<td colspan="3">
+								<select id="subprogramas" style="width: 180px;">
+									<option value="0">Seleccione</option>
+								</select>
+							</td>
+							<!-- Block end after -->
 						</tr>
+						<!-- Start Categoria -->
 						<tr valign="baseline">
-							<td nowrap align="LEFT"><label class="label">CATEGORIA:</label></td>
-							<td><input class="campo" type="text" name="empleado"
-								value="<?php echo $row['categoria']; ?>" size="30"
-								placeholder="Dato no capturado" required>*</td>
+							<td nowrap align="left"><label class="label">Categoria:</label></td>
+							<td><select name="categoria" style="width: 180px;"
+								onChange="cargasueldo(this.value);">
+									<option value="">Seleccione</option>
+                  			<?php
+																		do {
+																			?>
+                  			<option
+										value="<?php echo $row_categorias['idcategoria']; ?>"><?php echo $row_categorias['clave'], " ", $row_categorias['descripcion']?></option>
+                  				<?php
+																		} while ( $row_categorias = mysql_fetch_assoc ( $categorias ) );
+																		?>
+                			</select><label class="label">*</label></td>
+
+							
 						</tr>
 
 						<tr>
