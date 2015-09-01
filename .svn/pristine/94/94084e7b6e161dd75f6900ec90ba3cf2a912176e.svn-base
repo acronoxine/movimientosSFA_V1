@@ -1,0 +1,38 @@
+<?
+include("Connections/conexion.php");
+mysql_select_db($database_conexion, $conexion);
+
+$query_subp= "SELECT cs.idsubprograma,cs.descripcion FROM cat_subprograma cs inner join cat_programa cp on cs.idprograma=cp.idprograma where cp.idprograma='$_POST[idprograma]' ";
+$res_subp=mysql_query($query_subp,$conexion);
+
+if(isset($_POST[desc])){
+	$subprograma=$_POST[desc];
+}
+else{
+	$subprograma="Seleccione";
+}
+?>
+<!doctype html>
+<html>
+<head>
+<script>
+function envia(valor){
+	proyecto(valor);
+}
+</script>
+<meta charset="iso-8859-1">
+</head>
+<body>
+
+                <select name="subprograma" class="lista" style="width:180px;" onChange="envia(this.value)">
+                	<option value=""><? echo $subprograma?></option>
+                  <?php 
+do {  
+?>
+                  <option value="<?php echo $row_subp['idsubprograma']?>" ><?php echo $row_subp['descripcion']?></option>
+                  <?php
+} while ($row_subp = mysql_fetch_assoc($res_subp));
+?>
+                </select>
+</body>
+</html>
