@@ -68,6 +68,14 @@ $query_categorias = "SELECT idcategoria, nivel, clave, descripcion, (sueldobase+
 $categorias = mysql_query ( $query_categorias, $conexion ) or die ( mysql_error () );
 $row_categorias = mysql_fetch_assoc ( $categorias );
 $totalRows_categorias = mysql_num_rows ( $categorias );
+$query_plaza_clave="SELECT DISTINCT
+    plaza_clave,titular
+FROM
+    cat_plazas
+WHERE
+    plaza_clave <> '';";
+
+$plaza_clave = mysql_query ( $query_plaza_clave, $conexion ) or die ( mysql_error () );
 ?>
 <!doctype html>
 <html>
@@ -224,6 +232,7 @@ function movimientob(){
  * Load values into comboBox on cascade 
  * Made by Jose Luis Zirangua Mejia
  */
+ 
 	function get_programas(){
 		var ur = jQuery( "#getUR" ).val();
 		jQuery.ajax({
@@ -283,12 +292,21 @@ function movimientob(){
 						</tr>
 						<tr valign="baseline">
 							<td nowrap align="LEFT"><label class="label">CLAVE:</label></td>
-							<td><input class="campo" type="text" name="clave"
-								value="<?php echo $row['plaza_clave'];; ?>" size="30"
-								maxlength="4" placeholder="Dato no capturado" required onclick="getClave()">*
-							</td>
+							<td><select name="categoria" style="width: 180px;"
+									<option value="">Seleccione</option>
+                  			<?php
+								do {
+									if(!empty($row_plaza_clave) || $row_plaza_clave=""){
+																			?>
+                  			<option
+										value="<?php echo $row_plaza_clave['plaza_clave']; ?>"><?php echo $row_plaza_clave['plaza_clave']?></option>
+                  				<?php
+																		} 
+								}while ( $row_plaza_clave = mysql_fetch_assoc ( $plaza_clave ) );
+																		?>
+                			</select><label class="label">*</label></td>
 						</tr>
-												<tr valign="baseline">
+						<tr valign="baseline">
 							<!-- Start UR -->
 							<td nowrap align="left"><label class="label">UR:</label></td>
 							<td><select id="getUR" style="width: 180px;"
@@ -339,7 +357,6 @@ function movimientob(){
 						<tr valign="baseline">
 							<td nowrap align="left"><label class="label">Categoria:</label></td>
 							<td><select name="categoria" style="width: 180px;"
-								onChange="cargasueldo(this.value);">
 									<option value="">Seleccione</option>
                   			<?php
 																		do {
@@ -358,7 +375,7 @@ function movimientob(){
 							<td nowrap align="left"><label class="label">TITULAR:</label></td>
 							<td colspan="2"><input type="text" class="campo" name="titular"
 								value="<?php echo $row['titular'];?>" size="30"
-								placeholder="Dato no capturado" required>*
+								placeholder="Dato no capturado" required>*</td>
 						
 						</tr>
 
