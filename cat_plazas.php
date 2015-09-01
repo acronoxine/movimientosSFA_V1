@@ -194,6 +194,7 @@ function cargasueldo(idcategoria)
 <script>
 /**
  * Load values into comboBox on cascade
+ * Made by Jose Luis Zirangua Mejia
  */
 	function get_programas(){
 		var ur = $( "#getUR" ).val();

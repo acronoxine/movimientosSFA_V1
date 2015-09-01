@@ -219,6 +219,59 @@ function movimientob(){
 			
 
       	</script>
+<script>
+/**
+ * Load values into comboBox on cascade 
+ * Made by Jose Luis Zirangua Mejia
+ */
+	function get_programas(){
+		var ur = $( "#getUR" ).val();
+			$.ajax({
+			      type		: "POST",
+			      dataType	: "json",
+			      url		: "ajax_programas.php", //Relative or absolute path to response.php file
+			      data		: {id_ur : ur },
+			      success	: function(data) {
+			        /*$(".the-return").html(
+			          "Favorite beverage: " + data["favorite_beverage"] + "<br />Favorite restaurant: " + data["favorite_restaurant"] + "<br />Gender: " + data["gender"] + "<br />JSON: " + data["json"]
+			        );*/
+			        //alert("Form submitted successfully.\nReturned json: " + data["2"]);
+				        if(ur != 0){
+							$( "#programas" ).empty();
+							$( "#subprogramas" ).empty();
+								jQuery.each(data,function(i,val){
+									$( "#programas" ).append("<option value="+val+">"+ val +"</option>");
+								});
+				        }
+						else{
+							$( "#programas" ).empty();
+							$( "#programas" ).append('<option value="0">Seleccione</option>');
+						}
+			      }
+			    });
+	}
+	function get_subprogramas(){
+			var programa = $( "#programas" ).val();
+			$.ajax({
+				type		: "POST",
+				dataType	: "json",
+				url 		: "jQuery_suprogramas.php",
+				data		: {id_programa: programa},
+				success		: function (data) {
+					if(programa != 0){
+						$( "#subprogramas" ).empty();
+						jQuery.each(data,function(i,val){
+							$( "#subprogramas" ).append("<option value="+val+">"+ val +"</option>");
+						});
+				}
+				else{
+						$( "#subprogramas" ).empty();
+						$( "#subprogramas" ).append('<option value="0">Seleccione</option>');
+					}
+				}
+			});		
+	}
+</script>
 			<div id="centro_prin">
 				<h3 style="color: #666; margin-left: 50px">EDITAR LA PLAZA</h3>
 				<form method="post" name="form1" action="#">
