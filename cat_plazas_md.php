@@ -9,18 +9,17 @@ if ($_SESSION ["m_sesion"] != 1) {
 ?>
 <?php
 
-// print_r ( $_GETimp );
 
 require_once ('Connections/conexion.php');
-include ("funcionesJL.php");
+//include ("funcionesJL.php");
 
 $editFormAction = $_SERVER ['PHP_SELF'];
 if (isset ( $_SERVER ['QUERY_STRING'] )) {
 	$editFormAction .= "?" . htmlentities ( $_SERVER ['QUERY_STRING'] );
 }
-// ----------------- Update de la plaza -----------------------
+// ----------------- Update de la empleado_plaza table -----------------------
 if ((isset ( $_POST ["MM_update"] )) && ($_POST ["MM_update"] == "form1")) {
-	$updateSQL = "UPDATE cat_plazas SET plaza_clave='$_POST[clave]', ";
+	/*$updateSQL = "UPDATE cat_plazas SET plaza_clave='$_POST[clave]', ";
 	if ($_POST ['subprograma'] != "") {
 		$updateSQL .= "subprograma='$_POST[subprograma]',";
 	}
@@ -33,7 +32,9 @@ if ((isset ( $_POST ["MM_update"] )) && ($_POST ["MM_update"] == "form1")) {
 	if ($_POST [idnominaemp] != 0) {
 		$update_empleadosb = "UPDATE nominaemp SET sueldobase='$_POST[sueldobase]' where idnominaemp='$_POST[idnominaemp]'";
 		mysql_query ( $update_empleadosb, $conexion );
-	}
+	}*/
+	
+
 }
 
 $colname_plaza = "-1";
@@ -42,7 +43,7 @@ if (isset ( $_GET ['idplaza'] )) {
 }
 // -------------------------------------- INFORMACION DE LA PLAZA -----------------------------------
 mysql_select_db ( $database_conexion, $conexion );
-$query_plazas = sprintf ( "SELECT CONCAT(nemp.paterno,' ',nemp.materno,' ',nemp.nombres) AS nombre, nemp.idnominaemp AS empleado_id, nemp.sueldobase as sueldobase, 
+/*$query_plazas = sprintf ( "SELECT CONCAT(nemp.paterno,' ',nemp.materno,' ',nemp.nombres) AS nombre, nemp.idnominaemp AS empleado_id, nemp.sueldobase as sueldobase, 
 				 ep.estado AS plaza_estado,ep.fecha_inicial, ep.fecha_final, pz.plaza_clave AS plaza_clave, 
 				 cpr.idprograma AS programa_id,cpr.descripcion AS programa_desc,
 				 sp.idsubprograma AS subprograma_id, sp.descripcion AS subprograma_desc, ct.descripcion AS categoria_desc,ct.clave AS categoria_clave, 
@@ -57,7 +58,7 @@ $query_plazas = sprintf ( "SELECT CONCAT(nemp.paterno,' ',nemp.materno,' ',nemp.
 
 $plazas = mysql_query ( $query_plazas, $conexion ) or die ( mysql_error () );
 $row_plazas = mysql_fetch_assoc ( $plazas );
-$totalRows_plazas = mysql_num_rows ( $plazas );
+$totalRows_plazas = mysql_num_rows ( $plazas );*/
 
 $query_programa = "SELECT * FROM cat_programa"; // ------------ Catalogo de Programas
 $res_prog = mysql_query ( $query_programa, $conexion );
@@ -280,10 +281,37 @@ function movimientob(){
 				}
 			});		
 	}
+
+	function save_plaza(){
+		var plaza_id = <?php echo $_GET['idplaza'];?>;
+		var plaza_clave = jQuery( "#plaza_clave" ).val();
+		var ur = jQuery( "#getUR" ).val();
+		var programa = jQuery( "#programas" ).val();
+		var subprograma = jQuery( "#subprogramas" ).val();
+		var categoria = jQuery( "#categoria" ).val();
+		var titular = jQuery( "#titular" ).val();
+				jQuery.ajax({
+				type		: "POST",
+				dataType	: "json",
+				url 		: "jQuery_update_cat_plazas.php",
+				data		: {	
+								plaza_id 	: plaza_id,
+								plaza_clave : plaza_clave,
+								ur			: ur,
+								programa	: programa,
+								subprograma	: subprograma,
+								categoria	: categoria,
+								titular		: titular	
+								},
+				success		: function (data) {
+					alert(data);
+				}
+			});		
+	}
 </script>
 			<div id="centro_prin">
 				<h3 style="color: #666; margin-left: 50px">EDITAR LA PLAZA</h3>
-				<form method="post" name="form1" action="#">
+				<form id="save_plaza" method="post" name="" action="#">
 					<table align="left">
 						<tr valign="baseline" colspan="-2">
 							<td nowrap align="LEFT"><label class="label" name="plaza_id"></label></td>
@@ -292,7 +320,7 @@ function movimientob(){
 						</tr>
 						<tr valign="baseline">
 							<td nowrap align="LEFT"><label class="label">CLAVE:</label></td>
-							<td><select name="categoria" style="width: 180px;"
+							<td><select id="plaza_clave" name="categoria" style="width: 180px;"
 									<option value="">Seleccione</option>
                   			<?php
 								do {
@@ -356,7 +384,7 @@ function movimientob(){
 						<!-- Start Categoria -->
 						<tr valign="baseline">
 							<td nowrap align="left"><label class="label">Categoria:</label></td>
-							<td><select name="categoria" style="width: 180px;"
+							<td><select id="categoria" name="categoria" style="width: 180px;"
 									<option value="">Seleccione</option>
                   			<?php
 																		do {
@@ -373,7 +401,7 @@ function movimientob(){
 
 						<tr>
 							<td nowrap align="left"><label class="label">TITULAR:</label></td>
-							<td colspan="2"><input type="text" class="campo" name="titular"
+							<td colspan="2"><input id="titular" type="text" class="campo" name="titular"
 								value="<?php echo $row['titular'];?>" size="30"
 								placeholder="Dato no capturado" required>*</td>
 						
@@ -386,9 +414,11 @@ function movimientob(){
 							<td align="right" colspan="3"><input type="hidden"
 								name="MM_insert" value="form1"> <input class="boton"
 								type="button" name="guardar" id="guardar" value="GUARDAR"
-								onClick="submit();"> <input class="boton" type="button"
+								onClick="save_plaza();"> 
+								<input class="boton" type="button"
 								name="Regresar" value="Regresar" align="left"
-								onClick="window.location.href='cat_plazas.php'"></td>
+								onClick="window.location.href='cat_plazas.php'">
+							</td>
 						</tr>
 						<tr valign="baseline">
 							<td>
@@ -396,8 +426,8 @@ function movimientob(){
 							</td>
 						</tr>
 					</table>
-					<input type="hidden" name="MM_update" value="form1"> <input
-						type="hidden" name="idplaza" value="<?php echo $colname_plaza; ?>">
+					<!-- <input type="hidden" name="MM_update" value="form1"> 
+					<input type="hidden" name="idplaza" value="<?php //echo $colname_plaza; ?>">-->
 				</form>
 
 				<!--   -------------------------------   Asignacion de la plaza desde el catalogo ------------------------------>

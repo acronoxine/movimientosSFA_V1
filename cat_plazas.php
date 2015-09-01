@@ -7,8 +7,9 @@ if ($_SESSION ["m_sesion"] != 1) {
 	exit ();
 }
 require_once ('Connections/conexion.php');
-/*mysql_select_db ( $database_conexion, $conexion );
-$query_programa = "SELECT * FROM cat_programa"; // ------------ Catalogo de Programas
+mysql_select_db ( $database_conexion, $conexion );
+
+/*$query_programa = "SELECT * FROM cat_programa"; // ------------ Catalogo de Programas
 $res_prog = mysql_query ( $query_programa, $conexion );
 $query_subpy = "SELECT * FROM cat_proyecto"; // ------------ Catalaogo de Subprogramas
 $res_subpy = mysql_query ( $query_subpy, $conexion );
