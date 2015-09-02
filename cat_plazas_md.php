@@ -296,7 +296,10 @@ function movimientob(){
 		}
 		else{alert("Todos los datos son requeridos, para modifcar una plaza");}		
 	}
-	
+
+	function liberar_plaza(){
+			alert("All is good");
+		}
 </script>
 			<div id="centro_prin">
 				<h3 style="color: #666; margin-left: 50px">EDITAR LA PLAZA</h3>
@@ -536,13 +539,13 @@ function movimientob(){
 								<td nowrap align="left"><label class="label">Tipo de Baja:</label></td>
 								<td><select name="tipoBaja" id="tipoBaja" style="width: 300px">
 										<option value="-1">Seleccione..</option>
-                    <?
-																				$sql = "Select * from cat_movimientos where tipo='Baja' order by descripcion";
-																				$res = mysql_query ( $sql, $conexion );
-																				while ( $ren = mysql_fetch_array ( $res ) ) {
-																					?>
+                    <?php
+							$sql = "Select * from cat_movimientos where tipo='Baja' order by descripcion";
+							$res = mysql_query ( $sql, $conexion );
+							while ( $ren = mysql_fetch_array ( $res ) ) {
+					?>
                     	<option value="<? echo $ren[idmovimiento]?>"><? echo "(".$ren[clave].") ".$ren[descripcion]?></option>
-                    <?
+                    <?php
 																				}
 																				?>
                     	</select></td>
@@ -554,7 +557,7 @@ function movimientob(){
 							</tr>
 							<tr>
 								<td align="right" colspan="2"><input type="button" class="boton"
-									onClick="movimientob();" value="Liberar"></td>
+									onClick="liberar_plaza()" value="Liberar"></td>
 
 							</tr>
 						</table>
