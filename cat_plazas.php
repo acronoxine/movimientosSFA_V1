@@ -246,35 +246,43 @@ function cargasueldo(idcategoria)
 	}
 </script>
 
-<script type="text/javascript">
+<script>
 /**
  * Save plaza data.
+ * Script Finished
  */
 	function save(){
 		var ur = $( "#getUR" ).val();
 		var programa = $( "#programas" ).val();
 		var subprograma = $( "#subprogramas" ).val();
 		//alert("UR="+ur+"Programa="+programa+"subprograma"+subprograma);
-		$.ajax({
-			type		: "POST",
-			dataType	: "json",
-			url 		: "jQuery_suprogramas.php",
-			data		: {id_programa: programa},
-			success		: function (data) {
-				if(programa != 0){
-					$( "#subprogramas" ).empty();
-					jQuery.each(data,function(i,val){
-						$( "#subprogramas" ).append("<option value="+ val +">"+ val +"</option>");
-					});
-			}
-			else{
-					$( "#subprogramas" ).empty();
-					$( "#subprogramas" ).append('<option value="0">Seleccione</option>');
+		if(ur != 0 && programa != null && subprograma != null ){
+			jQuery.ajax({
+				type		: "POST",
+				dataType	: "json",
+				url 		: "jQuery_save_plaza.php",
+				data		: {	ur			: ur,
+								id_programa	: programa,
+								subprograma	: subprograma
+								},
+				success		: function (data) {
+					if(programa != 0){
+						$( "#subprogramas" ).empty();
+						jQuery.each(data,function(i,val){
+							$( "#subprogramas" ).append("<option value="+ val +">"+ val +"</option>");
+						});
+					}
+					else{
+						$( "#subprogramas" ).empty();
+						$( "#subprogramas" ).append('<option value="0">Seleccione</option>');
+					}
 				}
-			}
-		});		
-		
+			});
 		}
+		else{
+			alert("Debes de completar todos los campos");
+		}	
+	}
 </script>
 </head>
 <body topmargin="0" leftmargin="0">

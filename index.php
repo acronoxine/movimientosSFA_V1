@@ -46,7 +46,7 @@ function valida(form)
 </SCRIPT>
 
 </HEAD>
-<BODY topmargin="0" leftmargin="0" onLoad = "accesos.usuario.focus();">
+<BODY topmargin="0" leftmargin="0">
 <div id="todo">
 	<div id="cabeza">
     </div>

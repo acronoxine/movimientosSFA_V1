@@ -9,9 +9,8 @@ if ($_SESSION ["m_sesion"] != 1) {
 ?>
 <?php
 
-
 require_once ('Connections/conexion.php');
-//include ("funcionesJL.php");
+// include ("funcionesJL.php");
 
 $editFormAction = $_SERVER ['PHP_SELF'];
 if (isset ( $_SERVER ['QUERY_STRING'] )) {
@@ -19,22 +18,9 @@ if (isset ( $_SERVER ['QUERY_STRING'] )) {
 }
 // ----------------- Update de la empleado_plaza table -----------------------
 if ((isset ( $_POST ["MM_update"] )) && ($_POST ["MM_update"] == "form1")) {
-	/*$updateSQL = "UPDATE cat_plazas SET plaza_clave='$_POST[clave]', ";
-	if ($_POST ['subprograma'] != "") {
-		$updateSQL .= "subprograma='$_POST[subprograma]',";
-	}
-	if ($_POST ['proyecto'] != "") {
-		$updateSQL .= "proyecto='$_POST[proyecto]',";
-	}
-	$updateSQL .= "categoria='$_POST[categoria]' WHERE plaza_id='$_POST[idplaza]'";
-	mysql_select_db ( $database_conexion, $conexion );
-	$Result1 = mysql_query ( $updateSQL, $conexion ) or die ( mysql_error () );
-	if ($_POST [idnominaemp] != 0) {
-		$update_empleadosb = "UPDATE nominaemp SET sueldobase='$_POST[sueldobase]' where idnominaemp='$_POST[idnominaemp]'";
-		mysql_query ( $update_empleadosb, $conexion );
-	}*/
-	
-
+	/*
+	 * $updateSQL = "UPDATE cat_plazas SET plaza_clave='$_POST[clave]', "; if ($_POST ['subprograma'] != "") { $updateSQL .= "subprograma='$_POST[subprograma]',"; } if ($_POST ['proyecto'] != "") { $updateSQL .= "proyecto='$_POST[proyecto]',"; } $updateSQL .= "categoria='$_POST[categoria]' WHERE plaza_id='$_POST[idplaza]'"; mysql_select_db ( $database_conexion, $conexion ); $Result1 = mysql_query ( $updateSQL, $conexion ) or die ( mysql_error () ); if ($_POST [idnominaemp] != 0) { $update_empleadosb = "UPDATE nominaemp SET sueldobase='$_POST[sueldobase]' where idnominaemp='$_POST[idnominaemp]'"; mysql_query ( $update_empleadosb, $conexion ); }
+	 */
 }
 
 $colname_plaza = "-1";
@@ -43,22 +29,9 @@ if (isset ( $_GET ['idplaza'] )) {
 }
 // -------------------------------------- INFORMACION DE LA PLAZA -----------------------------------
 mysql_select_db ( $database_conexion, $conexion );
-/*$query_plazas = sprintf ( "SELECT CONCAT(nemp.paterno,' ',nemp.materno,' ',nemp.nombres) AS nombre, nemp.idnominaemp AS empleado_id, nemp.sueldobase as sueldobase, 
-				 ep.estado AS plaza_estado,ep.fecha_inicial, ep.fecha_final, pz.plaza_clave AS plaza_clave, 
-				 cpr.idprograma AS programa_id,cpr.descripcion AS programa_desc,
-				 sp.idsubprograma AS subprograma_id, sp.descripcion AS subprograma_desc, ct.descripcion AS categoria_desc,ct.clave AS categoria_clave, 
-				 ct.idcategoria AS categoria_id, pz.titular 
-				 FROM cat_plazas pz 
-				 INNER JOIN empleado_plaza ep ON ep.plaza_id=pz.plaza_id 
-				 INNER JOIN nominaemp nemp ON nemp.idnominaemp=ep.idnominaemp 
-				 INNER JOIN cat_categoria ct ON ct.clave=pz.categoria 
-				 LEFT JOIN cat_subprograma sp ON sp.idsubprograma=pz.subprograma 
-				 LEFT JOIN cat_programa cpr ON cpr.idprograma=sp.idprograma
-			  	 WHERE pz.plaza_id = %s", GetSQLValueString ( $colname_plaza, "int" ) );
-
-$plazas = mysql_query ( $query_plazas, $conexion ) or die ( mysql_error () );
-$row_plazas = mysql_fetch_assoc ( $plazas );
-$totalRows_plazas = mysql_num_rows ( $plazas );*/
+/*
+ * $query_plazas = sprintf ( "SELECT CONCAT(nemp.paterno,' ',nemp.materno,' ',nemp.nombres) AS nombre, nemp.idnominaemp AS empleado_id, nemp.sueldobase as sueldobase, ep.estado AS plaza_estado,ep.fecha_inicial, ep.fecha_final, pz.plaza_clave AS plaza_clave, cpr.idprograma AS programa_id,cpr.descripcion AS programa_desc, sp.idsubprograma AS subprograma_id, sp.descripcion AS subprograma_desc, ct.descripcion AS categoria_desc,ct.clave AS categoria_clave, ct.idcategoria AS categoria_id, pz.titular FROM cat_plazas pz INNER JOIN empleado_plaza ep ON ep.plaza_id=pz.plaza_id INNER JOIN nominaemp nemp ON nemp.idnominaemp=ep.idnominaemp INNER JOIN cat_categoria ct ON ct.clave=pz.categoria LEFT JOIN cat_subprograma sp ON sp.idsubprograma=pz.subprograma LEFT JOIN cat_programa cpr ON cpr.idprograma=sp.idprograma WHERE pz.plaza_id = %s", GetSQLValueString ( $colname_plaza, "int" ) ); $plazas = mysql_query ( $query_plazas, $conexion ) or die ( mysql_error () ); $row_plazas = mysql_fetch_assoc ( $plazas ); $totalRows_plazas = mysql_num_rows ( $plazas );
+ */
 
 $query_programa = "SELECT * FROM cat_programa"; // ------------ Catalogo de Programas
 $res_prog = mysql_query ( $query_programa, $conexion );
@@ -69,7 +42,7 @@ $query_categorias = "SELECT idcategoria, nivel, clave, descripcion, (sueldobase+
 $categorias = mysql_query ( $query_categorias, $conexion ) or die ( mysql_error () );
 $row_categorias = mysql_fetch_assoc ( $categorias );
 $totalRows_categorias = mysql_num_rows ( $categorias );
-$query_plaza_clave="SELECT DISTINCT
+$query_plaza_clave = "SELECT DISTINCT
     plaza_clave,titular
 FROM
     cat_plazas
@@ -85,11 +58,13 @@ $plaza_clave = mysql_query ( $query_plaza_clave, $conexion ) or die ( mysql_erro
 <meta charset="iso-8859-1">
 <link rel="shortcut icon" type="image/x-icon"
 	href="http://www.michoacan.gob.mx/wp-content/themes/mich2015/img/favicon.ico">
-	
+
 
 <link rel="stylesheet" type="text/css" href="css/estilos.css">
-<link rel="stylesheet" type="text/css" href="controles_jquery/css/overcast/jquery-ui-1.10.3.custom.css">
-<link rel="stylesheet" type="text/css" href="controles_jquery/js/jquery.fancybox.css">
+<link rel="stylesheet" type="text/css"
+	href="controles_jquery/css/overcast/jquery-ui-1.10.3.custom.css">
+<link rel="stylesheet" type="text/css"
+	href="controles_jquery/js/jquery.fancybox.css">
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="controles_jquery/js/jquery-ui-1.10.3.custom.js"></script>
 <script src="controles_jquery/js/jquery.fancybox.js"></script>
@@ -123,7 +98,7 @@ a(document).ready(function(){
 		a("#fechab").datepicker( "option", "showAnim", "show");
 		a("#fechab").datepicker( "option", "dateFormat", "yy-mm-dd" );
 	});
-	$("#tipoContrato").change(function() {
+	jQuery("#tipoContrato").change(function() {
 		var tipoc=document.getElementById('tipoContrato').value;
 		if( tipoc== 2 || tipoc==5 || tipoc==6 || tipoc==4)
 		{
@@ -146,7 +121,7 @@ function movimiento(){
 	var plaza=<? echo $colname_plaza?>;
 	var fecha=document.getElementById('fecha');
 	var fecha2=document.getElementById('fecha2');
-	var tipoAsignacion=document.getElementById('tipoAsignacion')
+	var tipoAsignacion=document.getElementById('tipoAsignacion');
 	if(empleado.value==-1){
 		alert('Elija a un empleado');
 	}
@@ -228,7 +203,7 @@ function movimientob(){
 			
 
       	</script>
-<script>
+			<script>
 /**
  * Load values into comboBox on cascade 
  * Made by Jose Luis Zirangua Mejia
@@ -269,16 +244,16 @@ function movimientob(){
 				data		: {id_programa: programa},
 				success		: function (data) {
 					if(programa != 0){
-						jQuery( "#subprogramas" ).empty();
-						jQuery.each(data,function(i,val){
-							jQuery( "#subprogramas" ).append("<option value="+val+">"+ val +"</option>");
-						});
-				}
-				else{
-					jQuery( "#subprogramas" ).empty();
-					jQuery( "#subprogramas" ).append('<option value="0">Seleccione</option>');
+							jQuery( "#subprogramas" ).empty();
+							jQuery.each(data,function(i,val){
+								jQuery( "#subprogramas" ).append("<option value="+val+">"+ val +"</option>");
+							});
+						}
+					else{
+							jQuery( "#subprogramas" ).empty();
+							jQuery( "#subprogramas" ).append('<option value="0">Seleccione</option>');
+						}
 					}
-				}
 			});		
 	}
 
@@ -290,6 +265,7 @@ function movimientob(){
 		var subprograma = jQuery( "#subprogramas" ).val();
 		var categoria = jQuery( "#categoria" ).val();
 		var titular = jQuery( "#titular" ).val();
+		if(plaza_clave != 0 && ur != 0 && programa != null && subprograma != null  && titular != "" ){
 				jQuery.ajax({
 				type		: "POST",
 				dataType	: "json",
@@ -304,10 +280,23 @@ function movimientob(){
 								titular		: titular	
 								},
 				success		: function (data) {
-					alert(data);
+					jQuery.each(data,function(i,val){
+						//alert(val)
+						if(val ==true){
+							alert('Modificacion correcta.');
+							jQuery( "#programas" ).empty();
+							jQuery( "#subprogramas" ).empty();
+						}
+						else{
+							alert("Ha ocurrido un error. Intente mas tarde!");
+							}
+					});
 				}
-			});		
+			});
+		}
+		else{alert("Todos los datos son requeridos, para modifcar una plaza");}		
 	}
+	
 </script>
 			<div id="centro_prin">
 				<h3 style="color: #666; margin-left: 50px">EDITAR LA PLAZA</h3>
@@ -320,18 +309,18 @@ function movimientob(){
 						</tr>
 						<tr valign="baseline">
 							<td nowrap align="LEFT"><label class="label">CLAVE:</label></td>
-							<td><select id="plaza_clave" name="categoria" style="width: 180px;"
-									<option value="">Seleccione</option>
+							<td><select id="plaza_clave" name="categoria"
+								style="width: 180px;"<option value="">Seleccione</option>
                   			<?php
-								do {
-									if(!empty($row_plaza_clave) || $row_plaza_clave=""){
-																			?>
+																					do {
+																						if (! empty ( $row_plaza_clave ) || $row_plaza_clave = "") {
+																							?>
                   			<option
 										value="<?php echo $row_plaza_clave['plaza_clave']; ?>"><?php echo $row_plaza_clave['plaza_clave']?></option>
                   				<?php
-																		} 
-								}while ( $row_plaza_clave = mysql_fetch_assoc ( $plaza_clave ) );
-																		?>
+																						}
+																					} while ( $row_plaza_clave = mysql_fetch_assoc ( $plaza_clave ) );
+																					?>
                 			</select><label class="label">*</label></td>
 						</tr>
 						<tr valign="baseline">
@@ -364,47 +353,43 @@ function movimientob(){
 						<!-- Start programas -->
 						<tr valign="baseline">
 							<td nowrap align="left"><label class="label">Programa:</label></td>
-							<td colspan="3">
-								<select id="programas" style="width: 180px;"
+							<td colspan="3"><select id="programas" style="width: 180px;"
 								onchange="get_subprogramas()">
 									<option value="0">Seleccione</option>
-								</select>
-							</td>
+							</select></td>
 						</tr>
 						<!-- Start Subprogramas -->
 						<tr valign="baseline">
 							<td nowrap align="left"><label class="label">Subprograma:</label></td>
-							<td colspan="3">
-								<select id="subprogramas" style="width: 180px;">
+							<td colspan="3"><select id="subprogramas" style="width: 180px;">
 									<option value="0">Seleccione</option>
-								</select>
-							</td>
+							</select></td>
 							<!-- Block end after -->
 						</tr>
 						<!-- Start Categoria -->
 						<tr valign="baseline">
 							<td nowrap align="left"><label class="label">Categoria:</label></td>
-							<td><select id="categoria" name="categoria" style="width: 180px;"
-									<option value="">Seleccione</option>
+							<td><select id="categoria" name="categoria" style="width: 180px;"<option
+										value="0">Seleccione</option>
                   			<?php
-																		do {
-																			?>
+																					do {
+																						?>
                   			<option
 										value="<?php echo $row_categorias['idcategoria']; ?>"><?php echo $row_categorias['clave'], " ", $row_categorias['descripcion']?></option>
                   				<?php
-																		} while ( $row_categorias = mysql_fetch_assoc ( $categorias ) );
-																		?>
+																					} while ( $row_categorias = mysql_fetch_assoc ( $categorias ) );
+																					?>
                 			</select><label class="label">*</label></td>
 
-							
+
 						</tr>
 
 						<tr>
 							<td nowrap align="left"><label class="label">TITULAR:</label></td>
-							<td colspan="2"><input id="titular" type="text" class="campo" name="titular"
-								value="<?php echo $row['titular'];?>" size="30"
+							<td colspan="2"><input id="titular" type="text" class="campo"
+								name="titular" value="<?php echo $row['titular'];?>" size="30"
 								placeholder="Dato no capturado" required>*</td>
-						
+
 						</tr>
 
 						<tr valign="baseline">
@@ -414,11 +399,9 @@ function movimientob(){
 							<td align="right" colspan="3"><input type="hidden"
 								name="MM_insert" value="form1"> <input class="boton"
 								type="button" name="guardar" id="guardar" value="GUARDAR"
-								onClick="save_plaza();"> 
-								<input class="boton" type="button"
+								onClick="save_plaza();"> <input class="boton" type="button"
 								name="Regresar" value="Regresar" align="left"
-								onClick="window.location.href='cat_plazas.php'">
-							</td>
+								onClick="window.location.href='cat_plazas.php'"></td>
 						</tr>
 						<tr valign="baseline">
 							<td>
@@ -431,7 +414,7 @@ function movimientob(){
 				</form>
 
 				<!--   -------------------------------   Asignacion de la plaza desde el catalogo ------------------------------>
-          <?
+          <?php
 										
 										if ($row_plazas ['plaza_estado'] == "VACANTE") {
 											$estilo = 'style="display:block"';
@@ -441,9 +424,9 @@ function movimientob(){
 											$estilo2 = 'style="display:block"';
 										}
 										?>
-          <div <? echo $estilo?> style="width: 400px; position: fixed;">
+          <div style="position: relative; top: 300px; left: -175px;">
 					<hr />
-					<h3 style="color: #666; margin-left: 50px">ASIGNAR LA PLAZA</h3>
+					<h3 style="color: #666; margin-left: 50px position:relative; left: 250px;">ASIGNAR LA PLAZA</h3>
           <?php
 										$select_empelado = "SELECT idnominaemp,CONCAT(paterno,' ',materno,' ',nombres) as nombre FROM nominaemp";
 										$res_empleado = mysql_query ( $select_empelado, $conexion );
@@ -529,16 +512,16 @@ function movimientob(){
 					</form>
 				</div>
 				<!--   -------------------------   Liberacion de la plaza desde el catalogo ---------------------------------->
-				<div <?php echo $estilo2?>>
+				<div style="position:relative; top:-65px;">
 				
 					
 					
           <?php
-										$select_empelado = "SELECT idnominaemp,CONCAT(paterno,' ',materno,' ',nombres) as nombre FROM nominaemp";
-										$res_empleado = mysql_query ( $select_empelado, $conexion );
+					$select_empelado = "SELECT idnominaemp,CONCAT(paterno,' ',materno,' ',nombres) as nombre FROM nominaemp";
+					$res_empleado = mysql_query ( $select_empelado, $conexion );
 										?>
            <form name="f1">
-						<table align="right">
+						<table align="right" style="position:relative; top:-115px;">
 							<h3
 								style="color: #666; margin-left: 50px; position: relative; top: -40px; right: -245px;">LIBERAR
 								LA PLAZA</h3>
