@@ -97,11 +97,13 @@ $totalRows_estados = mysql_num_rows ( $estados );
 
 <link rel="shortcut icon" type="image/x-icon"
 	href="http://www.michoacan.gob.mx/wp-content/themes/mich2015/img/favicon.ico">
-	
+
 
 <link rel="stylesheet" type="text/css" href="css/estilos.css">
-<link rel="stylesheet" type="text/css" href="controles_jquery/css/overcast/jquery-ui-1.10.3.custom.css">
-<link rel="stylesheet" type="text/css" href="controles_jquery/js/jquery.fancybox.css">
+<link rel="stylesheet" type="text/css"
+	href="controles_jquery/css/overcast/jquery-ui-1.10.3.custom.css">
+<link rel="stylesheet" type="text/css"
+	href="controles_jquery/js/jquery.fancybox.css">
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="controles_jquery/js/jquery-ui-1.10.3.custom.js"></script>
 <script src="controles_jquery/js/jquery.fancybox.js"></script>
@@ -319,12 +321,12 @@ function valida(form)
 		return false;
 	}
 
-	if(form.programa.value == "")
+	/*if(form.programa.value == "")
 	{
 		alert("Indique el programa que corresponde al empleado");
 		form.programa.focus();
 		return false;
-	}
+	}*/
 	
 /*	if(form.subprograma.value == "")
 	{
@@ -368,7 +370,7 @@ function valida(form)
 		return false;
 	}
 	
-	if(form.area.value == "")
+	/*if(form.area.value == "")
 	{
 		alert("Indique el área o unidad responsable(UR) que corresponde al empleado");
 		form.area.focus();
@@ -380,7 +382,7 @@ function valida(form)
 		alert("Indique la categoría que corresponde al empleado");
 		form.categoria.focus();
 		return false;
-	}
+	}*/
 	
 	if(!validafecha(form.fechanacimiento.value))
 	{
@@ -426,11 +428,7 @@ function solonumeros(form, e)
       letra = e.keyCode;
     else
       letra = e.which;
-    
-    /*if((letra < 48 || letra > 57) && letra != 37 && letra != 38 && letra != 39 && letra != 40 && letra != 8 && letra != 46)
-       return false;
-    else
-       return true;*/
+   
 }
 
 </script>
@@ -736,88 +734,82 @@ function buscacatego(cve)
 											onKeypress="return solonumeros(this.form, event);"></td>
 									</tr>
 									<tr valign="baseline">
-							<!-- Start UR -->
-							<td nowrap align="right"><label class="label">UR:</label></td>
-							<td><select id="getUR" style="width: 180px;"
-								onchange="get_programas()">
-									<option value="0">Seleccione</option>
-									<option value="01">01</option>
-									<option value="02">02</option>
-									<option value="03">03</option>
-									<option value="04">04</option>
-									<option value="05">05</option>
-									<option value="06">06</option>
-									<option value="07">07</option>
-									<option value="08">08</option>
-									<option value="09">09</option>
-									<option value="10">10</option>
-									<option value="11">11</option>
-									<option value="12">12</option>
-									<option value="13">13</option>
-									<option value="14">14</option>
-									<option value="15">15</option>
-									<option value="16">16</option>
-									<option value="17">17</option>
-									<option value="18">18</option>
-									<option value="19">19</option>
-								</select>
-								<label class="label">*</label>
-							</td>
-						</tr>
-									
-									
+										<!-- Start UR -->
+										<td nowrap align="right"><label class="label">UR:</label></td>
+										<td><select id="getUR" style="width: 180px;"
+											onchange="get_programas()">
+												<option value="0">Seleccione</option>
+												<option value="01">01</option>
+												<option value="02">02</option>
+												<option value="03">03</option>
+												<option value="04">04</option>
+												<option value="05">05</option>
+												<option value="06">06</option>
+												<option value="07">07</option>
+												<option value="08">08</option>
+												<option value="09">09</option>
+												<option value="10">10</option>
+												<option value="11">11</option>
+												<option value="12">12</option>
+												<option value="13">13</option>
+												<option value="14">14</option>
+												<option value="15">15</option>
+												<option value="16">16</option>
+												<option value="17">17</option>
+												<option value="18">18</option>
+												<option value="19">19</option>
+										</select> <label class="label">*</label></td>
+									</tr>
+
+
 									<tr valign="baseline">
 										<td nowrap align="right"><label class="label">Programa:</label></td>
-										<td><select id="programas" style="width: 180px;" onchange="get_subprogramas()">
-												<option value="0">Seleccione</option>	
-											</select>
-											<label class="label">*</label>
-										</td>
-										
+										<td><select id="programas" style="width: 180px;"
+											onchange="get_subprogramas()">
+												<option value="0">Seleccione</option>
+										</select> <label class="label">*</label></td>
+
 									</tr>
-									
+
 									<tr valign="baseline">
 										<td nowrap align="right"><label class="label">Subprograma:</label></td>
-										<td>
-											<select id="subprogramas" style="width: 180px;">
+										<td><select id="subprogramas" style="width: 180px;">
 												<option value="0">Seleccione</option>
-											</select>
-											<label class="label">*</label>
-										</td>
+										</select> <label class="label">*</label></td>
 									</tr>
-									
+
 									<tr valign="baseline">
 										<td nowrap align="right"><label class="label">Proyecto:</label></td>
 										<td>
 											<div id="ajax_proyecto"></div>
 										</td>
-										</tr>
+									</tr>
 									<tr valign="baseline">
 										<td nowrap align="right"><label class="label">Plazas:</label></td>
 										<td><select name="categoria" style="width: 180px;"
-								onChange="cargasueldo(this.value);">
-									<option value="">Seleccione</option>
+											onChange="cargasueldo(this.value);">
+												<option value="">Seleccione</option>
                   					<?php
-								do {
-									?>
+																							do {
+																								?>
                   						<option
-										value="<?php echo $row_categorias['idcategoria']; ?>"><?php echo $row_categorias['clave'], " ", $row_categorias['descripcion']?></option>
+													value="<?php echo $row_categorias['idcategoria']; ?>"><?php echo $row_categorias['clave'], " ", $row_categorias['descripcion']?></option>
                   					<?php
-									} while ( $row_categorias = mysql_fetch_assoc ( $categorias ) );
-									?>
+																							} while ( $row_categorias = mysql_fetch_assoc ( $categorias ) );
+																							?>
                 						</select><label class="label">*</label></td>
-						
+
 									</tr>
 									<tr valign="baseline">
 										<td nowrap align="left"></td>
-											<td><div id="ajax_sueldos" style="position:relative; left:-87px;">
+										<td><div id="ajax_sueldos"
+												style="position: relative; left: -87px;">
 												<script>
 													cargasueldo('');
 							 					</script>
-							 					</div>
-							 				</td>
+											</div></td>
 									</tr>
-									
+
 									<tr valign="baseline">
 										<td nowrap align="right"><label class="label">Tipo de
 												contratación:</label></td>
@@ -1087,7 +1079,7 @@ function buscacatego(cve)
 							</td>
 						</tr>
 						<tr>
-						<script>
+							<script>
 						/*
 							2015 Version, a new way to sent data and get result using fancyBox 2.x
 							and JQUERY 1.10.x
@@ -1107,11 +1099,11 @@ function buscacatego(cve)
 								
 							}
 						</script>
-							<td colspan="2">
-							<input class="boton" type="button" name="guardar" id="guardar" value="GUARDAR" onclick="if(valida(this.form)) submit();">
-							<!-- Here add event click -->
-							<input class="boton" type="button" name="conceptos" id="conceptos" value="CONCEPTOS" onclick="calculaimportes();">
-							<!-- Here end click  -->	
+							<td colspan="2"><input class="boton" type="button" name="guardar"
+								id="guardar" value="GUARDAR"
+								onclick="if(valida(this.form)) submit();"> <!-- Here add event click -->
+								<input class="boton" type="button" name="conceptos"
+								id="conceptos" value="CONCEPTOS" onclick="calculaimportes();"> <!-- Here end click  -->
 								<label class="label">Consulta por nombre de empleado:</label> <input
 								class="campo" type="text" name="consulta" id="consulta" value=""
 								onKeyUp="buscaemp(this.value);"></td>

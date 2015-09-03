@@ -182,15 +182,17 @@ $totalRows_empleados = mysql_num_rows($empleados);
 <link rel="stylesheet" type="text/css" href="css/estilos.css">
 
 <style>
-	#encabezado{
-		position: fixed;
-		top: 0px;
-	}
+#encabezado {
+	position: fixed;
+	top: 0px;
+}
 </style>
 
 <link rel="stylesheet" type="text/css" href="css/estilos.css">
-<link rel="stylesheet" type="text/css" href="controles_jquery/css/overcast/jquery-ui-1.10.3.custom.css">
-<link rel="stylesheet" type="text/css" href="controles_jquery/js/jquery.fancybox.css">
+<link rel="stylesheet" type="text/css"
+	href="controles_jquery/css/overcast/jquery-ui-1.10.3.custom.css">
+<link rel="stylesheet" type="text/css"
+	href="controles_jquery/js/jquery.fancybox.css">
 <script src="controles_jquery/js/jquery-1.9.1.js"></script>
 <script src="controles_jquery/js/jquery-ui-1.10.3.custom.js"></script>
 <script src="controles_jquery/js/jquery.fancybox.js"></script>
@@ -257,115 +259,124 @@ function miseleccion(dato, obj)
 
 </head>
 <body topmargin="0" leftmargin="0">
-<form>
-<div id="encabezado">
-<table class="tablagrid" border="0" cellpadding="0" cellspacing="0" width="6471">
-  <tr class="tablahead">
-  	<td width="54" align="center">&nbsp;</td>
-    <td width="32" align="center">&nbsp;</td>
-    <td width="119" align="center">ACTIVO</td>
-    <td width="119" align="center">RFC</td>
-    <td width="157" align="center">PATERNO</td>
-    <td width="158" align="center">MATERNO</td>
-    <td width="164" align="center">NOMBRE(S)</td>
-    <td width="135" align="center">CURP</td>
-    <td width="129" align="center">FOLIO</td>
-    <td width="133" align="center">UR</td>
-    <td width="170" align="center">PROGRAMA</td>
-    <td width="165" align="center">PROYECTO</td>
-    <td width="169" align="center">CATEGOR�A</td>
-    <td width="184" align="center">SUELDO BASE</td>
-    <td width="90" align="center">PLAZA</td>
-    <td width="116" align="center">FECHA DE INCIO</td>
-    <td width="112" align="center">FECHA DE INGR.</td>
-    <td width="284" align="center">CALLE</td>
-    <td width="97" align="center">NUM. INT.</td>
-    <td width="101" align="center">NUM. EXT.</td>
-    <td width="297" align="center">COLONIA</td>
-    <td width="78" align="center">CP</td>
-    <td width="290" align="center">CIUDAD</td>
-    <td width="305" align="center">ESTADO</td>
-    <td width="145" align="center">FECHA DE NAC.</td>
-    <td width="90" align="center">SEXO</td>
-    <td width="90" align="center">EDO. CIVIL</td>
-    <td width="126" align="center">NACIONALIDAD</td>
-    <td width="114" align="center">IMSS</td>
-    <td width="108" align="center">SALARIO</td>
-    <td width="106" align="center">CONTRATO</td>
-    <td width="100" align="center">N�MINA</td>
-    <td width="102" align="center">JORNADA</td>
-    <td width="205" align="center">HORARIO</td>
-    <td width="118" align="center">FORMA DE PAGO</td>
-    <td width="105" align="center">N�M. DE CUENTA</td>
-    <td width="102" align="center">ESTATUS</td>
-    <td width="211" align="center">CLABE BANCARIA</td>
-    <td width="213" align="center">BANCO</td>
-    <td width="123" align="center">ESCOLARIDAD</td>
-    <td width="142" align="center">ISSSTE</td>
-    <td width="135" align="center">OFICINA DE PAGO</td>
-    <td width="119" align="center">CARTILLA SMN</td>
-    <td width="119" align="center">RECURSO</td>
-    <td align="center">FECHA DE BAJA</td>
-  </tr>
-</table>
-</div>
-<table class="tablagrid" border="0" cellpadding="0" cellspacing="0" width="6471" style="padding-top: 32px;">
+	<form>
+		<div id="encabezado">
+			<table class="tablagrid" border="0" cellpadding="0" cellspacing="0"
+				width="6471">
+				<tr class="tablahead">
+					<td width="54" align="center">&nbsp;</td>
+					<td width="32" align="center">&nbsp;</td>
+					<td width="119" align="center">ACTIVO</td>
+					<td width="119" align="center">RFC</td>
+					<td width="157" align="center">PATERNO</td>
+					<td width="158" align="center">MATERNO</td>
+					<td width="164" align="center">NOMBRE(S)</td>
+					<td width="135" align="center">CURP</td>
+					<td width="129" align="center">FOLIO</td>
+					<td width="133" align="center">UR</td>
+					<td width="170" align="center">PROGRAMA</td>
+					<td width="165" align="center">PROYECTO</td>
+					<td width="169" align="center">CATEGOR�A</td>
+					<td width="184" align="center">SUELDO BASE</td>
+					<td width="90" align="center">PLAZA</td>
+					<td width="116" align="center">FECHA DE INCIO</td>
+					<td width="112" align="center">FECHA DE INGR.</td>
+					<td width="284" align="center">CALLE</td>
+					<td width="97" align="center">NUM. INT.</td>
+					<td width="101" align="center">NUM. EXT.</td>
+					<td width="297" align="center">COLONIA</td>
+					<td width="78" align="center">CP</td>
+					<td width="290" align="center">CIUDAD</td>
+					<td width="305" align="center">ESTADO</td>
+					<td width="145" align="center">FECHA DE NAC.</td>
+					<td width="90" align="center">SEXO</td>
+					<td width="90" align="center">EDO. CIVIL</td>
+					<td width="126" align="center">NACIONALIDAD</td>
+					<td width="114" align="center">IMSS</td>
+					<td width="108" align="center">SALARIO</td>
+					<td width="106" align="center">CONTRATO</td>
+					<td width="100" align="center">N�MINA</td>
+					<td width="102" align="center">JORNADA</td>
+					<td width="205" align="center">HORARIO</td>
+					<td width="118" align="center">FORMA DE PAGO</td>
+					<td width="105" align="center">N�M. DE CUENTA</td>
+					<td width="102" align="center">ESTATUS</td>
+					<td width="211" align="center">CLABE BANCARIA</td>
+					<td width="213" align="center">BANCO</td>
+					<td width="123" align="center">ESCOLARIDAD</td>
+					<td width="142" align="center">ISSSTE</td>
+					<td width="135" align="center">OFICINA DE PAGO</td>
+					<td width="119" align="center">CARTILLA SMN</td>
+					<td width="119" align="center">RECURSO</td>
+					<td align="center">FECHA DE BAJA</td>
+				</tr>
+			</table>
+		</div>
+		<table class="tablagrid" border="0" cellpadding="0" cellspacing="0"
+			width="6471" style="padding-top: 32px;">
   <?php do { ?>
-    <tr id="<? echo $row_empleados["idnominaemp"]; ?>" class="message_box tablaregistros" onClick="miseleccion('<?php echo $row_empleados['idnominaemp']; ?>', 'id_<?php echo $row_empleados['idnominaemp']; ?>')">
-      <td width="54" height="64" align="center"><a onClick="if(confirm('�Confirma que desea eliminar el registro?')) location.href='empleados_lista.php?idnominaemp=<?php echo $row_empleados['idnominaemp']; ?>';" href="#"><img src="imagenes/borrar.png" width="34" height="34"></a></td>
-      <td width="32" align="center"><input type="radio" name="seleccion" id="id_<?php echo $row_empleados['idnominaemp']; ?>" value="<?php echo $row_empleados['idnominaemp']; ?>"></td>
-      <td width="119" align="center"><?php echo $row_empleados['activo']; ?></td>
-      <td width="119" align="center"><?php echo $row_empleados['rfc']; ?></td>
-      <td width="157" align="center"><?php echo $row_empleados['paterno']; ?></td>
-      <td width="158" align="center"><?php echo $row_empleados['materno']; ?></td>
-      <td width="164" align="center"><?php echo $row_empleados['nombres']; ?></td>
-      <td width="135" align="center"><?php echo $row_empleados['curp']; ?></td>
-      <td width="129" align="center"><?php echo $row_empleados['folio']; ?></td>      
-      <td width="133" align="center"><?php echo $row_empleados['area']; ?></td>
-      <td width="170" align="center"><?php echo $row_empleados['programa']; ?></td>
-      <td width="165" align="center"><?php echo $row_empleados['proyecto']; ?></td>
-      <td width="169" align="center"><?php echo $row_empleados['categoria']; ?></td>
-      <td width="184" align="right"><?php echo number_format($row_empleados['sueldobase'], 2, ".", ","); ?></td>
-      <td width="90" align="center"><?php echo $row_empleados['plaza_clave']; ?></td>
-      <td width="116" align="center"><?php echo $row_empleados['fechainicio']; ?></td>
-      <td width="112" align="center"><?php echo $row_empleados['fechaingr']; ?></td>
-      <td width="284"><?php echo $row_empleados['calle']; ?></td>
-      <td width="97" align="center"><?php echo $row_empleados['numint']; ?></td>
-      <td width="101" align="center"><?php echo $row_empleados['numext']; ?></td>
-      <td width="297"><?php echo $row_empleados['colonia']; ?></td>
-      <td width="78" align="center"><?php echo $row_empleados['cp']; ?></td>
-      <td width="290" align="center"><?php echo $row_empleados['ciudad']; ?></td>
-      <td width="305" align="center"><?php echo $row_empleados['estado']; ?></td>
-      <td width="145" align="center"><?php echo $row_empleados['fechanacimiento']; ?></td>
-      <td width="90" align="center"><?php echo $row_empleados['sexo']; ?></td>
-      <td width="90" align="center"><?php echo $row_empleados['ecivil']; ?></td>
-      <td width="126" align="center"><?php echo $row_empleados['nacionalidad']; ?></td>
-      <td width="114" align="center"><?php echo $row_empleados['nafiliacion']; ?></td>
-      <td width="108" align="center"><?php echo $row_empleados['salariofv']; ?></td>
-      <td width="106" align="center"><?php echo $row_empleados['contrato']; ?></td>
-      <td width="100" align="center"><?php echo $row_empleados['nomina']; ?></td>
-      <td width="102" align="center"><?php echo $row_empleados['jornada']; ?></td>
-      <td width="102" align="center"><?php echo $row_empleados['de_hrs']; ?></td>
-      <td width="102" align="center"><?php echo $row_empleados['a_hrs']; ?></td>
-      <td width="118" align="center"><?php echo $row_empleados['formapago']; ?></td>
-      <td width="105" align="center"><?php echo $row_empleados['ncuenta']; ?></td>
-      <td width="102" align="center"><?php echo $row_empleados['estatus']; ?></td>
-      <td width="211" align="center"><?php echo $row_empleados['clabe']; ?></td>
-      <td width="213" align="center"><?php echo $row_empleados['banco']; ?></td>
-      <td width="123" align="center"><?php echo $row_empleados['escolaridad']; ?></td>
-      <td width="142" align="center"><?php echo $row_empleados['nafiliacionissste']; ?></td>
-      <td width="135" align="center"><?php echo $row_empleados['oficinadepago']; ?></td>
-      <td width="119" align="center"><?php echo $row_empleados['cartillaSMN']; ?></td>
-      <td width="119" align="center"><?php echo $row_empleados['trecurso']; ?></td>
-      <td align="center"><?php echo $row_empleados['fechabaja']; ?></td>
-    </tr>
+    <tr id="<? echo $row_empleados["idnominaemp"]; ?>"
+				class="message_box tablaregistros"
+				onClick="miseleccion('<?php echo $row_empleados['idnominaemp']; ?>', 'id_<?php echo $row_empleados['idnominaemp']; ?>')">
+				<td width="54" height="64" align="center"><a
+					onClick="if(confirm('�Confirma que desea eliminar el registro?')) location.href='empleados_lista.php?idnominaemp=<?php echo $row_empleados['idnominaemp']; ?>';"
+					href="#"><img src="imagenes/borrar.png" width="34" height="34"></a></td>
+				<td width="32" align="center"><input type="radio" name="seleccion"
+					id="id_<?php echo $row_empleados['idnominaemp']; ?>"
+					value="<?php echo $row_empleados['idnominaemp']; ?>"></td>
+				<td width="119" align="center"><?php echo $row_empleados['activo']; ?></td>
+				<td width="119" align="center"><?php echo $row_empleados['rfc']; ?></td>
+				<td width="157" align="center"><?php echo $row_empleados['paterno']; ?></td>
+				<td width="158" align="center"><?php echo $row_empleados['materno']; ?></td>
+				<td width="164" align="center"><?php echo $row_empleados['nombres']; ?></td>
+				<td width="135" align="center"><?php echo $row_empleados['curp']; ?></td>
+				<td width="129" align="center"><?php echo $row_empleados['folio']; ?></td>
+				<td width="133" align="center"><?php echo $row_empleados['area']; ?></td>
+				<td width="170" align="center"><?php echo $row_empleados['programa']; ?></td>
+				<td width="165" align="center"><?php echo $row_empleados['proyecto']; ?></td>
+				<td width="169" align="center"><?php echo $row_empleados['categoria']; ?></td>
+				<td width="184" align="right"><?php echo number_format($row_empleados['sueldobase'], 2, ".", ","); ?></td>
+				<td width="90" align="center"><?php echo $row_empleados['plaza_clave']; ?></td>
+				<td width="116" align="center"><?php echo $row_empleados['fechainicio']; ?></td>
+				<td width="112" align="center"><?php echo $row_empleados['fechaingr']; ?></td>
+				<td width="284"><?php echo $row_empleados['calle']; ?></td>
+				<td width="97" align="center"><?php echo $row_empleados['numint']; ?></td>
+				<td width="101" align="center"><?php echo $row_empleados['numext']; ?></td>
+				<td width="297"><?php echo $row_empleados['colonia']; ?></td>
+				<td width="78" align="center"><?php echo $row_empleados['cp']; ?></td>
+				<td width="290" align="center"><?php echo $row_empleados['ciudad']; ?></td>
+				<td width="305" align="center"><?php echo $row_empleados['estado']; ?></td>
+				<td width="145" align="center"><?php echo $row_empleados['fechanacimiento']; ?></td>
+				<td width="90" align="center"><?php echo $row_empleados['sexo']; ?></td>
+				<td width="90" align="center"><?php echo $row_empleados['ecivil']; ?></td>
+				<td width="126" align="center"><?php echo $row_empleados['nacionalidad']; ?></td>
+				<td width="114" align="center"><?php echo $row_empleados['nafiliacion']; ?></td>
+				<td width="108" align="center"><?php echo $row_empleados['salariofv']; ?></td>
+				<td width="106" align="center"><?php echo $row_empleados['contrato']; ?></td>
+				<td width="100" align="center"><?php echo $row_empleados['nomina']; ?></td>
+				<td width="102" align="center"><?php echo $row_empleados['jornada']; ?></td>
+				<td width="102" align="center"><?php echo $row_empleados['de_hrs']; ?></td>
+				<td width="102" align="center"><?php echo $row_empleados['a_hrs']; ?></td>
+				<td width="118" align="center"><?php echo $row_empleados['formapago']; ?></td>
+				<td width="105" align="center"><?php echo $row_empleados['ncuenta']; ?></td>
+				<td width="102" align="center"><?php echo $row_empleados['estatus']; ?></td>
+				<td width="211" align="center"><?php echo $row_empleados['clabe']; ?></td>
+				<td width="213" align="center"><?php echo $row_empleados['banco']; ?></td>
+				<td width="123" align="center"><?php echo $row_empleados['escolaridad']; ?></td>
+				<td width="142" align="center"><?php echo $row_empleados['nafiliacionissste']; ?></td>
+				<td width="135" align="center"><?php echo $row_empleados['oficinadepago']; ?></td>
+				<td width="119" align="center"><?php echo $row_empleados['cartillaSMN']; ?></td>
+				<td width="119" align="center"><?php echo $row_empleados['trecurso']; ?></td>
+				<td align="center"><?php echo $row_empleados['fechabaja']; ?></td>
+			</tr>
     <?php } while ($row_empleados = mysql_fetch_assoc($empleados)); 
 
 	?>
 </table>
-	
-<input type="hidden" name="consulta" id="consulta" value="<? if(isset($_GET["consulta"])) echo $_GET["consulta"]; ?>">
-</form>
+
+		<input type="hidden" name="consulta" id="consulta"
+			value="<? if(isset($_GET["consulta"])) echo $_GET["consulta"]; ?>">
+	</form>
 </body>
 </html>
 <?php
