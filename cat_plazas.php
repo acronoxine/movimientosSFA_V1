@@ -93,8 +93,16 @@ function solonumeros(form, e)
       letra = e.keyCode;
     else
       letra = e.which;
-    
-    if((letra < 48 || letra > 57) && letra != 37 && letra != 38 && letra != 39 && letra != 40 && letra != 8 && letra != 46)
+   /**
+   *Check validate ascii key
+   */
+    if((letra < 48 || letra > 57) 
+    	    && letra != 37 
+    	    && letra != 38 
+    	    && letra != 39 
+    	    && letra != 40 
+    	    && letra != 8 
+    	    && letra != 46)
        return false;
     else
        return true;
@@ -251,37 +259,35 @@ function cargasueldo(idcategoria)
  * Save plaza data.
  * Script Finished
  */
-	function save(){
+	function save_plaza(){
+		var plaza_clave = jQuery( "#plaza_clave ").val();
 		var ur = $( "#getUR" ).val();
 		var programa = $( "#programas" ).val();
 		var subprograma = $( "#subprogramas" ).val();
-		//alert("UR="+ur+"Programa="+programa+"subprograma"+subprograma);
-		if(ur != 0 && programa != null && subprograma != null ){
+		var categoria = jQuery( "#categoria" ).val();
+		if(plaza_clave != '' && ur != 0 && programa != null && subprograma != null ){
 			jQuery.ajax({
 				type		: "POST",
 				dataType	: "json",
 				url 		: "jQuery_save_plaza.php",
-				data		: {	ur			: ur,
-								id_programa	: programa,
-								subprograma	: subprograma
+				data		: {	plaza_clave	:	plaza_clave,
+								ur			: 	ur,
+								id_programa	: 	programa,
+								subprograma	: 	subprograma,
+								categoria	:	categoria
 								},
 				success		: function (data) {
-					if(programa != 0){
-						$( "#subprogramas" ).empty();
-						jQuery.each(data,function(i,val){
-							$( "#subprogramas" ).append("<option value="+ val +">"+ val +"</option>");
-						});
-					}
-					else{
-						$( "#subprogramas" ).empty();
-						$( "#subprogramas" ).append('<option value="0">Seleccione</option>');
-					}
+					
+					jQuery.each(data,function(i,val){
+						alert("Operacion Exitosa!"+val);
+					});
 				}
 			});
 		}
 		else{
 			alert("Debes de completar todos los campos");
-		}	
+		}
+			
 	}
 </script>
 </head>
@@ -299,6 +305,11 @@ function cargasueldo(idcategoria)
 				<form method="post" name="form1" action="cat_plazas_lista.php"
 					target="lista">
 					<table align="center">
+						<tr valign="baseline">
+							<!-- Start Clave segment -->
+							<td nowrap align="left"><label class="label">CLAVE:</label></td>
+							<td><input name="plaza_clave" id="plaza_clave" placeholder="Introduce la clave"/></td>
+						</tr>
 						<tr valign="baseline">
 							<!-- Start UR -->
 							<td nowrap align="left"><label class="label">UR:</label></td>
@@ -349,7 +360,7 @@ function cargasueldo(idcategoria)
 						<!-- Start Categoria -->
 						<tr valign="baseline">
 							<td nowrap align="left"><label class="label">Categoria:</label></td>
-							<td><select name="categoria" style="width: 180px;"
+							<td><select name="categoria" id="categoria" style="width: 180px;"
 								onChange="cargasueldo(this.value);">
 									<option value="">Seleccione</option>
                   			<?php
@@ -378,7 +389,7 @@ function cargasueldo(idcategoria)
 							<td colspan="3" align="left"><input type="hidden"
 								name="MM_insert" value="form1"> <input class="boton"
 								type="button" name="guardar" id="guardar" value="GUARDAR"
-								onClick="save();"></td>
+								onClick="save_plaza();"></td>
 							<td>&nbsp;</td>
 						<tr>
 							<td colspan="3">&nbsp;</td>

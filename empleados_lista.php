@@ -51,9 +51,10 @@ if ((isset($_GET['idnominaemp'])) && ($_GET['idnominaemp'] != "")) {
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 	
-	$sql = "Select curp from nominaemp where rfc_iniciales = '$_POST[rfc_iniciales]' and rfc_fechanac = '$_POST[rfc_fechanac]' and rfc_homoclave = '$_POST[rfc_homoclave]'";
+	$sql = "Select curp,rfc_iniciales,rfc_fechanac,rfc_fechanac,rfc_homoclave from nominaemp where rfc_iniciales = '$_POST[rfc_iniciales]' and rfc_fechanac = '$_POST[rfc_fechanac]' and rfc_homoclave = '$_POST[rfc_homoclave]'";
 	$res = mysql_query($sql, $conexion);
-	if(mysql_num_rows($res) == 0)
+	print_r($res);
+	if(mysql_num_rows($res) == false)
 	{
 		@list($dia, $mes, $year) = split('[-./]', $_POST["fechainicio"]);
 		$fechainicio = "$year-$mes-$dia";
@@ -65,7 +66,46 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 		$fechanacimiento = "$year-$mes-$dia";
 		
 		
-		$insertSQL = sprintf("INSERT INTO nominaemp (rfc_iniciales, rfc_fechanac, rfc_homoclave, curp, folio, sueldobase, fechainicio, fechaingr, paterno, materno, nombres, calle, numint, numext, colonia, cp, ciudad, estado, fechanacimiento, sexo, ecivil, nacionalidad, nafiliacion, salariofv, contrato, nomina, jornada, de_hrs, a_hrs, formapago, ncuenta, estatus, clabe, escolaridad, nafiliacionissste, oficinadepago, cartillaSMN, idbancos, activo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+		$insertSQL = sprintf("INSERT INTO nominaemp (
+				rfc_iniciales, 
+				rfc_fechanac, 
+				rfc_homoclave, 
+				curp, 
+				folio, 
+				sueldobase, 
+				fechainicio, 
+				fechaingr, 
+				paterno, 
+				materno, 
+				nombres, 
+				calle, 
+				numint, 
+				numext, 
+				colonia, 
+				cp, 
+				ciudad, 
+				estado, 
+				fechanacimiento, 
+				sexo, 
+				ecivil, 
+				nacionalidad, 
+				nafiliacion, 
+				salariofv, 
+				contrato, 
+				nomina, 
+				jornada, 
+				de_hrs, 
+				a_hrs, 
+				formapago, 
+				ncuenta, 
+				estatus, 
+				clabe, 
+				escolaridad, 
+				nafiliacionissste, 
+				oficinadepago, 
+				cartillaSMN, 
+				idbancos, 
+				activo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 						   GetSQLValueString($_POST['rfc_iniciales'], "text"),
 						   GetSQLValueString($_POST['rfc_fechanac'], "text"),
 						   GetSQLValueString($_POST['rfc_homoclave'], "text"),
@@ -312,10 +352,9 @@ function miseleccion(dato, obj)
 				</tr>
 			</table>
 		</div>
-		<table class="tablagrid" border="0" cellpadding="0" cellspacing="0"
-			width="6471" style="padding-top: 32px;">
-  <?php do { ?>
-    <tr id="<? echo $row_empleados["idnominaemp"]; ?>"
+		<table class="tablagrid" border="0" cellpadding="0" cellspacing="0" width="6471" style="padding-top: 32px;">
+  		<?php do { ?>
+    		<tr id="<? echo $row_empleados["idnominaemp"]; ?>"
 				class="message_box tablaregistros"
 				onClick="miseleccion('<?php echo $row_empleados['idnominaemp']; ?>', 'id_<?php echo $row_empleados['idnominaemp']; ?>')">
 				<td width="54" height="64" align="center"><a
