@@ -111,7 +111,7 @@ $totalRows_estados = mysql_num_rows ( $estados );
 <script>
 /**
  * This Script will be removed after check all modules
- * If all works.
+ * If all works!.
  */
 /*$(document).ready(function(){
 		function calculaimportes(datos)

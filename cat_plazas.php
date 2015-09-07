@@ -272,7 +272,7 @@ function cargasueldo(idcategoria)
 				url 		: "jQuery_save_plaza.php",
 				data		: {	plaza_clave	:	plaza_clave,
 								ur			: 	ur,
-								id_programa	: 	programa,
+								programa	: 	programa,
 								subprograma	: 	subprograma,
 								categoria	:	categoria
 								},

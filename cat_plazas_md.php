@@ -89,15 +89,27 @@ a(document).ready(function(){
 		});
 		a("#fecha2").datepicker( "option", "showAnim", "show");
 		a("#fecha2").datepicker( "option", "dateFormat", "yy-mm-dd" );
-		
-		a("#fechab").datepicker({
+		/*Start DataPicker
+		*/
+		a("#fecha_inicial").datepicker({
 			changeMonth: true,
 			changeYear: true,
 			yearRange: "-90:+0"
 		});
-		a("#fechab").datepicker( "option", "showAnim", "show");
-		a("#fechab").datepicker( "option", "dateFormat", "yy-mm-dd" );
+		a("#fecha_inicial").datepicker( "option", "showAnim", "show");
+		a("#fecha_inicial").datepicker( "option", "dateFormat", "yy-mm-dd" );
+
+		a("#fecha_final").datepicker({
+			changeMonth: true,
+			changeYear: true,
+			yearRange: "-90:+0"
+		});
+		a("#fecha_final").datepicker( "option", "showAnim", "show");
+		a("#fecha_final").datepicker( "option", "dateFormat", "yy-mm-dd" );		
 	});
+
+	/*End dataPicker module*/
+	
 	jQuery("#tipoContrato").change(function() {
 		var tipoc=document.getElementById('tipoContrato').value;
 		if( tipoc== 2 || tipoc==5 || tipoc==6 || tipoc==4)
@@ -115,7 +127,7 @@ a(document).ready(function(){
 
 </script>
 <script>
-function movimiento(){
+/*function movimiento(){
 	var empleado=document.getElementById('idempleado');
 	var tipoContrato=document.getElementById('tipoContrato');
 	var plaza=<? echo $colname_plaza?>;
@@ -131,8 +143,8 @@ function movimiento(){
 	else{
 		formato(empleado.value,tipoContrato.value,plaza,fecha.value,fecha2.value,'A',tipoAsignacion);
 	}
-}
-function movimientob(){
+}*/
+/*function movimientob(){
 	var empleado=<? echo $row_plazas['empleado_id']?>;
 	var tipoContrato=document.getElementById('tipoBaja');
 	var plaza=<? echo $colname_plaza?>;
@@ -148,7 +160,7 @@ function movimientob(){
 	else{
 		formato(empleado,tipoContrato.value,plaza,fecha.value,fecha2.value,estado.value,'');
 	}
-}
+}*/
 </script>
 <link rel="stylesheet" type="text/css" href="css/estilos.css">
 </head>
@@ -298,7 +310,35 @@ function movimientob(){
 	}
 
 	function liberar_plaza(){
-			alert("All is good");
+		var plaza_id = <?php echo $_GET['idplaza'];?>;
+		var fecha_inicial 	= jQuery(" #fecha_inicial ").val();
+		var fecha_final		= jQuery(" #fecha_final ").val();
+		var estado			= jQuery(" #estado ").val();
+		if(plaza_clave != 0 ){
+				jQuery.ajax({
+				type		: "POST",
+				dataType	: "json",
+				url 		: "jQuery_liberar_plaza.php",
+				data		: {	
+							   	plaza_id 		: plaza_id,
+							   	fecha_inicial	: fecha_inicial,
+							   	fecha_final		: fecha_final,
+							   	estado			: estado
+							  },
+				success		: function (data) {
+					jQuery.each(data,function(i,val){
+						if(val ==true){
+							alert('Modificacion correcta.');
+						}
+						else{
+							alert("Ha ocurrido un error. Intente mas tarde!");
+							}
+					});
+				}
+			});
+		}
+		else{alert("Todos los datos son requeridos, para modifcar una plaza");}	
+			
 		}
 </script>
 			<div id="centro_prin">
@@ -552,8 +592,13 @@ function movimientob(){
 							</tr>
 							<tr>
 								<td nowrap align="left"><label class="label">Fecha de Baja</label></td>
-								<td><input class="campo" type="text" size="6" name="fechab"
-									id="fechab" value=""></td>
+								<td><input class="campo" type="text" size="6" name="fecha_inicial"
+									id="fecha_inicial" value=""></td>
+							</tr>
+							<tr>
+								<td nowrap align="left"><label class="label">Fecha de Baja</label></td>
+								<td><input class="campo" type="text" size="6" name="fecha_final"
+									id="fecha_final" value=""></td>
 							</tr>
 							<tr>
 								<td align="right" colspan="2"><input type="button" class="boton"

@@ -9,22 +9,32 @@ if ($_SESSION ["m_sesion"] != 1) {
 ?>
 <?
 
+/**
+ *
+ * @author Zirangua Mejia Jose Luis
+ * @copyright 2015 -
+ * @final
+ *
+ * @version 1.0
+ * @var "";
+ */
+
 include ("Connections/conexion.php");
 mysql_select_db ( $database_conexion, $conexion );
 function campo($texto, $long, $align) {
 	$texto = trim ( $texto );
 	$n = strlen ( $texto );
 	
-	if ($align == 1) 	// alineacion izquierda
-	{
+	if ($align == 1) // alineacion izquierda
+{
 		$espacios = $long - $n;
 		for($i = 1; $i <= $espacios; $i ++) {
 			$texto .= " ";
 		}
 	}
 	
-	if ($align == 2) 	// alineacion derecha
-	{
+	if ($align == 2) // alineacion derecha
+{
 		$espacios = $long - $n;
 		for($i = 1; $i <= $espacios; $i ++) {
 			$texto = " " . $texto;
@@ -33,13 +43,16 @@ function campo($texto, $long, $align) {
 	
 	return $texto;
 }
-// $queryEmpresa="SELECT director, titular from empresa";
+$queryEmpresa = "SELECT director, titular from empresa";
 $queryEmpresa = "SELECT titular from empresa";
 $resqe = mysql_query ( $queryEmpresa, $conexion );
 $renqe = mysql_fetch_array ( $resqe );
-// $director_qe=$renqe['director'];
+$director_qe = $renqe ['director'];
 $titularupp_qe = $renqe ['titular'];
 
+/*
+ * Check SQL sentence.
+ */
 $idmovimeinto = " SELECT MAX(idmovimiento) as idmh FROM movimiento_historial";
 $resid = mysql_query ( $idmovimeinto );
 $renid = mysql_fetch_array ( $resid );
@@ -80,7 +93,25 @@ if ($_GET [ver] != 1) {
 	// insercion en movimiento historial
 	mysql_query ( $insertMH, $conexion );
 }
-/* define('FPDF_FONTPATH','./fpdf/font/'); */
+
+/**
+ * Query APP, UR, RH from db
+ * This values can be set using Titulares module;
+ */
+$query_UPP = "SELECT nombre FROM cat_titular WHERE firma = 1";
+$query_UR = "SELECT nombre FROM cat_titular WHERE firma = 2";
+$query_RH = "SELECT nombre FROM cat_titular WHERE firma = 3";
+$res_upp = mysql_query ( $query_UPP, $conexion );
+$res_ur = mysql_query ( $query_UR, $conexion );
+$res_rh = mysql_query ( $query_RH, $conexion );
+
+/*
+ * Get Values from titulares table.
+ */
+$data_upp = mysql_fetch_array ( $res_upp );
+$data_ur = mysql_fetch_array ( $res_ur );
+$data_rh = mysql_fetch_array ( $res_rh );
+
 include ("./fpdf/fpdf.php");
 
 $pdf = new FPDF ( 'P', 'mm', 'A4' );
@@ -95,13 +126,13 @@ $pdf->SetFillColor ( 255, 255, 255 );
 $pdf->SetTextColor ( 0 );
 $pdf->SetDrawColor ( 0, 0, 0 );
 $pdf->SetLineWidth ( .2 );
-// $pdf->SetFont('Arial','B',9);
+$pdf->SetFont ( 'Arial', 'B', 9 );
 
 $pdf->Text ( 30, 43, $ren ["rfc"] );
 $pdf->Text ( 88, 43, $ren ["curp"] );
 $pdf->Text ( 174, 41, campo ( $ren ["folio"], 10, 2 ) );
 
-// $pdf->SetFont('Arial','B',8);
+$pdf->SetFont ( 'Arial', 'B', 8 );
 
 $sql = "select upp as cveupp, razonsocial as upp, titular from empresa limit 1";
 $res_emp = mysql_query ( $sql, $conexion );
@@ -148,9 +179,9 @@ $pdf->Cell ( 182.2 );
 $pdf->Cell ( 11, 4.5, $ren ["plaza_clave"], 0, 0, 'C' );
 
 $pdf->Text ( 107.7, 108.7, $ren ["movimiento"] );
-// $pdf->SetFont('Arial','B',5);
+$pdf->SetFont ( 'Arial', 'B', 5 );
 $pdf->Text ( 184.0, 108.7, $ren ["contrato_emp"] );
-// $pdf->SetFont('Arial','B',8);
+$pdf->SetFont ( 'Arial', 'B', 8 );
 $finicial = explode ( "-", $ren ["fecha_inicial"] );
 $ffinal = explode ( "-", $ren ["fecha_final"] );
 $pdf->Text ( 97.3, 120.5, $finicial [0] );
@@ -248,14 +279,22 @@ if ($r >= 6)
 	$pdf->Ln ( 28 );
 else
 	$pdf->Ln ( 39 );
+	
+	/*
+ * Tituales DATA
+ */
+	// UPP data
+$pdf->Cell ( 85, 4, $data_ur ['nombre'], 0, 0, 'C' );
+// UR data
+$pdf->Cell ( 150, 4, $data_upp ['nombre'], 0, 0, 'C' );
 
-$pdf->Cell ( 85, 4, $ren ["titular_ur"], 0, 0, 'C' );
-$pdf->Cell ( 30, 4, "", 0, 0, 'C' );
-$pdf->Cell ( 85, 4, $titularupp_qe, 0, 0, 'C' );
+// RH data
+$pdf->Ln ( 13.15 );
+$pdf->Cell ( 197, 4, $data_rh ['nombre'], 0, 0, 'C' );
 
-$pdf->Ln ( 13.5 );
-$pdf->Cell ( 197, 4, $director_qe, 0, 0, 'C' );
-
+/*
+ * End Titualres DATA
+ */
 $pdf->Output ( "pdfs/doc.pdf", "F" );
 
 if (isset ( $_GET [qvacante] )) {
