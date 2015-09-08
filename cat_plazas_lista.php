@@ -52,42 +52,52 @@ if ((isset ( $_GET ['idplaza'] )) && ($_GET ['idplaza'] != "")) {
 }
 
 mysql_select_db ( $database_conexion, $conexion );
-/*
- * $query_plazas = "SELECT CONCAT(nemp.paterno,' ',nemp.materno,' ',nemp.nombres) AS nombre,ep.estado AS plaza_estado, ep.fecha_inicial, ep.fecha_final, a.descripcion as ur_desc, pr.clave as prog_clave, pz.plaza_id AS plaza_id,pz.plaza_clave AS plaza_clave, pz.titular, sp.idsubprograma AS subp_id, sp.descripcion AS subp_descripcion, ct.descripcion AS cat_descripcion,ct.clave FROM cat_plazas pz INNER JOIN empleado_plaza ep ON ep.plaza_id=pz.plaza_id INNER JOIN nominaemp nemp ON nemp.idnominaemp=ep.idnominaemp INNER JOIN cat_categoria ct ON ct.clave=pz.categoria LEFT JOIN cat_subprograma sp ON sp.idsubprograma=pz.subprograma LEFT JOIN cat_programa pr ON pr.idprograma=pz.programa LEFT JOIN cat_area a ON a.idarea=pz.ur";
- */
-$query_plazas = "SELECT 
-    cat_plazas.plaza_id,
-    cat_plazas.plaza_clave,
-    ur AS ur_desc,
-    programa AS prog_clave,
-    subprograma AS subp_descripcion,
-    categoria AS cat_descripcion,
-    empleado_plaza.estado,
-    nombres as nombre,
-    empleado_plaza.fecha_inicial,
-    empleado_plaza.fecha_final,
-    cat_plazas.titular
-FROM
-    cat_plazas
-        INNER JOIN
-    empleado_plaza ON empleado_plaza.idnominaemp = cat_plazas.plaza_id
-        INNER JOIN
-    nominaemp ON nominaemp.idnominaemp = cat_plazas.plaza_id
-        INNER JOIN
-    empleado_plaza ep ON ep.plaza_id = cat_plazas.plaza_id";
 
-if (isset ( $_GET ["consultap"] )) {
-	$query_plazas .= " where (plaza_clave like '%$_GET[consultap]%' and empleado_plaza.estado like '%$_GET[consulta]%'
-	OR ur like '%$_GET[consultap]%' and empleado_plaza.estado like '%$_GET[consulta]%'
-	OR programa like '%$_GET[consultap]%' and empleado_plaza.estado like '%$_GET[consulta]%'
-	OR subprograma like '%$_GET[consultap]%' and empleado_plaza.estado like '%$_GET[consulta]%'
-	OR categoria like '%$_GET[consultap]%' and empleado_plaza.estado like '%$_GET[consulta]%'
-	OR nombres like '%$_GET[consultap]%' and empleado_plaza.estado like '%$_GET[consulta]%')";
-	/*
-	 * OR (ct.descripcion like '%$_GET[consultap]%' and ep.estado like '%$_GET[consulta]%') OR (sp.descripcion like '%$_GET[consultap]%' and ep.estado like '%$_GET[consulta]%') OR (nemp.paterno like '%$_GET[consultap]%' and ep.estado like '%$_GET[consulta]%')";
-	 */
-} else {
-	$query_plazas .= " LIMIT 0,50";
+ $query_plazas = "SELECT 
+    CONCAT(nemp.paterno,
+            ' ',
+            nemp.materno,
+            ' ',
+            nemp.nombres) AS nombre,
+    ep.estado AS plaza_estado,
+    ep.fecha_inicial,
+    ep.fecha_final,
+    a.descripcion AS ur_desc,
+    pr.clave AS prog_clave,
+    pz.plaza_id AS plaza_id,
+    pz.plaza_clave AS plaza_clave,
+    pz.titular,
+    sp.idsubprograma AS subp_id,
+    sp.descripcion AS subp_descripcion,
+    ct.descripcion AS cat_descripcion,
+    ct.clave
+FROM
+    cat_plazas pz
+        LEFT JOIN
+    empleado_plaza ep ON ep.plaza_id = pz.plaza_id
+        LEFT JOIN
+    nominaemp nemp ON nemp.idnominaemp = ep.idnominaemp
+        LEFT JOIN
+    cat_categoria ct ON ct.idcategoria = pz.categoria
+        LEFT JOIN
+    cat_subprograma sp ON sp.idsubprograma = pz.subprograma
+        LEFT JOIN
+    cat_programa pr ON pr.idprograma = pz.programa
+        LEFT JOIN
+    cat_area a ON a.idarea = pz.ur";
+
+if(isset($_GET["consultap"]) and !isset($_GET["fecha"]) and $_GET["consultap"]!=-1)
+{
+	$query_plazas .= " where (pz.plaza_clave like '%$_GET[consultap]%' and ep.estado like '%$_GET[consulta]%') OR (ct.descripcion like '%$_GET[consultap]%' and ep.estado like '%$_GET[consulta]%') 
+	OR (sp.descripcion like '%$_GET[consultap]%' and ep.estado like '%$_GET[consulta]%') OR (nemp.paterno like '%$_GET[consultap]%' and ep.estado like '%$_GET[consulta]%')";
+}
+else if(isset($_GET["fecha"]))
+{
+	$query_plazas .= " where ep.fecha_final <= '$_GET[fecha]' and ep.estado like '%$_GET[consulta]%' ";
+}
+else if($_GET["consultap"]==-1){}
+else{
+	$query_plazas .=" LIMIT 0,50";
 }
 // echo $query_plazas;
 $plazas = mysql_query ( $query_plazas, $conexion ) or die ( mysql_error () );
@@ -167,14 +177,20 @@ $totalRows_plazas = mysql_num_rows ( $plazas );
     <tr class="<? echo $class;?>">
 			<td width="25" align="center"><?php echo $cont;$cont++;?></td>
 			<td width="25"><a target="_top"
-				href="cat_plazas_md.php?idplaza=<?php echo $row_plazas['plaza_id']; ?>"><img
+				href="cat_plazas_md.php?idplaza=<?php echo $row_plazas['plaza_id']; ?>
+				&clave=<?php echo $row_plazas['plaza_clave']; ?>
+				&ur=<?php echo $row_plazas['ur_desc']; ?>
+				&programa=<?php echo $row_plazas['prog_clave']; ?>
+				&subprograma=<?php echo $row_plazas['subp_descripcion']; ?>
+				&categoria=<?php echo $row_plazas['cat_descripcion']; ?>
+				"><img
 					src="imagenes/editar.png" width="20" height="20"></a></td>
 			<td width="50" align="center"><?php echo $row_plazas['plaza_clave']; ?></td>
 			<td width="150" align="center" style="font-size: 10px"><?php echo $row_plazas['ur_desc']; ?></td>
 			<td width="50" align="center"><?php echo $row_plazas['prog_clave']; ?></td>
 			<td width="50" align="center"><?php echo $row_plazas['subp_descripcion']; ?></td>
 			<td width="125"><?php echo $row_plazas['cat_descripcion']; ?></td>
-			<td width="75" align="center" style="font-size: 10px"><?php  echo $row_plazas['estado']; ?></td>
+			<td width="75" align="center" style="font-size: 10px"><?php  echo $row_plazas['plaza_estado']; ?></td>
 			<td width="150"><?php echo $row_plazas['nombre']; ?></td>
       <?php
 			if (! $row_plazas ['fecha_final'])

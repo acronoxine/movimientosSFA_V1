@@ -233,17 +233,17 @@ a(document).ready(function(){
 			          "Favorite beverage: " + data["favorite_beverage"] + "<br />Favorite restaurant: " + data["favorite_restaurant"] + "<br />Gender: " + data["gender"] + "<br />JSON: " + data["json"]
 			        );*/
 			        //alert("Form submitted successfully.\nReturned json: " + data["2"]);
-				        if(ur != 0){
-				        	jQuery( "#programas" ).empty();
-							jQuery( "#subprogramas" ).empty();
+				        //if(ur != '0'){
+				        	//jQuery( "#programas" ).empty();
+							//jQuery( "#subprogramas" ).empty();
 								jQuery.each(data,function(i,val){
 									jQuery( "#programas" ).append("<option value="+val+">"+ val +"</option>");
 								});
-				        }
-						else{
+				        //}
+						/*else{
 							jQuery( "#programas" ).empty();
 							jQuery( "#programas" ).append('<option value="0">Seleccione</option>');
-						}
+						}*/
 			      }
 			    });
 	}
@@ -255,16 +255,16 @@ a(document).ready(function(){
 				url 		: "jQuery_suprogramas.php",
 				data		: {id_programa: programa},
 				success		: function (data) {
-					if(programa != 0){
-							jQuery( "#subprogramas" ).empty();
+					//if(programa != '0'){
+							//jQuery( "#subprogramas" ).empty();
 							jQuery.each(data,function(i,val){
 								jQuery( "#subprogramas" ).append("<option value="+val+">"+ val +"</option>");
 							});
-						}
+						/*}
 					else{
-							jQuery( "#subprogramas" ).empty();
-							jQuery( "#subprogramas" ).append('<option value="0">Seleccione</option>');
-						}
+							//jQuery( "#subprogramas" ).empty();
+							//jQuery( "#subprogramas" ).append('<option value="0">Seleccione</option>');
+						}*/
 					}
 			});		
 	}
@@ -277,7 +277,7 @@ a(document).ready(function(){
 		var subprograma = jQuery( "#subprogramas" ).val();
 		var categoria = jQuery( "#categoria" ).val();
 		var titular = jQuery( "#titular" ).val();
-		if(plaza_clave != 0 && ur != 0 && programa != null && subprograma != null  && titular != "" ){
+		if(plaza_clave != 0 && ur != 0 && programa != null && subprograma != null  && titular != "" && categoria !="" ){
 				jQuery.ajax({
 				type		: "POST",
 				dataType	: "json",
@@ -310,6 +310,10 @@ a(document).ready(function(){
 	}
 
 	function liberar_plaza(){
+		/*
+			Liberar plaza
+		*/
+		
 		var plaza_id = <?php echo $_GET['idplaza'];?>;
 		var fecha_inicial 	= jQuery(" #fecha_inicial ").val();
 		var fecha_final		= jQuery(" #fecha_final ").val();
@@ -353,25 +357,27 @@ a(document).ready(function(){
 						<tr valign="baseline">
 							<td nowrap align="LEFT"><label class="label">CLAVE:</label></td>
 							<td><select id="plaza_clave" name="categoria"
-								style="width: 180px;"<option value="">Seleccione</option>
+								style="width: 180px;"><option value="<?php echo $_GET['clave'];?>"><?php echo $_GET['clave'];?></option>
                   			<?php
-																					do {
-																						if (! empty ( $row_plaza_clave ) || $row_plaza_clave = "") {
-																							?>
+								 while ( $row_plaza_clave = mysql_fetch_assoc ( $plaza_clave ) )
+								 { 
+									if (!empty ( $row_plaza_clave ) || $row_plaza_clave = "") {
+							?>
                   			<option
-										value="<?php echo $row_plaza_clave['plaza_clave']; ?>"><?php echo $row_plaza_clave['plaza_clave']?></option>
-                  				<?php
-																						}
-																					} while ( $row_plaza_clave = mysql_fetch_assoc ( $plaza_clave ) );
-																					?>
+								value="<?php echo $row_plaza_clave['plaza_clave']; ?>"><?php echo $row_plaza_clave['plaza_clave']?>
+							</option>
+                  			<?php
+									}
+								} 
+							?>
                 			</select><label class="label">*</label></td>
 						</tr>
 						<tr valign="baseline">
 							<!-- Start UR -->
 							<td nowrap align="left"><label class="label">UR:</label></td>
 							<td><select id="getUR" style="width: 180px;"
-								onchange="get_programas()">
-									<option value="0">Seleccione</option>
+								onfocus="get_programas()">
+									<option value="<?php echo $_GET['ur'];?>"><?php echo $_GET['ur'];?></option>
 									<option value="01">01</option>
 									<option value="02">02</option>
 									<option value="03">03</option>
@@ -397,32 +403,38 @@ a(document).ready(function(){
 						<tr valign="baseline">
 							<td nowrap align="left"><label class="label">Programa:</label></td>
 							<td colspan="3"><select id="programas" style="width: 180px;"
-								onchange="get_subprogramas()">
-									<option value="0">Seleccione</option>
+								onfocus="get_subprogramas()">
+									<option value="<?php echo $_GET['programa'];?>"><?php echo $_GET['programa'];?></option>
 							</select></td>
 						</tr>
 						<!-- Start Subprogramas -->
 						<tr valign="baseline">
 							<td nowrap align="left"><label class="label">Subprograma:</label></td>
-							<td colspan="3"><select id="subprogramas" style="width: 180px;">
-									<option value="0">Seleccione</option>
-							</select></td>
+							<td colspan="3">
+								<select id="subprogramas" style="width: 180px;">
+									<option value="<?php echo $_GET['subprograma'];?>"><?php echo $_GET['subprograma'];?></option>
+								</select>
+							</td>
 							<!-- Block end after -->
 						</tr>
 						<!-- Start Categoria -->
 						<tr valign="baseline">
 							<td nowrap align="left"><label class="label">Categoria:</label></td>
-							<td><select id="categoria" name="categoria" style="width: 180px;"<option
-										value="0">Seleccione</option>
-                  			<?php
-																					do {
-																						?>
-                  			<option
-										value="<?php echo $row_categorias['idcategoria']; ?>"><?php echo $row_categorias['clave'], " ", $row_categorias['descripcion']?></option>
-                  				<?php
-																					} while ( $row_categorias = mysql_fetch_assoc ( $categorias ) );
-																					?>
-                			</select><label class="label">*</label></td>
+							<td><select id="categoria" name="categoria" style="width: 180px;"
+								<option value="<?php echo $_GET['categoria'];?>"><?php echo $_GET['categoria'];?></option>
+								<option value="<?php echo $_GET['categoria'];?>"><?php echo $_GET['categoria'];?></option>
+                  					<?php
+										do {
+									?>
+								
+                  				<option value="<?php echo $row_categorias['idcategoria']; ?>">
+									<?php echo $row_categorias['clave'], " ", $row_categorias['descripcion']?>
+								</option>
+                  					<?php
+											} while ( $row_categorias = mysql_fetch_assoc ( $categorias ) );
+									?>
+                			</select><label class="label">*</label>
+                			</td>
 
 
 						</tr>

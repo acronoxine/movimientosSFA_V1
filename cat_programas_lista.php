@@ -132,7 +132,8 @@ $totalRows_programas = mysql_num_rows ( $programas );
 			<td width="40"><a
 				onClick="if(confirm('Confirma que desea eliminar el registro?')) location.href='cat_programas_lista.php?idprograma=<?php echo $row_programas['idprograma']; ?>';"
 				href="#"><img src="imagenes/borrar.png" width="35" height="35"></a></td>
-			<td width="40"><a target="_top"
+			<td width="40">
+			<a target="_top"
 				href="cat_programas_md.php?idprograma=<?php echo $row_programas['idprograma']; ?>"><img
 					src="imagenes/editar.png" width="35" height="35"></a></td>
 			<td width="100" align="center"><?php echo $row_programas['area_clave']; ?></td>

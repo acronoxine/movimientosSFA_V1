@@ -90,33 +90,25 @@ function sololetras(form, e)
 function solonumeros(form, e)
 {
     if(e.keyCode != 0)
-      letra = e.keyCode;
+      var letra = e.keyCode;
     else
-      letra = e.which;
-   /**
-   *Check validate ascii key
-   */
-    if((letra < 48 || letra > 57) 
-    	    && letra != 37 
-    	    && letra != 38 
-    	    && letra != 39 
-    	    && letra != 40 
-    	    && letra != 8 
-    	    && letra != 46)
+      var letra = e.which;
+    if((letra < 48 || letra > 57 && letra != 37 && letra != 38 && letra != 39 && letra != 40 && letra != 8 && letra != 46))
        return false;
     else
        return true;
 }
 </script>
 <script>
-/*function busca(dato,dato2)
+function busca(dato,dato2)
 {
 	var boton=document.getElementById('r1');
 	alert(dato2.value);
 	boton.checked=false;
-	parent.lista.document.location.replace('cat_plazas_lista.php?consultap='+dato2.value+'&consulta='+dato);
+	//parent.lista.document.location.replace('cat_plazas_lista.php?consultap='+dato2.value+'&consulta='+dato);
+	parent.lista.document.location.replace('iframe-vacantes.php?consultap='+dato2.value+'&consulta='+dato);
 	
-}*/
+}
 function busca(sql){
 	var boton=document.getElementById('consultap');
 	//alert(boton.value);
@@ -265,6 +257,7 @@ function cargasueldo(idcategoria)
 		var programa = $( "#programas" ).val();
 		var subprograma = $( "#subprogramas" ).val();
 		var categoria = jQuery( "#categoria" ).val();
+		if(plaza_clave === ''){document.getElementById("plaza_clave").focus();}
 		if(plaza_clave != '' && ur != 0 && programa != null && subprograma != null ){
 			jQuery.ajax({
 				type		: "POST",
@@ -314,8 +307,7 @@ function cargasueldo(idcategoria)
 							<!-- Start UR -->
 							<td nowrap align="left"><label class="label">UR:</label></td>
 							<td><select id="getUR" style="width: 180px;"
-								onchange="get_programas()">
-									<option value="0">Seleccione</option>
+								onfocus="get_programas()">
 									<option value="01">01</option>
 									<option value="02">02</option>
 									<option value="03">03</option>
@@ -342,7 +334,7 @@ function cargasueldo(idcategoria)
 							<td nowrap align="left"><label class="label">Programa:</label></td>
 							<td colspan="3">
 								<select id="programas" style="width: 180px;"
-								onchange="get_subprogramas()">
+								onfocus="get_subprogramas()">
 									<option value="0">Seleccione</option>
 								</select>
 							</td>
@@ -407,19 +399,21 @@ function cargasueldo(idcategoria)
 						</tr>
 						<tr>
 						<!-- Im here edit, right now -->
-							<td colspan="3"><label class="label">Vacantes</label> <input
+							<td colspan="3"><label class="label">Vacantes</label> 
+							<input
 								type="radio" value="1" name="r1" id="r1"
 								style="vertical-align: middle"
 								onFocus="busca('VACANTE',document.getElementById('consultap'))" />
                     			<? $fecha=date("Y")."-".date("m")."-".date('d');?>
-                    			<label class="label">Vencidas</label> <input
+                    			<label class="label">Vencidas</label> 
+                    		<input
 								type="radio" value="1" name="r1" id="r1"
 								onFocus="busca2('<? echo $fecha?>',document.getElementById('consultap'))"
 								style="vertical-align: middle" /> <label class="label">Ocupadas</label>
-								<input type="radio" value="1" name="r1" id="r1"
+							<input type="radio" value="1" name="r1" id="r1"
 								onFocus="busca('OCUPADO',document.getElementById('consultap'))"
 								style="vertical-align: middle" /> <label class="label">Todas</label>
-								<input type="radio" value="-1" name="r1"
+							<input type="radio" value="-1" name="r1"
 								onFocus="busca('',this)" style="vertical-align: middle" /></td>
 						</tr>
 						<tr valign="baseline">

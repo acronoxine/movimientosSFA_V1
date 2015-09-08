@@ -63,11 +63,11 @@ if ((isset ( $_GET ['idnominaemp'] )) && ($_GET ['idnominaemp'] != "")) {
 }
 
 if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
-	
 	$sql = "Select curp,rfc_iniciales,rfc_fechanac,rfc_fechanac,rfc_homoclave from nominaemp where rfc_iniciales = '$_POST[rfc_iniciales]' and rfc_fechanac = '$_POST[rfc_fechanac]' and rfc_homoclave = '$_POST[rfc_homoclave]'";
 	$res = mysql_query ( $sql, $conexion );
-	print_r ( $res );
-	if (mysql_num_rows ( $res ) == false) {
+	$nrows=mysql_num_rows ( $res );
+	print_r($nrows."Something");
+	if ($nrows == 0) {
 		@list ( $dia, $mes, $year ) = split ( '[-./]', $_POST ["fechainicio"] );
 		$fechainicio = "$year-$mes-$dia";
 		
@@ -78,17 +78,9 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 		$fechanacimiento = "$year-$mes-$dia";
 		
 		$insertSQL = sprintf ( "INSERT INTO nominaemp (
-				rfc_iniciales, 
-				rfc_fechanac, 
-				rfc_homoclave, 
-				curp, 
-				folio, 
-				sueldobase, 
-				fechainicio, 
-				fechaingr, 
-				paterno, 
-				materno, 
-				nombres, 
+				paterno,
+				materno,
+				nombres,
 				calle, 
 				numint, 
 				numext, 
@@ -96,27 +88,116 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 				cp, 
 				ciudad, 
 				estado, 
-				fechanacimiento, 
-				sexo, 
-				ecivil, 
-				nacionalidad, 
-				nafiliacion, 
-				salariofv, 
-				contrato, 
+				rfc_iniciales, 
+				rfc_fechanac, 
+				rfc_homoclave, 
+				curp,
+				fechaingr,
+				nafiliacion,
+				salariofv,
+				contrato,
+				estatus,
 				nomina, 
 				jornada, 
 				de_hrs, 
-				a_hrs, 
-				formapago, 
-				ncuenta, 
-				estatus, 
-				clabe, 
-				escolaridad, 
+				a_hrs,
+				formapago,
+				ncuenta,
+				fechainicio,
+				idbancos,
+				fechanacimiento,
+				sexo, 
+				ecivil,
+				escolaridad,
 				nafiliacionissste, 
 				oficinadepago, 
 				cartillaSMN, 
-				idbancos, 
-				activo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", GetSQLValueString ( $_POST ['rfc_iniciales'], "text" ), GetSQLValueString ( $_POST ['rfc_fechanac'], "text" ), GetSQLValueString ( $_POST ['rfc_homoclave'], "text" ), GetSQLValueString ( $_POST ['curp'], "text" ), GetSQLValueString ( $_POST ['folio'], "text" ), GetSQLValueString ( $_POST ['sueldobase'], "double" ), GetSQLValueString ( $fechainicio, "date" ), GetSQLValueString ( $fechaingr, "date" ), GetSQLValueString ( $_POST ['paterno'], "text" ), GetSQLValueString ( $_POST ['materno'], "text" ), GetSQLValueString ( $_POST ['nombres'], "text" ), GetSQLValueString ( $_POST ['calle'], "text" ), GetSQLValueString ( $_POST ['numint'], "text" ), GetSQLValueString ( $_POST ['numext'], "text" ), GetSQLValueString ( $_POST ['colonia'], "text" ), GetSQLValueString ( $_POST ['cp'], "text" ), GetSQLValueString ( $_POST ['ciudad'], "text" ), GetSQLValueString ( $_POST ['estado'], "text" ), GetSQLValueString ( $fechanacimiento, "date" ), GetSQLValueString ( $_POST ['sexo'], "text" ), GetSQLValueString ( $_POST ['ecivil'], "text" ), GetSQLValueString ( $_POST ['nacionalidad'], "text" ), GetSQLValueString ( $_POST ['nafiliacion'], "text" ), GetSQLValueString ( $_POST ['salariofv'], "text" ), GetSQLValueString ( $_POST ['contrato'], "text" ), GetSQLValueString ( $_POST ['nomina'], "text" ), GetSQLValueString ( $_POST ['jornada'], "text" ), GetSQLValueString ( $_POST ['de_hrs'], "text" ), GetSQLValueString ( $_POST ['a_hrs'], "text" ), GetSQLValueString ( $_POST ['formapago'], "text" ), GetSQLValueString ( $_POST ['ncuenta'], "text" ), GetSQLValueString ( 1, "text" ), GetSQLValueString ( $_POST ['clabe'], "text" ), GetSQLValueString ( $_POST ['escolaridad'], "text" ), GetSQLValueString ( $_POST ['nafiliacionissste'], "text" ), GetSQLValueString ( $_POST ['oficinadepago'], "text" ), GetSQLValueString ( $_POST ['cartillaSMN'], "text" ), GetSQLValueString ( $_SESSION ['m_banco'], "text" ), GetSQLValueString ( $_POST ['trecurso'], "text" ), GetSQLValueString ( 1, "int" ) );
+				nacionalidad,
+				folio, 
+				sueldobase, 
+				activo) 
+				VALUES (
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s,
+				%s
+				)", 
+				GetSQLValueString ( $_POST ['paterno'], "text" ),
+				GetSQLValueString ( $_POST ['materno'], "text" ),
+				GetSQLValueString ( $_POST ['nombres'], "text" ),
+				GetSQLValueString ( $_POST ['calle'], "text" ),
+				GetSQLValueString ( $_POST ['numint'], "text" ),
+				GetSQLValueString ( $_POST ['numext'], "text" ),
+				GetSQLValueString ( $_POST ['colonia'], "text" ),
+				GetSQLValueString ( $_POST ['cp'], "text" ),
+				GetSQLValueString ( $_POST ['ciudad'], "text" ),
+				GetSQLValueString ( $_POST ['estado'], "text" ),
+				GetSQLValueString ( $_POST ['rfc_iniciales'], "text" ), 
+				GetSQLValueString ( $_POST ['rfc_fechanac'], "text" ), 
+				GetSQLValueString ( $_POST ['rfc_homoclave'], "text" ), 
+				GetSQLValueString ( $_POST ['curp'], "text" ), 
+				GetSQLValueString ( $fechaingr, "date" ),
+				GetSQLValueString ( $_POST ['nafiliacion'], "text" ),
+				GetSQLValueString ( $_POST ['salariofv'], "text" ),
+				GetSQLValueString ( $_POST ['contrato'], "text" ),
+				GetSQLValueString ( 1, "text" ),
+				GetSQLValueString ( $_POST ['nomina'], "text" ),
+				GetSQLValueString ( $_POST ['jornada'], "text" ),
+				GetSQLValueString ( $_POST ['de_hrs'], "text" ),
+				GetSQLValueString ( $_POST ['a_hrs'], "text" ),
+				GetSQLValueString ( $_POST ['formapago'], "text" ),
+				GetSQLValueString ( $_POST ['ncuenta'], "text" ),
+				GetSQLValueString ( $fechainicio, "date" ),
+				GetSQLValueString ( $_SESSION ['m_banco'], "text" ),
+				GetSQLValueString ( $fechanacimiento, "date" ),
+				GetSQLValueString ( $_POST ['sexo'], "text" ),
+				GetSQLValueString ( $_POST ['ecivil'], "text" ),
+				GetSQLValueString ( $_POST ['escolaridad'], "text" ),
+				GetSQLValueString ( $_POST ['nafiliacionissste'], "text" ),
+				GetSQLValueString ( $_POST ['oficinadepago'], "text" ),
+				GetSQLValueString ( $_POST ['cartillaSMN'], "text" ),
+				GetSQLValueString ( $_POST ['nacionalidad'], "text" ),
+				GetSQLValueString ( $_POST ['folio'], "text" ), 
+				GetSQLValueString ( $_POST ['sueldobase'], "double" ), 
+				GetSQLValueString ( 1, "int" ) );
+				
+				//GetSQLValueString ( $_POST ['clabe'], "text" ), 
+				//GetSQLValueString ( $_POST ['trecurso'], "text" ), 
+				
 		
 		mysql_select_db ( $database_conexion, $conexion );
 		$Result1 = mysql_query ( $insertSQL, $conexion ) or die ( mysql_error () );
@@ -318,7 +399,7 @@ function miseleccion(dato, obj)
 		</div>
 		<table class="tablagrid" border="0" cellpadding="0" cellspacing="0"
 			width="6471" style="padding-top: 32px;">
-  		<?php do { ?>
+  		<?php //do { ?>
     		<tr id="<? echo $row_empleados["idnominaemp"]; ?>"
 				class="message_box tablaregistros"
 				onClick="miseleccion('<?php echo $row_empleados['idnominaemp']; ?>', 'id_<?php echo $row_empleados['idnominaemp']; ?>')">
@@ -374,7 +455,7 @@ function miseleccion(dato, obj)
 				<td align="center"><?php echo $row_empleados['fechabaja']; ?></td>
 			</tr>
     <?php
-				} while ( $row_empleados = mysql_fetch_assoc ( $empleados ) );
+				//} while ( $row_empleados = mysql_fetch_assoc ( $empleados ) );
 				
 				?>
 </table>
@@ -385,5 +466,5 @@ function miseleccion(dato, obj)
 </body>
 </html>
 <?php
-mysql_free_result ( $empleados );
+//mysql_free_result ( $empleados );
 ?>
