@@ -76,11 +76,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   echo "</script>";
 }
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_empresas = "SELECT idempresa, razonsocial, titular, rfc, clavepatronal, calle, numeroint, numeroext, colonia, cp, ciudad, estado, urlcertificado, nocertificado, sello, upp, b.banco FROM empresa e left join bancos b on e.idbancos = b.idbancos";
-$empresas = mysql_query($query_empresas, $conexion) or die(mysql_error());
-$row_empresas = mysql_fetch_assoc($empresas);
-$totalRows_empresas = mysql_num_rows($empresas);
+$empresas = mysqli_query($conexion,$query_empresas) or die(mysql_error());
+$row_empresas = mysqli_fetch_assoc($empresas);
+$totalRows_empresas = mysqli_num_rows($empresas);
 ?>
 <!doctype html>
 <html>
@@ -126,10 +126,10 @@ $totalRows_empresas = mysql_num_rows($empresas);
       <td align="center"><?php echo $row_empresas['upp']; ?></td>
       <td align="center"><?php echo $row_empresas['banco']; ?></td>
     </tr>
-    <?php } while ($row_empresas = mysql_fetch_assoc($empresas)); ?>
+    <?php } while ($row_empresas = mysqli_fetch_assoc($empresas)); ?>
 </table>
 </body>
 </html>
 <?php
-mysql_free_result($empresas);
+mysqli_free_result($empresas);
 ?>

@@ -1,6 +1,6 @@
 <?
 include ("Connections/conexion.php");
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 
 if (isset($_POST[idcategoria])) {
 	$sql = "SELECT idcategoria, nivel, clave, descripcion, (sueldobase+hom) as sueldobase FROM cat_categoria where idcategoria = '$_POST[idcategoria]'";
@@ -9,8 +9,8 @@ if (isset($_POST[idcategoria])) {
 <script>
 /*alert(<//?php echo $sql?>)*/</script>
 <?
-$res = mysql_query($sql, $conexion);
-$ren = mysql_fetch_array($res);
+$res = mysqli_query($conexion,$sql);
+$ren = mysqli_fetch_array($res);
 ?>
 <!doctype html>
 <html>

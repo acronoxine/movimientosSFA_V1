@@ -1,14 +1,15 @@
 ﻿<?
 session_start();
 include("Connections/conexion.php");
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
+//print_r($conexion);
 
 $usuario = $_POST["usuario"];
 $password = $_POST["password"];
 
 $sql = "Select * from usuarios where usuario = '$usuario'";
 
-if(!$res = mysql_query($sql, $conexion))
+if(!$res = mysqli_query($conexion,$sql))
 {
    echo "<SCRIPT language = 'javascript'>";
    echo "alert('Imposible consultar el usuario indicado');";
@@ -16,7 +17,7 @@ if(!$res = mysql_query($sql, $conexion))
    exit(1);
 }
 
-if(mysql_num_rows($res) == 0)
+if(mysqli_num_rows($res) == 0)
 {
    echo "<SCRIPT language = 'javascript'>";
    echo "alert('Su nombre de usuario no esta registrado o es incorrecto!');";
@@ -25,7 +26,7 @@ if(mysql_num_rows($res) == 0)
    exit(1);
 }
 
-$ren = mysql_fetch_array($res);
+$ren = mysqli_fetch_array($res);
 
 $_SESSION["m_sesion"] = 0;
 
@@ -38,12 +39,13 @@ if(trim($ren["clave"]) == trim($password))
      $_SESSION["m_permisos"] = $ren["derechos"];
 	 
 	 $sql = "Select idbancos from empresa where idempresa = '$ren[idempresa]'";
-	 $res = mysql_query($sql, $conexion);
-	 $ren = mysql_fetch_array($res);
+	 $res = mysqli_query($conexion,$sql);
+	 $ren = mysqli_fetch_array($res);
+
 	 
 	 $_SESSION["m_banco"] = $ren["idbancos"];
 	 
-	 mysql_free_result($res);
+	 mysqli_free_result($res);
      
 
      echo "<SCRIPT language = 'javascript'>";

@@ -17,7 +17,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+  $theValue = function_exists("mysql_real_escape_string") ? mysqli_real_escape_string($theValue) : mysql_escape_string($theValue);
 
   switch ($theType) {
     case "text":
@@ -48,8 +48,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString(strtoupper($_POST['descripcion']), "text"),
 					   GetSQLValueString(strtoupper($_POST['titular']), "text"));
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($insertSQL, $conexion) or die(mysql_error());
+  //mysqli_select_db($database_conexion, $conexion);
+  $Result1 = mysqli_query($conexion,$insertSQL) or die(mysqli_error());
   
   echo "<script>";
   echo "parent.document.form1.reset();";
@@ -61,15 +61,15 @@ if ((isset($_GET['idarea'])) && ($_GET['idarea'] != "")) {
   $deleteSQL = sprintf("DELETE FROM cat_area WHERE idarea=%s",
                        GetSQLValueString($_GET['idarea'], "int"));
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($deleteSQL, $conexion) or die(mysql_error());
+  //mysql_select_db($database_conexion, $conexion);
+  $Result1 = mysql_query($conexion,$deleteSQL) or die(mysqli_error());
 }
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_areas = "SELECT * FROM cat_area";
-$areas = mysql_query($query_areas, $conexion) or die(mysql_error());
-$row_areas = mysql_fetch_assoc($areas);
-$totalRows_areas = mysql_num_rows($areas);
+$areas = mysqli_query($conexion,$query_areas) or die(mysqli_error());
+$row_areas = mysqli_fetch_assoc($areas);
+$totalRows_areas = mysqli_num_rows($areas);
 ?>
 <!doctype html>
 <html>
@@ -134,10 +134,10 @@ $totalRows_areas = mysql_num_rows($areas);
       <td width="250"><?php echo $row_areas['descripcion']; ?></td>
       <td><?php echo $row_areas['titular']; ?></td>
     </tr>
-    <?php } while ($row_areas = mysql_fetch_assoc($areas)); ?>
+    <?php } while ($row_areas = mysqli_fetch_assoc($areas)); ?>
 </table>
 </body>
 </html>
 <?php
-mysql_free_result($areas);
+mysqli_free_result($areas);
 ?>

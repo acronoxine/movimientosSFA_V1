@@ -54,8 +54,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 					   GetSQLValueString(strtoupper($_POST['nivel']), "text"),
 					   GetSQLValueString(strtoupper($_POST['sueldobase']), "text"));
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($insertSQL, $conexion) or die(mysql_error());
+  //mysql_select_db($database_conexion, $conexion);
+  $Result1 = mysqli_query($conexion,$insertSQL) or die(mysqli_error());
   
   echo "<script>";
   echo "parent.document.form1.reset();";
@@ -67,11 +67,11 @@ if ((isset($_GET['idcategoria'])) && ($_GET['idcategoria'] != "")) {
   $deleteSQL = sprintf("DELETE FROM cat_categoria WHERE idcategoria=%s",
                        GetSQLValueString($_GET['idcategoria'], "int"));
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($deleteSQL, $conexion) or die(mysql_error());
+  //mysql_select_db($database_conexion, $conexion);
+  $Result1 = mysqli_query($conexion,$deleteSQL) or die(mysqli_error());
 }
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_areas = "SELECT * FROM cat_categoria";
 
 if(isset($_GET["consulta"]))
@@ -80,9 +80,9 @@ if(isset($_GET["consulta"]))
 }
 
 
-$areas = mysql_query($query_areas, $conexion) or die(mysql_error());
-$row_areas = mysql_fetch_assoc($areas);
-$totalRows_areas = mysql_num_rows($areas);
+$areas = mysqli_query($conexion,$query_areas) or die(mysqli_error());
+$row_areas = mysqli_fetch_assoc($areas);
+$totalRows_areas = mysqli_num_rows($areas);
 ?>
 <!doctype html>
 <html>
@@ -149,10 +149,10 @@ $totalRows_areas = mysql_num_rows($areas);
       <td align="right"><?php echo number_format($row_areas['sueldobase'], 2, ".", ","); ?></td>
       <td align="right"><?php echo number_format($row_areas['hom'], 2, ".", ","); ?></td>
     </tr>
-    <?php } while ($row_areas = mysql_fetch_assoc($areas)); ?>
+    <?php } while ($row_areas = mysqli_fetch_assoc($areas)); ?>
 </table>
 </body>
 </html>
 <?php
-mysql_free_result($areas);
+mysqli_free_result($areas);
 ?>

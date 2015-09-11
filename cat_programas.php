@@ -8,10 +8,10 @@ if($_SESSION["m_sesion"] != 1)
 	exit();
 }
 require_once('Connections/conexion.php'); 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_area = "SELECT * FROM cat_area";
-$res_area=mysql_query($query_area,$conexion);
-$row_area=mysql_fetch_array($res_area);
+$res_area=mysqli_query($conexion,$query_area);
+$row_area=mysqli_fetch_array($res_area);
 ?>
 <!doctype html>
 <html>
@@ -97,7 +97,7 @@ do {
 ?>
                   <option value="<?php echo $row_area['idarea']?>" ><?php echo $row_area['descripcion']?></option>
                   <?php
-} while ($row_area = mysql_fetch_array($res_area));
+} while ($row_area = mysqli_fetch_array($res_area));
 ?>
                 </select>
                 </td>

@@ -17,7 +17,7 @@ if (! function_exists ( "GetSQLValueString" )) {
 			$theValue = get_magic_quotes_gpc () ? stripslashes ( $theValue ) : $theValue;
 		}
 		
-		$theValue = function_exists ( "mysql_real_escape_string" ) ? mysql_real_escape_string ( $theValue ) : mysql_escape_string ( $theValue );
+		$theValue = function_exists ( "mysql_real_escape_string" ) ? mysqli_real_escape_string ( $theValue ) : mysql_escape_string ( $theValue );
 		
 		switch ($theType) {
 			case "text" :
@@ -44,31 +44,31 @@ if (! function_exists ( "GetSQLValueString" )) {
 if ((isset ( $_GET ['idprograma'] )) && ($_GET ['idprograma'] != "")) {
 	$deleteSQL = sprintf ( "DELETE FROM cat_programa WHERE idprograma=%s", GetSQLValueString ( $_GET ['idprograma'], "int" ) );
 	
-	mysql_select_db ( $database_conexion, $conexion );
-	$Result1 = mysql_query ( $deleteSQL, $conexion ) or die ( mysql_error () );
+	//mysql_select_db ( $database_conexion, $conexion );
+	$Result1 = mysqli_query ( $conexion,$deleteSQL ) or die ( mysqli_error () );
 }
 
 if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 	$insertSQL = sprintf ( "INSERT INTO cat_programa (clave, descripcion,idarea) VALUES (%s, %s, %s)", GetSQLValueString ( $_POST ['clave'], "text" ), GetSQLValueString ( strtoupper ( $_POST ['descripcion'] ), "text" ), GetSQLValueString ( strtoupper ( $_POST ['ur'] ), "int" ) );
 	
-	mysql_select_db ( $database_conexion, $conexion );
-	$Result1 = mysql_query ( $insertSQL, $conexion ) or die ( mysql_error () );
+	//mysql_select_db ( $database_conexion, $conexion );
+	$Result1 = mysqli_query ( $conexion,$insertSQL ) or die ( mysqli_error () );
 	
 	echo "<script>";
 	echo "parent.document.form1.reset();";
 	echo "</script>";
 }
 
-mysql_select_db ( $database_conexion, $conexion );
+//mysql_select_db ( $database_conexion, $conexion );
 $query_programas = "SELECT a.clave as area_clave,p.idprograma,p.idarea,p.descripcion,p.clave FROM cat_programa p inner join cat_area a on a.idarea=p.idarea ";
 
 if (isset ( $_GET ["consulta"] )) {
 	$query_programas .= " where p.descripcion like '%$_GET[consulta]%'";
 }
 
-$programas = mysql_query ( $query_programas, $conexion ) or die ( mysql_error () );
-$row_programas = mysql_fetch_assoc ( $programas );
-$totalRows_programas = mysql_num_rows ( $programas );
+$programas = mysqli_query ( $conexion,$query_programas ) or die ( mysqli_error () );
+$row_programas = mysqli_fetch_assoc ( $programas );
+$totalRows_programas = mysqli_num_rows ( $programas );
 ?>
 <!doctype html>
 <html>
@@ -140,10 +140,10 @@ $totalRows_programas = mysql_num_rows ( $programas );
 			<td width="100" align="center"><?php echo $row_programas['clave']; ?></td>
 			<td><?php echo $row_programas['descripcion']; ?></td>
 		</tr>
-    <?php } while ($row_programas = mysql_fetch_assoc($programas)); ?>
+    <?php } while ($row_programas = mysqli_fetch_assoc($programas)); ?>
 </table>
 </body>
 </html>
 <?php
-mysql_free_result ( $programas);
+mysqli_free_result ( $programas);
 ?>

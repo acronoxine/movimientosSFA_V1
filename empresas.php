@@ -41,11 +41,11 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 }
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_bancos = "SELECT * FROM bancos";
-$bancos = mysql_query($query_bancos, $conexion) or die(mysql_error());
-$row_bancos = mysql_fetch_assoc($bancos);
-$totalRows_bancos = mysql_num_rows($bancos);
+$bancos = mysqli_query( $conexion,$query_bancos) or die(mysql_error());
+$row_bancos = mysqli_fetch_assoc($bancos);
+$totalRows_bancos = mysqli_num_rows($bancos);
 ?>
 <!doctype html>
 <html>
@@ -259,7 +259,7 @@ do {
 ?>
                   <option value="<?php echo $row_bancos['idbancos']?>" ><?php echo $row_bancos['banco']?></option>
                   <?php
-} while ($row_bancos = mysql_fetch_assoc($bancos));
+} while ($row_bancos = mysqli_fetch_assoc($bancos));
 ?>
                 </select></td>
             </table>
@@ -285,5 +285,5 @@ do {
 </body>
 </html>
 <?php
-mysql_free_result($bancos);
+mysqli_free_result($bancos);
 ?>

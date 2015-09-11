@@ -17,7 +17,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+  $theValue = function_exists("mysql_real_escape_string") ? mysqli_real_escape_string($theValue) : mysql_escape_string($theValue);
 
   switch ($theType) {
     case "text":
@@ -45,8 +45,8 @@ if ((isset($_GET['idconceptos'])) && ($_GET['idconceptos'] != "")) {
   $deleteSQL = sprintf("DELETE FROM cat_conceptos WHERE idconceptos=%s",
                        GetSQLValueString($_GET['idconceptos'], "int"));
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($deleteSQL, $conexion) or die(mysql_error());
+  //mysql_select_db($database_conexion, $conexion);
+  $Result1 = mysqli_query($deleteSQL, $conexion) or die(mysqli_error());
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
@@ -78,15 +78,15 @@ if(!isset($_POST["porcentaje"]))
 					   GetSQLValueString($_POST['_activa'], "text"),
                        GetSQLValueString($_POST['tipo'], "text"));
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($insertSQL, $conexion) or die(mysql_error());
+  //mysql_select_db($database_conexion, $conexion);
+  $Result1 = mysqli_query($conexion,$insertSQL) or die(mysqli_error());
   
   echo "<script>";
   echo "parent.document.form1.reset();";
   echo "</script>";
 }
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_conceptos = "SELECT idconceptos, clave, descripcion, case when afectacion = 'G' then 'GENERAL' else 'INDIVIDUAL' end as afectacion, importe, dias, porcentaje, case when uso = 'IMP' then 'IMPORTE' when uso = 'DIA' then 'DÍAS' when uso = 'POR' then 'PORCENTAJE' else 'NINGUNO' end as uso, case when tipo = 'P' then 'PERCEPCIÓN' else 'DEDUCCIÓN' end as tipo FROM cat_conceptos where ver = 'SI'";
 
 if(isset($_GET["consulta"]))
@@ -96,9 +96,9 @@ if(isset($_GET["consulta"]))
 
 $query_conceptos .= " order by descripcion, tipo";
 
-$conceptos = mysql_query($query_conceptos, $conexion) or die(mysql_error());
-$row_conceptos = mysql_fetch_assoc($conceptos);
-$totalRows_conceptos = mysql_num_rows($conceptos);
+$conceptos = mysqli_query($conexion,$query_conceptos) or die(mysqli_error());
+$row_conceptos = mysqli_fetch_assoc($conceptos);
+$totalRows_conceptos = mysqli_num_rows($conceptos);
 ?>
 <!doctype html>
 <html>
@@ -173,10 +173,10 @@ $totalRows_conceptos = mysql_num_rows($conceptos);
       <td width="87" align="center"><?php echo $row_conceptos['uso']; ?></td>
       <td align="center"><?php echo $row_conceptos['tipo']; ?></td>
     </tr>
-    <?php } while ($row_conceptos = mysql_fetch_assoc($conceptos)); ?>
+    <?php } while ($row_conceptos = mysqli_fetch_assoc($conceptos)); ?>
 </table>
 </body>
 </html>
 <?php
-mysql_free_result($conceptos);
+mysqli_free_result($conceptos);
 ?>

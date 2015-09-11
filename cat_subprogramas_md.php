@@ -17,7 +17,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+  $theValue = function_exists("mysql_real_escape_string") ? mysqli_real_escape_string($theValue) : mysql_escape_string($theValue);
 
   switch ($theType) {
     case "text":
@@ -53,8 +53,8 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 					   GetSQLValueString($_POST['programa'], "text"),
                        GetSQLValueString($_POST['idsubprograma'], "int"));
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($updateSQL, $conexion) or die(mysql_error());
+  //mysql_select_db($database_conexion, $conexion);
+  $Result1 = mysqli_query($conexion,$updateSQL) or die(mysqli_error());
 
   $updateGoTo = "cat_subprogramas.php";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -68,17 +68,17 @@ $colname_subprogramas = "-1";
 if (isset($_GET['idsubprograma'])) {
   $colname_subprogramas = $_GET['idsubprograma'];
 }
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_subprogramas = sprintf("SELECT * FROM cat_subprograma WHERE idsubprograma = %s", GetSQLValueString($colname_subprogramas, "int"));
-$subprogramas = mysql_query($query_subprogramas, $conexion) or die(mysql_error());
-$row_subprogramas = mysql_fetch_assoc($subprogramas);
-$totalRows_subprogramas = mysql_num_rows($subprogramas);
+$subprogramas = mysqli_query($conexion,$query_subprogramas) or die(mysqli_error());
+$row_subprogramas = mysqli_fetch_assoc($subprogramas);
+$totalRows_subprogramas = mysqli_num_rows($subprogramas);
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_programa = "SELECT * FROM cat_programa";
-$programa = mysql_query($query_programa, $conexion) or die(mysql_error());
-$row_programa = mysql_fetch_assoc($programa);
-$totalRows_programa = mysql_num_rows($programa);
+$programa = mysqli_query($query_programa, $conexion) or die(mysqli_error());
+$row_programa = mysqli_fetch_assoc($programa);
+$totalRows_programa = mysqli_num_rows($programa);
 ?>
 <!doctype html>
 <html>
@@ -152,7 +152,7 @@ do {
 ?>
                   <option value="<?php echo $row_programa['idprograma']?>" <?php if (!(strcmp($row_programa['idprograma'], htmlentities($row_subprogramas['idprograma'], ENT_COMPAT, 'iso-8859-1')))) {echo "SELECTED";} ?>><?php echo $row_programa['descripcion']?></option>
                   <?php
-} while ($row_programa = mysql_fetch_assoc($programa));
+} while ($row_programa = mysqli_fetch_assoc($programa));
 ?>
                 </select></td>
               <tr>
@@ -174,7 +174,7 @@ do {
 </body>
 </html>
 <?php
-mysql_free_result($subprogramas);
+mysqli_free_result($subprogramas);
 
-mysql_free_result($programa);
+mysqli_free_result($programa);
 ?>

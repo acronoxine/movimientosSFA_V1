@@ -7,7 +7,7 @@ if (! function_exists ( "GetSQLValueString" )) {
 			$theValue = get_magic_quotes_gpc () ? stripslashes ( $theValue ) : $theValue;
 		}
 		
-		$theValue = function_exists ( "mysql_real_escape_string" ) ? mysql_real_escape_string ( $theValue ) : mysql_escape_string ( $theValue );
+		$theValue = function_exists ( "mysql_real_escape_string" ) ? mysqli_real_escape_string ( $theValue ) : mysql_escape_string ( $theValue );
 		
 		switch ($theType) {
 			case "text" :
@@ -34,24 +34,24 @@ if (! function_exists ( "GetSQLValueString" )) {
 if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 	$insertSQL = sprintf ( "INSERT INTO cat_plazas (plaza_clave,subprograma,categoria) VALUES (%s, %s, %s)", GetSQLValueString ( $_POST ['clave'], "text" ), GetSQLValueString ( $_POST ['subprograma'], "int" ), GetSQLValueString ( $_POST ['categoria'], "int" ) );
 	
-	mysql_select_db ( $database_conexion, $conexion );
-	$Result1 = mysql_query ( $insertSQL, $conexion ) or die ( mysql_error () );
+	//mysql_select_db ( $database_conexion, $conexion );
+	$Result1 = mysqli_query ( $conexion,$insertSQL ) or die ( mysqli_error () );
 	$select = "SELECT MAX(plaza_id) as maximo FROM cat_plazas";
-	$res_mi = mysql_query ( $select, $conexion );
-	$ren_mi = mysql_fetch_array ( $res_mi );
+	$res_mi = mysqli_query ( $conexion,$select );
+	$ren_mi = mysqli_fetch_array ( $res_mi );
 	$maximo_id = $ren_mi ['maximo'];
 	$insertSQL = sprintf ( "INSERT INTO empleado_plaza (idnominaemp,plaza_id,estado) values ('0','$maximo_id','VACANTE')" );
-	$Result1 = mysql_query ( $insertSQL, $conexion ) or die ( mysql_error () );
+	$Result1 = mysqli_query ( $conexion,$insertSQL ) or die ( mysqli_error () );
 }
 
 if ((isset ( $_GET ['idplaza'] )) && ($_GET ['idplaza'] != "")) {
 	$deleteSQL = sprintf ( "UPDATE empleado_plaza set estado='INACTIVO' WHERE plaza_id=%s", GetSQLValueString ( $_GET ['idplaza'], "int" ) );
 	
-	mysql_select_db ( $database_conexion, $conexion );
-	$Result1 = mysql_query ( $deleteSQL, $conexion ) or die ( mysql_error () );
+	//mysql_select_db ( $database_conexion, $conexion );
+	$Result1 = mysqli_query ( $conexion,$deleteSQL ) or die ( mysqli_error () );
 }
 
-mysql_select_db ( $database_conexion, $conexion );
+//mysql_select_db ( $database_conexion, $conexion );
 
  $query_plazas = "SELECT 
     CONCAT(nemp.paterno,
@@ -62,6 +62,7 @@ mysql_select_db ( $database_conexion, $conexion );
     ep.estado AS plaza_estado,
     ep.fecha_inicial,
     ep.fecha_final,
+	a.clave AS ur_clave,
     a.descripcion AS ur_desc,
     pr.clave AS prog_clave,
     pz.plaza_id AS plaza_id,
@@ -69,6 +70,7 @@ mysql_select_db ( $database_conexion, $conexion );
     pz.titular,
     sp.idsubprograma AS subp_id,
     sp.descripcion AS subp_descripcion,
+	ct.clave AS cat_clave,
     ct.descripcion AS cat_descripcion,
     ct.clave
 FROM
@@ -88,8 +90,14 @@ FROM
 
 if(isset($_GET["consultap"]) and !isset($_GET["fecha"]) and $_GET["consultap"]!=-1)
 {
-	$query_plazas .= " where (pz.plaza_clave like '%$_GET[consultap]%' and ep.estado like '%$_GET[consulta]%') OR (ct.descripcion like '%$_GET[consultap]%' and ep.estado like '%$_GET[consulta]%') 
-	OR (sp.descripcion like '%$_GET[consultap]%' and ep.estado like '%$_GET[consulta]%') OR (nemp.paterno like '%$_GET[consultap]%' and ep.estado like '%$_GET[consulta]%')";
+	/*$query_plazas .= " where (pz.plaza_clave like '%$_GET[consultap]%' and ep.estado like '%$_GET[consulta]%') 
+	OR (ct.descripcion like '%$_GET[consultap]%' and ep.estado like '%$_GET[consulta]%') 
+	OR (sp.descripcion like '%$_GET[consultap]%' and ep.estado like '%$_GET[consulta]%')
+	OR (nemp.paterno like '%$_GET[consultap]%' and ep.estado like '%$_GET[consulta]%')";*/
+	$query_plazas .= " where (pz.plaza_clave like '%$_GET[consultap]%')
+	OR (ct.descripcion like '%$_GET[consultap]%')
+	OR (sp.descripcion like '%$_GET[consultap]%')
+	OR (nemp.paterno like '%$_GET[consultap]%')";
 }
 else if(isset($_GET["fecha"]))
 {
@@ -99,10 +107,9 @@ else if($_GET["consultap"]==-1){}
 else{
 	$query_plazas .=" LIMIT 0,50";
 }
-// echo $query_plazas;
-$plazas = mysql_query ( $query_plazas, $conexion ) or die ( mysql_error () );
-$row_plazas = mysql_fetch_assoc ( $plazas );
-$totalRows_plazas = mysql_num_rows ( $plazas );
+$plazas = mysqli_query ( $conexion,$query_plazas ) or die ( mysqli_error () );
+$row_plazas = mysqli_fetch_assoc ( $plazas );
+$totalRows_plazas = mysqli_num_rows ( $plazas );
 ?>
 <!doctype html>
 <html>
@@ -178,11 +185,11 @@ $totalRows_plazas = mysql_num_rows ( $plazas );
 			<td width="25" align="center"><?php echo $cont;$cont++;?></td>
 			<td width="25"><a target="_top"
 				href="cat_plazas_md.php?idplaza=<?php echo $row_plazas['plaza_id']; ?>
-				&clave=<?php echo $row_plazas['plaza_clave']; ?>
-				&ur=<?php echo $row_plazas['ur_desc']; ?>
+				&claveref=<?php echo $row_plazas['plaza_clave']; ?>
+				&ur=<?php echo $row_plazas['ur_clave']; ?>
 				&programa=<?php echo $row_plazas['prog_clave']; ?>
 				&subprograma=<?php echo $row_plazas['subp_descripcion']; ?>
-				&categoria=<?php echo $row_plazas['cat_descripcion']; ?>
+				&categoria=<?php echo $row_plazas['cat_clave']; ?>
 				"><img
 					src="imagenes/editar.png" width="20" height="20"></a></td>
 			<td width="50" align="center"><?php echo $row_plazas['plaza_clave']; ?></td>
@@ -204,8 +211,8 @@ $totalRows_plazas = mysql_num_rows ( $plazas );
       </td>
 		</tr>
     <?php
-		} while ( $row_plazas = mysql_fetch_assoc ( $plazas ) );
-		$numeroEntradas = mysql_num_rows ( $plazas );
+		} while ( $row_plazas = mysqli_fetch_assoc ( $plazas ) );
+		$numeroEntradas = mysqli_num_rows ( $plazas );
 		?>
 </table>
 	<script>
@@ -215,5 +222,5 @@ $totalRows_plazas = mysql_num_rows ( $plazas );
 </body>
 </html>
 <?php
-mysql_free_result ( $plazas );
+mysqli_free_result ( $plazas );
 ?>

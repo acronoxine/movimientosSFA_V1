@@ -6,5 +6,5 @@ $hostname_conexion = "localhost";
 $database_conexion = "movimientos";
 $username_conexion = "movimientos";
 $password_conexion = "sWTX/.9LQA2Jw";
-$conexion = mysql_pconnect($hostname_conexion, $username_conexion, $password_conexion) or trigger_error(mysql_error(),E_USER_ERROR); 
+$conexion = mysqli_connect($hostname_conexion, $username_conexion, $password_conexion, $database_conexion) or trigger_error(mysql_error(),E_USER_ERROR); 
 ?>

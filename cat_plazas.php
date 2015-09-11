@@ -7,7 +7,7 @@ if ($_SESSION ["m_sesion"] != 1) {
 	exit ();
 }
 require_once ('Connections/conexion.php');
-mysql_select_db ( $database_conexion, $conexion );
+//mysql_select_db ( $database_conexion, $conexion );
 
 /*$query_programa = "SELECT * FROM cat_programa"; // ------------ Catalogo de Programas
 $res_prog = mysql_query ( $query_programa, $conexion );
@@ -16,9 +16,9 @@ $res_subpy = mysql_query ( $query_subpy, $conexion );
 mysql_select_db ( $database_conexion, $conexion );
 */
 $query_categorias = "SELECT idcategoria, nivel, clave, descripcion, (sueldobase+hom) as sueldobase FROM cat_categoria order by descripcion"; // ------------ Catalogo de Categorias
-$categorias = mysql_query ( $query_categorias, $conexion ) or die ( mysql_error () );
-$row_categorias = mysql_fetch_assoc ( $categorias );
-$totalRows_categorias = mysql_num_rows ( $categorias );
+$categorias = mysqli_query ( $conexion,$query_categorias ) or die ( mysqli_error () );
+$row_categorias = mysqli_fetch_assoc ( $categorias );
+$totalRows_categorias = mysqli_num_rows ( $categorias );
 ?>
 <!doctype html>
 <html>
@@ -34,7 +34,8 @@ $totalRows_categorias = mysql_num_rows ( $categorias );
 	href="controles_jquery/css/overcast/jquery-ui-1.10.3.custom.css">
 <link rel="stylesheet" type="text/css"
 	href="controles_jquery/js/jquery.fancybox.css">
-<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<!--<script src="https://code.jquery.com/jquery-1.10.2.js"></script>-->
+<script src="controles_jquery/js/jquery-1.9.1.js"></script>
 <script src="controles_jquery/js/jquery-ui-1.10.3.custom.js"></script>
 <script src="controles_jquery/js/jquery.fancybox.js"></script>
 <title>Sistema de Movimientos</title>
@@ -103,15 +104,12 @@ function solonumeros(form, e)
 function busca(dato,dato2)
 {
 	var boton=document.getElementById('r1');
-	alert(dato2.value);
 	boton.checked=false;
-	//parent.lista.document.location.replace('cat_plazas_lista.php?consultap='+dato2.value+'&consulta='+dato);
-	parent.lista.document.location.replace('iframe-vacantes.php?consultap='+dato2.value+'&consulta='+dato);
+	parent.lista.document.location.replace('cat_plazas_lista.php?consultap='+dato2.value+'&consulta='+dato);
 	
 }
 function busca(sql){
 	var boton=document.getElementById('consultap');
-	//alert(boton.value);
 	boton.checked=false;
 	parent.lista.document.location.replace('cat_plazas_lista.php?consultap='+boton.value);
 }
@@ -198,49 +196,29 @@ function cargasueldo(idcategoria)
  * Made by Jose Luis Zirangua Mejia
  */
 	function get_programas(){
-		var ur = $( "#getUR" ).val();
-			$.ajax({
+			jQuery.ajax({
 			      type		: "POST",
 			      dataType	: "json",
 			      url		: "ajax_programas.php", //Relative or absolute path to response.php file
-			      data		: {id_ur : ur },
 			      success	: function(data) {
-			        /*$(".the-return").html(
-			          "Favorite beverage: " + data["favorite_beverage"] + "<br />Favorite restaurant: " + data["favorite_restaurant"] + "<br />Gender: " + data["gender"] + "<br />JSON: " + data["json"]
-			        );*/
-			        //alert("Form submitted successfully.\nReturned json: " + data["2"]);
-				        if(ur != 0){
-							$( "#programas" ).empty();
-							$( "#subprogramas" ).empty();
-								jQuery.each(data,function(i,val){
-									$( "#programas" ).append("<option value="+val+">"+ val +"</option>");
-								});
-				        }
-						else{
-							$( "#programas" ).empty();
-							$( "#programas" ).append('<option value="0">Seleccione</option>');
-						}
-			      }
-			    });
+						jQuery.each(data,function(i,val){
+							jQuery( "#programas" ).append("<option value="+val['idprograma']+">"+ val['clave'] +"</option>");
+						});
+				        
+			    }
+			});
 	}
 	function get_subprogramas(){
-			var programa = $( "#programas" ).val();
-			$.ajax({
+			var programa = jQuery( "#programas" ).val();
+			jQuery.ajax({
 				type		: "POST",
 				dataType	: "json",
 				url 		: "jQuery_suprogramas.php",
 				data		: {id_programa: programa},
 				success		: function (data) {
-					if(programa != 0){
-						$( "#subprogramas" ).empty();
 						jQuery.each(data,function(i,val){
-							$( "#subprogramas" ).append("<option value="+val+">"+ val +"</option>");
+							jQuery( "#subprogramas" ).append("<option value="+val['idsubprograma']+">"+ val['clave'] +"</option>");
 						});
-				}
-				else{
-						$( "#subprogramas" ).empty();
-						$( "#subprogramas" ).append('<option value="0">Seleccione</option>');
-					}
 				}
 			});		
 	}
@@ -252,6 +230,7 @@ function cargasueldo(idcategoria)
  * Script Finished
  */
 	function save_plaza(){
+		var status;
 		var plaza_clave = jQuery( "#plaza_clave ").val();
 		var ur = $( "#getUR" ).val();
 		var programa = $( "#programas" ).val();
@@ -270,10 +249,9 @@ function cargasueldo(idcategoria)
 								categoria	:	categoria
 								},
 				success		: function (data) {
-					
-					jQuery.each(data,function(i,val){
-						alert("Operacion Exitosa!"+val);
-					});
+						alert(data['status']);					
+					/*jQuery.each(data,function(i,val){
+					});*/
 				}
 			});
 		}
@@ -361,7 +339,7 @@ function cargasueldo(idcategoria)
                   			<option
 										value="<?php echo $row_categorias['idcategoria']; ?>"><?php echo $row_categorias['clave'], " ", $row_categorias['descripcion']?></option>
                   				<?php
-																		} while ( $row_categorias = mysql_fetch_assoc ( $categorias ) );
+																		} while ( $row_categorias = mysqli_fetch_assoc ( $categorias ) );
 																		?>
                 			</select><label class="label">*</label></td>
 

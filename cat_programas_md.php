@@ -17,7 +17,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+  $theValue = function_exists("mysql_real_escape_string") ? mysqli_real_escape_string($theValue) : mysql_escape_string($theValue);
 
   switch ($theType) {
     case "text":
@@ -54,8 +54,8 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 					   GetSQLValueString($_POST['idprograma'], "int")
 					   );
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($updateSQL, $conexion) or die(mysql_error());
+  //mysql_select_db($database_conexion, $conexion);
+  $Result1 = mysqli_query($updateSQL, $conexion) or die(mysqli_error());
 
   $updateGoTo = "cat_programas.php";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -69,11 +69,11 @@ $colname_programas = "-1";
 if (isset($_GET['idprograma'])) {
   $colname_programas = $_GET['idprograma'];
 }
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_programas = sprintf("SELECT p.descripcion,p.clave,p.idprograma,p.idarea,a.clave as clave_area FROM cat_programa p INNER JOIN cat_area a on a.idarea=p.idarea WHERE idprograma = %s", GetSQLValueString($colname_programas, "int"));
-$programas = mysql_query($query_programas, $conexion) or die(mysql_error());
-$row_programas = mysql_fetch_assoc($programas);
-$totalRows_programas = mysql_num_rows($programas);
+$programas = mysqli_query($conexion,$query_programas) or die(mysqli_error());
+$row_programas = mysqli_fetch_assoc($programas);
+$totalRows_programas = mysqli_num_rows($programas);
 ?>
 <!doctype html>
 <html>
@@ -166,5 +166,5 @@ function solonumeros(form, e)
 </body>
 </html>
 <?php
-mysql_free_result($programas);
+mysqli_free_result($programas);
 ?>

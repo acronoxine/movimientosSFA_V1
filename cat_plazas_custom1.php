@@ -7,19 +7,19 @@ if ($_SESSION ["m_sesion"] != 1) {
 	exit ();
 }
 require_once ('Connections/conexion.php');
-mysql_select_db ( $database_conexion, $conexion );
+//mysql_select_db ( $database_conexion, $conexion );
 $query_programa = "SELECT * FROM cat_programa";
 // ------------ Catalogo de Programas
-$res_prog = mysql_query ( $query_programa, $conexion );
+$res_prog = mysqli_query ( $conexion,$query_programa );
 $query_subpy = "SELECT * FROM cat_proyecto";
 // ------------ Catalaogo de Subprogramas
 $res_subpy = mysql_query ( $query_subpy, $conexion );
-mysql_select_db ( $database_conexion, $conexion );
+//mysql_select_db ( $database_conexion, $conexion );
 $query_categorias = "SELECT idcategoria, nivel, clave, descripcion, (sueldobase+hom) as sueldobase FROM cat_categoria order by descripcion";
 // ------------ Catalogo de Categorias
-$categorias = mysql_query ( $query_categorias, $conexion ) or die ( mysql_error () );
-$row_categorias = mysql_fetch_assoc ( $categorias );
-$totalRows_categorias = mysql_num_rows ( $categorias );
+$categorias = mysqli_query ( $conexion,$query_categorias ) or die ( mysql_error () );
+$row_categorias = mysqli_fetch_assoc ( $categorias );
+$totalRows_categorias = mysqli_num_rows ( $categorias );
 ?>
 <!doctype html>
 <html>
@@ -229,7 +229,7 @@ $totalRows_categorias = mysql_num_rows ( $categorias );
                   			<option
 										value="<?php echo $row_prog['idprograma']?>"><?php echo $row_prog['descripcion']?></option>
                   			<?php
-																					} while ( $row_prog = mysql_fetch_assoc ( $res_prog ) );
+																					} while ( $row_prog = mysqli_fetch_assoc ( $res_prog ) );
 																					?>
                 	</select></td>
                 	</tr>
@@ -247,7 +247,7 @@ $totalRows_categorias = mysql_num_rows ( $categorias );
                   			<option
 										value="<?php echo $row_prog['idprograma']?>"><?php echo $row_prog['descripcion']?></option>
                   			<?php
-																					} while ( $row_prog = mysql_fetch_assoc ( $res_prog ) );
+																					} while ( $row_prog = mysqli_fetch_assoc ( $res_prog ) );
 																					?>
                 	</select></td>
 									
@@ -268,7 +268,7 @@ $totalRows_categorias = mysql_num_rows ( $categorias );
                   <option value="<?php echo $row_categorias['idcategoria']; ?>"><?php echo $row_categorias['clave'], " ", $row_categorias['descripcion']?>
                   </option>
                   <?php
-					} while ( $row_categorias = mysql_fetch_assoc ( $categorias ) );
+					} while ( $row_categorias = mysqli_fetch_assoc ( $categorias ) );
 				  ?>
                 </select><label class="label">*</label></td>
                 

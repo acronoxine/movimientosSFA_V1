@@ -17,7 +17,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+  $theValue = function_exists("mysql_real_escape_string") ? mysqli_real_escape_string($theValue) : mysql_escape_string($theValue);
 
   switch ($theType) {
     case "text":
@@ -41,11 +41,11 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 }
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_programa = "SELECT * FROM cat_programa";
-$programa = mysql_query($query_programa, $conexion) or die(mysql_error());
-$row_programa = mysql_fetch_assoc($programa);
-$totalRows_programa = mysql_num_rows($programa);
+$programa = mysqli_query($conexion,$query_programa) or die(mysqli_error());
+$row_programa = mysqli_fetch_assoc($programa);
+$totalRows_programa = mysqli_num_rows($programa);
 
 ?>
 
@@ -140,7 +140,7 @@ do {
 ?>
                   <option value="<?php echo $row_programa['idprograma']?>" ><?php echo $row_programa['descripcion']?></option>
                   <?php
-} while ($row_programa = mysql_fetch_assoc($programa));
+} while ($row_programa = mysqli_fetch_assoc($programa));
 ?>
                 </select></td>
               <tr>
@@ -170,5 +170,5 @@ do {
 </body>
 </html>
 <?php
-mysql_free_result($programa);
+mysqli_free_result($programa);
 ?>

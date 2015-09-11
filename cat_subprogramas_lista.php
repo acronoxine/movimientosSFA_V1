@@ -7,7 +7,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+  $theValue = function_exists("mysql_real_escape_string") ? mysqli_real_escape_string($theValue) : mysql_escape_string($theValue);
 
   switch ($theType) {
     case "text":
@@ -38,19 +38,19 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString(strtoupper($_POST['descripcion']), "text"),
 					   GetSQLValueString($_POST['programa'], "text"));
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($insertSQL, $conexion) or die(mysql_error());
+  //mysqli_select_db($database_conexion, $conexion);
+  $Result1 = mysqli_query($conexion,$insertSQL) or die(mysqli_error());
 }
 
 if ((isset($_GET['idsubprograma'])) && ($_GET['idsubprograma'] != "")) {
   $deleteSQL = sprintf("DELETE FROM cat_subprograma WHERE idsubprograma=%s",
                        GetSQLValueString($_GET['idsubprograma'], "int"));
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($deleteSQL, $conexion) or die(mysql_error());
+  //mysql_select_db($database_conexion, $conexion);
+  $Result1 = mysqli_query($conexion,$deleteSQL) or die(mysqli_error());
 }
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_subprogramas = "SELECT p.clave as clave_programa,idsubprograma, s.clave, s.descripcion, p.descripcion as programa FROM cat_subprograma s left join cat_programa p on s.idprograma = p.idprograma";
 
 if(isset($_GET["consulta"]))
@@ -58,9 +58,9 @@ if(isset($_GET["consulta"]))
 	$query_subprogramas .= " where s.descripcion like '%$_GET[consulta]%'";
 }
 
-$subprogramas = mysql_query($query_subprogramas, $conexion) or die(mysql_error());
-$row_subprogramas = mysql_fetch_assoc($subprogramas);
-$totalRows_subprogramas = mysql_num_rows($subprogramas);
+$subprogramas = mysqli_query($conexion,$query_subprogramas) or die(mysqli_error());
+$row_subprogramas = mysqli_fetch_assoc($subprogramas);
+$totalRows_subprogramas = mysqli_num_rows($subprogramas);
 ?>
 <!doctype html>
 <html>
@@ -126,10 +126,10 @@ $totalRows_subprogramas = mysql_num_rows($subprogramas);
       <td width="220"><?php echo $row_subprogramas['descripcion']; ?></td>
       <td width="200"><?php echo $row_subprogramas['programa']; ?></td>
     </tr>
-    <?php } while ($row_subprogramas = mysql_fetch_assoc($subprogramas)); ?>
+    <?php } while ($row_subprogramas = mysqli_fetch_assoc($subprogramas)); ?>
 </table>
 </body>
 </html>
 <?php
-mysql_free_result($subprogramas);
+mysqli_free_result($subprogramas);
 ?>

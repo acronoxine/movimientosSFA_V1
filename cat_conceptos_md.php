@@ -17,7 +17,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+  $theValue = function_exists("mysql_real_escape_string") ? mysqli_real_escape_string($theValue) : mysql_escape_string($theValue);
 
   switch ($theType) {
     case "text":
@@ -57,8 +57,8 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['tipo'], "text"),
                        GetSQLValueString($_POST['idconceptos'], "int"));
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($updateSQL, $conexion) or die(mysql_error());
+  //mysql_select_db($database_conexion, $conexion);
+  $Result1 = mysqli_query($conexion,$updateSQL) or die(mysql_error());
 
   $updateGoTo = "cat_conceptos.php";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -72,11 +72,11 @@ $colname_conceptos = "-1";
 if (isset($_GET['idconceptos'])) {
   $colname_conceptos = $_GET['idconceptos'];
 }
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_conceptos = sprintf("SELECT * FROM cat_conceptos WHERE idconceptos = %s", GetSQLValueString($colname_conceptos, "int"));
-$conceptos = mysql_query($query_conceptos, $conexion) or die(mysql_error());
-$row_conceptos = mysql_fetch_assoc($conceptos);
-$totalRows_conceptos = mysql_num_rows($conceptos);
+$conceptos = mysqli_query($conexion,$query_conceptos) or die(mysqli_error());
+$row_conceptos = mysqli_fetch_assoc($conceptos);
+$totalRows_conceptos = mysqli_num_rows($conceptos);
 ?>
 <!doctype html>
 <html>
@@ -232,5 +232,5 @@ function solonumeros(form, e)
 </body>
 </html>
 <?php
-mysql_free_result($conceptos);
+mysqli_free_result($conceptos);
 ?>

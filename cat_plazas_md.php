@@ -65,7 +65,8 @@ $plaza_clave = mysql_query ( $query_plaza_clave, $conexion ) or die ( mysql_erro
 	href="controles_jquery/css/overcast/jquery-ui-1.10.3.custom.css">
 <link rel="stylesheet" type="text/css"
 	href="controles_jquery/js/jquery.fancybox.css">
-<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<!--<script src="https://code.jquery.com/jquery-1.10.2.js"></script>-->
+<script src="controles_jquery/js/jquery-1.9.1.js"></script>
 <script src="controles_jquery/js/jquery-ui-1.10.3.custom.js"></script>
 <script src="controles_jquery/js/jquery.fancybox.js"></script>
 <script>
@@ -127,7 +128,7 @@ a(document).ready(function(){
 
 </script>
 <script>
-/*function movimiento(){
+function movimiento(){
 	var empleado=document.getElementById('idempleado');
 	var tipoContrato=document.getElementById('tipoContrato');
 	var plaza=<? echo $colname_plaza?>;
@@ -143,7 +144,7 @@ a(document).ready(function(){
 	else{
 		formato(empleado.value,tipoContrato.value,plaza,fecha.value,fecha2.value,'A',tipoAsignacion);
 	}
-}*/
+}
 /*function movimientob(){
 	var empleado=<? echo $row_plazas['empleado_id']?>;
 	var tipoContrato=document.getElementById('tipoBaja');
@@ -237,7 +238,7 @@ a(document).ready(function(){
 				        	//jQuery( "#programas" ).empty();
 							//jQuery( "#subprogramas" ).empty();
 								jQuery.each(data,function(i,val){
-									jQuery( "#programas" ).append("<option value="+val+">"+ val +"</option>");
+									jQuery( "#programas" ).append("<option value="+val['idprograma']+">"+ val['clave'] +"</option>");
 								});
 				        //}
 						/*else{
@@ -258,7 +259,7 @@ a(document).ready(function(){
 					//if(programa != '0'){
 							//jQuery( "#subprogramas" ).empty();
 							jQuery.each(data,function(i,val){
-								jQuery( "#subprogramas" ).append("<option value="+val+">"+ val +"</option>");
+								jQuery( "#subprogramas" ).append("<option value="+val['idsubprograma']+">"+ val['clave'] +"</option>");
 							});
 						/*}
 					else{
@@ -268,17 +269,25 @@ a(document).ready(function(){
 					}
 			});		
 	}
-
+	/*How to fix???
+		I need get values from global $_GET
+		if some value is empty!
+		
+	*/
 	function save_plaza(){
 		var plaza_id = <?php echo $_GET['idplaza'];?>;
+		var clave = <?php echo $_GET['categoria'];?>;
+			
 		var plaza_clave = jQuery( "#plaza_clave" ).val();
+		
 		var ur = jQuery( "#getUR" ).val();
 		var programa = jQuery( "#programas" ).val();
 		var subprograma = jQuery( "#subprogramas" ).val();
 		var categoria = jQuery( "#categoria" ).val();
 		var titular = jQuery( "#titular" ).val();
 		if(plaza_clave != 0 && ur != 0 && programa != null && subprograma != null  && titular != "" && categoria !="" ){
-				jQuery.ajax({
+			//alert("Datos enviados!"+ur+programa+subprograma,categoria,titular);
+				/*jQuery.ajax({
 				type		: "POST",
 				dataType	: "json",
 				url 		: "jQuery_update_cat_plazas.php",
@@ -304,7 +313,7 @@ a(document).ready(function(){
 							}
 					});
 				}
-			});
+			});*/
 		}
 		else{alert("Todos los datos son requeridos, para modifcar una plaza");}		
 	}
@@ -357,7 +366,7 @@ a(document).ready(function(){
 						<tr valign="baseline">
 							<td nowrap align="LEFT"><label class="label">CLAVE:</label></td>
 							<td><select id="plaza_clave" name="categoria"
-								style="width: 180px;"><option value="<?php echo $_GET['clave'];?>"><?php echo $_GET['clave'];?></option>
+								style="width: 180px;"><option value="<?php echo $_GET['claveref'];?>"><?php echo $_GET['claveref'];?></option>
                   			<?php
 								 while ( $row_plaza_clave = mysql_fetch_assoc ( $plaza_clave ) )
 								 { 

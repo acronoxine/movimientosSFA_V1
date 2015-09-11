@@ -17,7 +17,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+  $theValue = function_exists("mysql_real_escape_string") ? mysqli_real_escape_string($theValue) : mysql_escape_string($theValue);
 
   switch ($theType) {
     case "text":
@@ -55,8 +55,8 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 					   GetSQLValueString(strtoupper($_POST['hom']), "text"),
                        GetSQLValueString($_POST['idcategoria'], "int"));
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($updateSQL, $conexion) or die(mysql_error());
+  //mysql_select_db($database_conexion, $conexion);
+  $Result1 = mysqli_query($conexion,$updateSQL) or die(mysqli_error());
 
   $updateGoTo = "cat_categorias.php";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -70,11 +70,11 @@ $colname_areas = "-1";
 if (isset($_GET['idcategoria'])) {
   $colname_areas = $_GET['idcategoria'];
 }
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_areas = sprintf("SELECT * FROM cat_categoria WHERE idcategoria = %s", GetSQLValueString($colname_areas, "int"));
-$areas = mysql_query($query_areas, $conexion) or die(mysql_error());
-$row_areas = mysql_fetch_assoc($areas);
-$totalRows_areas = mysql_num_rows($areas);
+$areas = mysqli_query($conexion,$query_areas) or die(mysqli_error());
+$row_areas = mysqli_fetch_assoc($areas);
+$totalRows_areas = mysqli_num_rows($areas);
 ?>
 <!doctype html>
 <html>
@@ -188,5 +188,5 @@ function solonumeros(form, e)
 </body>
 </html>
 <?php
-mysql_free_result($areas);
+mysqli_free_result($areas);
 ?>
