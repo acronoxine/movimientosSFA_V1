@@ -28,20 +28,20 @@ if (isset ( $_GET ['idplaza'] )) {
 	$colname_plaza = $_GET ['idplaza'];
 }
 // -------------------------------------- INFORMACION DE LA PLAZA -----------------------------------
-mysql_select_db ( $database_conexion, $conexion );
+//mysql_select_db ( $database_conexion, $conexion );
 /*
  * $query_plazas = sprintf ( "SELECT CONCAT(nemp.paterno,' ',nemp.materno,' ',nemp.nombres) AS nombre, nemp.idnominaemp AS empleado_id, nemp.sueldobase as sueldobase, ep.estado AS plaza_estado,ep.fecha_inicial, ep.fecha_final, pz.plaza_clave AS plaza_clave, cpr.idprograma AS programa_id,cpr.descripcion AS programa_desc, sp.idsubprograma AS subprograma_id, sp.descripcion AS subprograma_desc, ct.descripcion AS categoria_desc,ct.clave AS categoria_clave, ct.idcategoria AS categoria_id, pz.titular FROM cat_plazas pz INNER JOIN empleado_plaza ep ON ep.plaza_id=pz.plaza_id INNER JOIN nominaemp nemp ON nemp.idnominaemp=ep.idnominaemp INNER JOIN cat_categoria ct ON ct.clave=pz.categoria LEFT JOIN cat_subprograma sp ON sp.idsubprograma=pz.subprograma LEFT JOIN cat_programa cpr ON cpr.idprograma=sp.idprograma WHERE pz.plaza_id = %s", GetSQLValueString ( $colname_plaza, "int" ) ); $plazas = mysql_query ( $query_plazas, $conexion ) or die ( mysql_error () ); $row_plazas = mysql_fetch_assoc ( $plazas ); $totalRows_plazas = mysql_num_rows ( $plazas );
  */
 
 $query_programa = "SELECT * FROM cat_programa"; // ------------ Catalogo de Programas
-$res_prog = mysql_query ( $query_programa, $conexion );
+$res_prog = mysqli_query ( $conexion, $query_programa );
 $query_subpy = "SELECT * FROM cat_proyecto"; // ------------ Catalaogo de Subprogramas
-$res_subpy = mysql_query ( $query_subpy, $conexion );
-mysql_select_db ( $database_conexion, $conexion );
+$res_subpy = mysqli_query ( $conexion, $query_subpy );
+//mysql_select_db ( $conexion, $database_conexion );
 $query_categorias = "SELECT idcategoria, nivel, clave, descripcion, (sueldobase+hom) as sueldobase FROM cat_categoria order by descripcion"; // ------------ Catalogo de Categorias
-$categorias = mysql_query ( $query_categorias, $conexion ) or die ( mysql_error () );
-$row_categorias = mysql_fetch_assoc ( $categorias );
-$totalRows_categorias = mysql_num_rows ( $categorias );
+$categorias = mysqli_query ( $conexion, $query_categorias ) or die ( mysqli_error () );
+$row_categorias = mysqli_fetch_assoc ( $categorias );
+$totalRows_categorias = mysqli_num_rows ( $categorias );
 $query_plaza_clave = "SELECT DISTINCT
     plaza_clave,titular
 FROM
@@ -49,7 +49,7 @@ FROM
 WHERE
     plaza_clave <> '';";
 
-$plaza_clave = mysql_query ( $query_plaza_clave, $conexion ) or die ( mysql_error () );
+$plaza_clave = mysqli_query ( $conexion, $query_plaza_clave ) or die ( mysqli_error () );
 ?>
 <!doctype html>
 <html>
@@ -181,8 +181,8 @@ function movimiento(){
 							 */
 							$id = $_GET ['idplaza'];
 							$query = " select * from cat_plazas where plaza_id=" . $id;
-							$rs = mysql_query ( $query, $conexion );
-							$row = mysql_fetch_assoc ( $rs );
+							$rs = mysqli_query ( $conexion, $query );
+							$row = mysqli_fetch_assoc ( $rs );
 							// print_r ( $row );
 							
 							?>
@@ -276,17 +276,16 @@ function movimiento(){
 	*/
 	function save_plaza(){
 		var plaza_id = <?php echo $_GET['idplaza'];?>;
-		var clave = <?php echo $_GET['categoria'];?>;
-			
+		var clave=<?php printf ("%s",$_GET['claveref']);?>;
+			alert (clave);
 		var plaza_clave = jQuery( "#plaza_clave" ).val();
-		
 		var ur = jQuery( "#getUR" ).val();
 		var programa = jQuery( "#programas" ).val();
 		var subprograma = jQuery( "#subprogramas" ).val();
 		var categoria = jQuery( "#categoria" ).val();
 		var titular = jQuery( "#titular" ).val();
 		if(plaza_clave != 0 && ur != 0 && programa != null && subprograma != null  && titular != "" && categoria !="" ){
-			//alert("Datos enviados!"+ur+programa+subprograma,categoria,titular);
+			alert("Si clave =! null or empty"+clave);
 				/*jQuery.ajax({
 				type		: "POST",
 				dataType	: "json",
@@ -315,7 +314,7 @@ function movimiento(){
 				}
 			});*/
 		}
-		else{alert("Todos los datos son requeridos, para modifcar una plaza");}		
+		//else{alert("Todos los datos son requeridos, para modifcar una plaza");}		
 	}
 
 	function liberar_plaza(){
@@ -368,7 +367,7 @@ function movimiento(){
 							<td><select id="plaza_clave" name="categoria"
 								style="width: 180px;"><option value="<?php echo $_GET['claveref'];?>"><?php echo $_GET['claveref'];?></option>
                   			<?php
-								 while ( $row_plaza_clave = mysql_fetch_assoc ( $plaza_clave ) )
+								 while ( $row_plaza_clave = mysqli_fetch_assoc ( $plaza_clave ) )
 								 { 
 									if (!empty ( $row_plaza_clave ) || $row_plaza_clave = "") {
 							?>
@@ -440,7 +439,7 @@ function movimiento(){
 									<?php echo $row_categorias['clave'], " ", $row_categorias['descripcion']?>
 								</option>
                   					<?php
-											} while ( $row_categorias = mysql_fetch_assoc ( $categorias ) );
+											} while ( $row_categorias = mysqli_fetch_assoc ( $categorias ) );
 									?>
                 			</select><label class="label">*</label>
                 			</td>
@@ -493,7 +492,7 @@ function movimiento(){
 					<h3 style="color: #666; margin-left: 50px position:relative; left: 250px;">ASIGNAR LA PLAZA</h3>
           <?php
 										$select_empelado = "SELECT idnominaemp,CONCAT(paterno,' ',materno,' ',nombres) as nombre FROM nominaemp";
-										$res_empleado = mysql_query ( $select_empelado, $conexion );
+										$res_empleado = mysqli_query ( $conexion, $select_empelado );
 										?>
           <form name="f1">
 						<table align="right">
@@ -502,11 +501,11 @@ function movimiento(){
 								<td><select name="idempleado" id="idempleado">
 										<OPTION value="-1">Seleccione..</OPTION>
                 <?
-																while ( $ren_emp = mysql_fetch_array ( $res_empleado ) ) {
+																while ( $ren_emp = mysqli_fetch_array ( $res_empleado ) ) {
 																	$select_disponible = "SELECT plaza_id FROM empleado_plaza WHERE idnominaemp=$ren_emp[idnominaemp]";
 																	echo $select_disponible;
-																	$respuesta = mysql_query ( $select_disponible, $conexion );
-																	$numero = mysql_num_rows ( $respuesta );
+																	$respuesta = mysqli_query ( $conexion, $select_disponible );
+																	$numero = mysqli_num_rows ( $respuesta );
 																	if ($numero < 1) {
 																		?>
                             	<option
@@ -525,8 +524,8 @@ function movimiento(){
 										<option value="-1">Seleccione</option>
                     <?
 																				$sql = "Select * from cat_movimientos where tipo='Alta' order by descripcion";
-																				$res = mysql_query ( $sql, $conexion );
-																				while ( $ren = mysql_fetch_array ( $res ) ) {
+																				$res = mysqli_query ( $conexion, $sql );
+																				while ( $ren = mysqli_fetch_array ( $res ) ) {
 																					?>
                     	<option value="<? echo $ren[idmovimiento]?>"><? echo "(".$ren[clave].") ".$ren[descripcion]?></option>
                     <?
@@ -582,7 +581,7 @@ function movimiento(){
 					
           <?php
 					$select_empelado = "SELECT idnominaemp,CONCAT(paterno,' ',materno,' ',nombres) as nombre FROM nominaemp";
-					$res_empleado = mysql_query ( $select_empelado, $conexion );
+					$res_empleado = mysqli_query ( $conexion, $select_empelado );
 										?>
            <form name="f1">
 						<table align="right" style="position:relative; top:-115px;">
@@ -602,8 +601,8 @@ function movimiento(){
 										<option value="-1">Seleccione..</option>
                     <?php
 							$sql = "Select * from cat_movimientos where tipo='Baja' order by descripcion";
-							$res = mysql_query ( $sql, $conexion );
-							while ( $ren = mysql_fetch_array ( $res ) ) {
+							$res = mysqli_query ( $conexion, $sql );
+							while ( $ren = mysqli_fetch_array ( $res ) ) {
 					?>
                     	<option value="<? echo $ren[idmovimiento]?>"><? echo "(".$ren[clave].") ".$ren[descripcion]?></option>
                     <?php
