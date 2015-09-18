@@ -18,7 +18,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string( $theValue) : mysql_real_escape_string( $theValue);
 
   switch ($theType) {
     case "text":
@@ -96,8 +96,8 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['oficinadepago'], "text"),
                        GetSQLValueString($_POST['cartillaSMN'], "text"),
                        GetSQLValueString($_POST['idnominaemp'], "int"));
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($updateSQL, $conexion) or die(mysql_error());
+  //mysql_select_db($database_conexion, $conexion);
+  $Result1 = mysqli_query( $conexion, $updateSQL) or die(mysqli_error());
 
   if($Result1)
   {  
@@ -115,51 +115,51 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
   }
 }
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_areas = "SELECT * FROM cat_area order by descripcion";
-$areas = mysql_query($query_areas, $conexion) or die(mysql_error());
-$row_areas = mysql_fetch_assoc($areas);
-$totalRows_areas = mysql_num_rows($areas);
+$areas = mysqli_query( $conexion,$query_areas ) or die(mysqli_error());
+$row_areas = mysqli_fetch_assoc($areas);
+$totalRows_areas = mysqli_num_rows($areas);
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_programas = "SELECT * FROM cat_programa order by descripcion";
-$programas = mysql_query($query_programas, $conexion) or die(mysql_error());
-$row_programas = mysql_fetch_assoc($programas);
-$totalRows_programas = mysql_num_rows($programas);
+$programas = mysqli_query( $conexion, $query_programas) or die(mysqli_error());
+$row_programas = mysqli_fetch_assoc($programas);
+$totalRows_programas = mysqli_num_rows($programas);
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_categorias = "SELECT idcategoria, nivel, clave, descripcion, (sueldobase+hom) as sueldobase FROM cat_categoria order by descripcion";
-$categorias = mysql_query($query_categorias, $conexion) or die(mysql_error());
-$row_categorias = mysql_fetch_assoc($categorias);
-$totalRows_categorias = mysql_num_rows($categorias);
+$categorias = mysqli_query($conexion,$query_categorias ) or die(mysqli_error());
+$row_categorias = mysqli_fetch_assoc($categorias);
+$totalRows_categorias = mysqli_num_rows($categorias);
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_subprograma = "SELECT * FROM cat_subprograma order by descripcion";
-$subprograma = mysql_query($query_subprograma, $conexion) or die(mysql_error());
-$row_subprograma = mysql_fetch_assoc($subprograma);
-$totalRows_subprograma = mysql_num_rows($subprograma);
+$subprograma = mysqli_query($conexion, $query_subprograma ) or die(mysqli_error());
+$row_subprograma = mysqli_fetch_assoc($subprograma);
+$totalRows_subprograma = mysqli_num_rows($subprograma);
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_proyecto = "SELECT * FROM cat_proyecto order by descripcion";
-$proyecto = mysql_query($query_proyecto, $conexion) or die(mysql_error());
-$row_proyecto = mysql_fetch_assoc($proyecto);
-$totalRows_proyecto = mysql_num_rows($proyecto);
+$proyecto = mysqli_query( $conexion, $query_proyecto ) or die(mysqli_error());
+$row_proyecto = mysqli_fetch_assoc($proyecto);
+$totalRows_proyecto = mysqli_num_rows($proyecto);
 
 $colname_empleados = "-1";
 if (isset($_GET['idnominaemp'])) {
   $colname_empleados = $_GET['idnominaemp'];
 }
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_empleados = sprintf("SELECT idnominaemp, paterno, materno, nombres, calle, numint, numext, colonia, cp, ciudad, estado, rfc_iniciales, rfc_fechanac, rfc_homoclave, curp, fechaingr, nafiliacion, salariofv, contrato, nomina, jornada, de_hrs, a_hrs, formapago, ncuenta, estatus, fechainicio, fechabaja, fechasistema, usuario, clabe, idbancos, fechanacimiento, sexo, ecivil, escolaridad, nafiliacionissste, oficinadepago, cartillaSMN, nacionalidad, folio, sueldobase FROM nominaemp WHERE idnominaemp = %s", GetSQLValueString($colname_empleados, "int"));
-$empleados = mysql_query($query_empleados, $conexion) or die(mysql_error());
-$row_empleados = mysql_fetch_assoc($empleados);
-$totalRows_empleados = mysql_num_rows($empleados);
+$empleados = mysqli_query( $conexion, $query_empleados ) or die(mysqli_error());
+$row_empleados = mysqli_fetch_assoc($empleados);
+$totalRows_empleados = mysqli_num_rows($empleados);
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_estados = "SELECT * FROM cat_estados ORDER BY estado ASC";
-$estados = mysql_query($query_estados, $conexion) or die(mysql_error());
-$row_estados = mysql_fetch_assoc($estados);
-$totalRows_estados = mysql_num_rows($estados);
+$estados = mysqli_query($conexion, $query_estados ) or die(mysqli_error());
+$row_estados = mysqli_fetch_assoc($estados);
+$totalRows_estados = mysqli_num_rows($estados);
 ?>
 <!doctype html>
 <html>
@@ -168,9 +168,7 @@ $totalRows_estados = mysql_num_rows($estados);
 <link type="image/x-icon" href="imagenes/logomich200.ico" rel="icon" />
 <link type="image/x-icon" href="imagenes/logomich200.ico" rel="shortcut icon" />
 <title>Sistema de N&oacute;mina de Empleados</title>
-
 <link rel="stylesheet" type="text/css" href="css/estilos.css">
-
 <link rel="stylesheet" type="text/css" href="controles_jquery/css/overcast/jquery-ui-1.10.3.custom.css">
 <script src="controles_jquery/js/jquery-1.9.1.js"></script>
 <script src="controles_jquery/js/jquery-ui-1.10.3.custom.js"></script>
@@ -639,7 +637,7 @@ do {
 ?>
                   <option value="<?php echo $row_estados['idestados']?>" <?php if (!(strcmp($row_estados['idestados'], htmlentities($row_empleados['estado'], ENT_COMPAT, 'iso-8859-1')))) {echo "SELECTED";} ?>><?php echo $row_estados['estado']?></option>
                   <?php
-} while ($row_estados = mysql_fetch_assoc($estados));
+} while ($row_estados = mysqli_fetch_assoc($estados));
 ?>
                 </select><label class="label">*</label></td>
               <tr>
@@ -813,18 +811,18 @@ cargasueldo('<? echo $row_empleados['categoria']; ?>', '<? echo $row_empleados['
 </script>
 
 <?php
-mysql_free_result($areas);
+mysqli_free_result($areas);
 
-mysql_free_result($programas);
+mysqli_free_result($programas);
 
-mysql_free_result($categorias);
+mysqli_free_result($categorias);
 
-mysql_free_result($subprograma);
+mysqli_free_result($subprograma);
 
-mysql_free_result($proyecto);
+mysqli_free_result($proyecto);
 
-mysql_free_result($empleados);
+mysqli_free_result($empleados);
 
-mysql_free_result($estados);
+mysqli_free_result($estados);
 ?>
 

@@ -1,6 +1,6 @@
 <?php
 require_once('Connections/conexion.php'); 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 if (!function_exists("GetSQLValueString")) {
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 {
@@ -8,7 +8,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+  $theValue = function_exists("mysqli_real_escape_string") ? mysqli_real_escape_string($theValue) : mysqli_escape_string($theValue);
 
   switch ($theType) {
     case "text":
@@ -86,25 +86,25 @@ function modificaRegistro($tabla,$opcion,$fecha,$hora,$empleado,$conexion){
 		if($opcion==1){// insertar en nominapago
 			$importe = 0;
 			$sql = "Select sueldobase as importe from nominaemp where idnominaemp = '$empleado'";
-			$res_sb = mysql_query($sql, $conexion);
-			$ren_sb = mysql_fetch_array($res_sb);
-			mysql_free_result($res_sb);
+			$res_sb = mysqli_query( $conexion, $sql);
+			$ren_sb = mysqli_fetch_array($res_sb);
+			mysqli_free_result($res_sb);
 			$sueldodiario = ($ren_sb["importe"] * 2) / 30;
 			$importe = number_format($sueldodiario, 2, ".", "");
 			$sql="INSERT INTO nomina (idnominaemp,concepto,importe,tipo,idbeneficiarios) VALUES('$empleado','258','$importe','D','0')";
-			$insert=mysql_query($sql,$conexion);
+			$insert=mysqli_query( $conexion, $sql );
 			recalculoISR($empleado);
 			$sql="UPDATE asistencias SET registrado=1 WHERE idnominaemp='$empleado' AND fecha='$fecha' AND hora='$hora' and tipo='$tabla'";
-			mysql_query($sql,$conexion);
+			mysqli_query($conexion, $sql );
 		}
 		elseif($opcion==2){
 			$sql="UPDATE asistencias SET registrado=0 WHERE idnominaemp='$empleado' AND fecha='$fecha' AND hora='$hora' and tipo='$tabla'";
-			mysql_query($sql,$conexion);
+			mysqli_query( $conexion,$sql );
 		}
 		elseif($opcion==3){
 			$sql="DELETE FROM nomina WHERE concepto='258' and idnominaemp='$empleado'";
 			//echo $sql;
-			mysql_query($sql,$conexion);
+			mysql_query( $conexion, $sql );
 			recalculoISR($empleado);
 		}
 }

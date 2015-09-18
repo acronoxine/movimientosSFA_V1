@@ -10,15 +10,15 @@ if($_SESSION["m_sesion"] != 1)
 ?>
 <?php 
 require_once('Connections/conexion.php'); 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 
 if(isset($_GET["update"]) && $_GET["update"]==1)
 {
 	$updatepz="UPDATE empleado_plaza set idnominaemp='$_POST[idnominaemp]',plaza_id='$_POST[plaza]',fecha_inicial='$_POST[fecha]',fecha_final='$_POST[fechaf]',estado='OCUPADO' WHERE plaza_id='$_POST[plaza]'";	
-	mysql_query($updatepz,$conexion);
+	mysqli_query( $conexion,$updatepz );
 	$updateemp="UPDATE nominaemp set activo=1,estatus='$_POST[movimiento]', fechabaja='0000-00-00' WHERE idnominaemp='$_POST[idnominaemp]'";
 	echo $updateemp;
-	mysql_query($updateemp,$conexion);
+	mysql_query( $conexion,$updateemp );
 	echo "<script>";
 	echo "parent.document.afectacion.submit();";
 	echo "</script>";
@@ -191,8 +191,8 @@ function cargasubprogramas(idprograma)
 <?php
 $query_pz=" SELECT cp.plaza_id FROM cat_plazas cp INNER JOIN empleado_plaza ep ON ep.plaza_id=cp.plaza_id
  WHERE ep.idnominaemp=".$_GET["idnominaemp"];
-$resq=mysql_query($query_pz,$conexion);
-$renq=mysql_num_rows($resq);
+$resq=mysqli_query($conexion,$query_pz);
+$renq=mysqli_num_rows($resq);
 
 //echo $query_pz."<br>gdf".$renq;
 if($renq>0){
@@ -202,9 +202,9 @@ else
 {
 mysql_select_db($database_conexion, $conexion);
 $query_programas = "SELECT * FROM cat_programa order by descripcion";
-$programas = mysql_query($query_programas, $conexion) or die(mysql_error());
-$row_programas = mysql_fetch_assoc($programas);
-$totalRows_programas = mysql_num_rows($programas);
+$programas = mysqli_query( $conexion,$query_programas ) or die(mysqli_error());
+$row_programas = mysqli_fetch_assoc($programas);
+$totalRows_programas = mysqli_num_rows($programas);
 
 
 ?>
@@ -218,7 +218,7 @@ $totalRows_programas = mysql_num_rows($programas);
                   <?php do {  ?>
                   <option value="<?php echo $row_programas['idprograma']?>" ><?php echo $row_programas['clave'], " ", $row_programas['descripcion']?></option>
                   <?php
-				} while ($row_programas = mysql_fetch_assoc($programas));
+				} while ($row_programas = mysqli_fetch_assoc($programas));
 ?>
         	</select>
 		</td>

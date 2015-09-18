@@ -10,7 +10,6 @@ if ($_SESSION ["m_sesion"] != 1) {
 <?php
 
 require_once ('Connections/conexion.php');
-// include ("funcionesJL.php");
 
 $editFormAction = $_SERVER ['PHP_SELF'];
 if (isset ( $_SERVER ['QUERY_STRING'] )) {
@@ -28,28 +27,20 @@ if (isset ( $_GET ['idplaza'] )) {
 	$colname_plaza = $_GET ['idplaza'];
 }
 // -------------------------------------- INFORMACION DE LA PLAZA -----------------------------------
-//mysql_select_db ( $database_conexion, $conexion );
+// mysql_select_db ( $database_conexion, $conexion );
 /*
  * $query_plazas = sprintf ( "SELECT CONCAT(nemp.paterno,' ',nemp.materno,' ',nemp.nombres) AS nombre, nemp.idnominaemp AS empleado_id, nemp.sueldobase as sueldobase, ep.estado AS plaza_estado,ep.fecha_inicial, ep.fecha_final, pz.plaza_clave AS plaza_clave, cpr.idprograma AS programa_id,cpr.descripcion AS programa_desc, sp.idsubprograma AS subprograma_id, sp.descripcion AS subprograma_desc, ct.descripcion AS categoria_desc,ct.clave AS categoria_clave, ct.idcategoria AS categoria_id, pz.titular FROM cat_plazas pz INNER JOIN empleado_plaza ep ON ep.plaza_id=pz.plaza_id INNER JOIN nominaemp nemp ON nemp.idnominaemp=ep.idnominaemp INNER JOIN cat_categoria ct ON ct.clave=pz.categoria LEFT JOIN cat_subprograma sp ON sp.idsubprograma=pz.subprograma LEFT JOIN cat_programa cpr ON cpr.idprograma=sp.idprograma WHERE pz.plaza_id = %s", GetSQLValueString ( $colname_plaza, "int" ) ); $plazas = mysql_query ( $query_plazas, $conexion ) or die ( mysql_error () ); $row_plazas = mysql_fetch_assoc ( $plazas ); $totalRows_plazas = mysql_num_rows ( $plazas );
  */
 
-$query_programa = "SELECT * FROM cat_programa"; // ------------ Catalogo de Programas
+$query_programa = "SELECT * FROM cat_programa"; // ------------ Catalogo de Programas ------------//
 $res_prog = mysqli_query ( $conexion, $query_programa );
-$query_subpy = "SELECT * FROM cat_proyecto"; // ------------ Catalaogo de Subprogramas
+$query_subpy = "SELECT * FROM cat_proyecto"; // ------------ Catalaogo de Subprogramas --------//
 $res_subpy = mysqli_query ( $conexion, $query_subpy );
-//mysql_select_db ( $conexion, $database_conexion );
+// mysql_select_db ( $conexion, $database_conexion );
 $query_categorias = "SELECT idcategoria, nivel, clave, descripcion, (sueldobase+hom) as sueldobase FROM cat_categoria order by descripcion"; // ------------ Catalogo de Categorias
 $categorias = mysqli_query ( $conexion, $query_categorias ) or die ( mysqli_error () );
 $row_categorias = mysqli_fetch_assoc ( $categorias );
 $totalRows_categorias = mysqli_num_rows ( $categorias );
-$query_plaza_clave = "SELECT DISTINCT
-    plaza_clave,titular
-FROM
-    cat_plazas
-WHERE
-    plaza_clave <> '';";
-
-$plaza_clave = mysqli_query ( $conexion, $query_plaza_clave ) or die ( mysqli_error () );
 ?>
 <!doctype html>
 <html>
@@ -66,7 +57,7 @@ $plaza_clave = mysqli_query ( $conexion, $query_plaza_clave ) or die ( mysqli_er
 <link rel="stylesheet" type="text/css"
 	href="controles_jquery/js/jquery.fancybox.css">
 <!--<script src="https://code.jquery.com/jquery-1.10.2.js"></script>-->
-<script src="controles_jquery/js/jquery-1.9.1.js"></script>
+<script src="controles_jquery/js/jquery-1.11.3.min.js"></script>
 <script src="controles_jquery/js/jquery-ui-1.10.3.custom.js"></script>
 <script src="controles_jquery/js/jquery.fancybox.js"></script>
 <script>
@@ -118,7 +109,7 @@ a(document).ready(function(){
 			document.getElementById('fi').style.display="block";
 			document.getElementById('ff').style.display="block";
 		}
-		if( tipoc== 1 || tipoc==3)
+		if( tipoc== 1 || tipoc==3 )
 		{
 			document.getElementById('fi').style.display="block";
 			document.getElementById('ff').style.display="none";
@@ -146,9 +137,9 @@ function movimiento(){
 	}
 }
 /*function movimientob(){
-	var empleado=<? echo $row_plazas['empleado_id']?>;
-	var tipoContrato=document.getElementById('tipoBaja');
-	var plaza=<? echo $colname_plaza?>;
+	var empleado=*/<? //echo $row_plazas['empleado_id']?>;
+	/*var tipoContrato=document.getElementById('tipoBaja');
+	var plaza=<? //echo $colname_plaza?>;
 	var fecha=document.getElementById('fechab');
 	var fecha2=document.getElementById('fecha2');
 	var estado=document.getElementById('estado');
@@ -352,33 +343,91 @@ function movimiento(){
 		else{alert("Todos los datos son requeridos, para modifcar una plaza");}	
 			
 		}
+	function asignar_plaza(){
+		/*
+			########### Asignar plaza a un empleado, ya existente #############
+			########### Testing Module !!!!#################################
+		*/
+		
+		var plaza_id 			= <?php echo $_GET['idplaza'];?>;
+		var idempleado 			= jQuery(" #idempleado ").val();
+		var tipoContrato		= jQuery(" #tipoContrato ").val();
+		var tipoAsignacion		= jQuery(" #tipoAsignacion ").val();
+		var fecha				= jQuery(" #fecha ").val();
+		var fecha2				= jQuery(" #fecha2 ").val();
+
+		
+		var datajson = 	[			    
+						{"plazaid":plaza_id},
+						{"idempleado":idempleado},
+						{"tipoContrato":tipoContrato},
+						{"tipoAsignacion":tipoAsignacion},
+						{"fecha":fecha},
+						{"fecha2":fecha2}			           		
+						];
+		if(plaza_id != 0 ){
+				jQuery.ajax({
+				type		: "POST",
+				dataType	: "json",
+				url 		: "jQuery_asignar_plaza.php",
+				data		: {	
+								jsonf			: datajson
+							   	/*plaza_id 		: plaza_id,
+							   	idempleado		: fecha,
+							   	tipoContrato	: fecha2,
+							   	tipoAsignacion	: tipoAsignacion,
+							   	fecha			: estado,
+							   	fecha2			: fecha2
+							  },
+				success		: function (data) {
+					/*jQuery.each(data,function(i,val){
+						if(val ==true){
+							alert('Modificacion correcta.');
+						}
+						else{
+							alert("Ha ocurrido un error. Intente mas tarde!");
+							}
+					});*/
+				}
+			});
+		}
+		else{alert("Todos los datos son requeridos, para modifcar una plaza");}	
+			
+		}
 </script>
 			<div id="centro_prin">
-				<h3 style="color: #666; margin-left: 50px">EDITAR LA PLAZA</h3>
-				<form id="save_plaza" method="post" name="" action="#">
+				<h3 style="color: #666; margin-left: 50px; position: relative; top:25px;">EDITAR LA PLAZA</h3>
+				
+				<form id="save_plaza" method="post" name="" action="#" style="border 1px solid;">
 					<table align="left">
 						<tr valign="baseline" colspan="-2">
-							<td nowrap align="LEFT"><label class="label" name="plaza_id"></label></td>
-							<td><input type="hidden" name="clave"
-								value="<?php echo $row['plaza_id']; ?>" size="30" maxlength="4"></td>
+							<td nowrap align="left"><label class="label" name="plaza_id"></label></td>
+							<td><input type="hidden" name="clave" value="<?php echo $row['plaza_id']; ?>" size="30" maxlength="4"></td>
 						</tr>
 						<tr valign="baseline">
-							<td nowrap align="LEFT"><label class="label">CLAVE:</label></td>
-							<td><select id="plaza_clave" name="categoria"
-								style="width: 180px;"><option value="<?php echo $_GET['claveref'];?>"><?php echo $_GET['claveref'];?></option>
-                  			<?php
-								 while ( $row_plaza_clave = mysqli_fetch_assoc ( $plaza_clave ) )
-								 { 
-									if (!empty ( $row_plaza_clave ) || $row_plaza_clave = "") {
+							<td nowrap align="Left"><label class="label">CLAVE:</label></td>
+							<?php $query_plaza_clave = "SELECT DISTINCT
+    							plaza_clave
+								FROM
+    								cat_plazas
+								WHERE
+    							plaza_clave <> '';";
+
+								$plaza_clave = mysqli_query ( $conexion, $query_plaza_clave ) or die ( mysqli_error () );
 							?>
-                  			<option
-								value="<?php echo $row_plaza_clave['plaza_clave']; ?>"><?php echo $row_plaza_clave['plaza_clave']?>
-							</option>
-                  			<?php
+							<td>
+							<select id="plaza_clave" name="clave" style="width: 180px;">
+								<option value="<?php echo $_GET['claveref'];?>"><?php echo $_GET['claveref'];?></option>
+                  				<?php
+									while ( $row_plaza_clave = mysqli_fetch_array ( $plaza_clave ) ) {
+								?>
+								
+                  				<option value="<?php echo $row_plaza_clave['plaza_clave']; ?>"><?php echo $row_plaza_clave['plaza_clave']?></option>
+							<?php 
 									}
-								} 
 							?>
-                			</select><label class="label">*</label></td>
+                			</select><label class="label">*</label>
+                			</td>
 						</tr>
 						<tr valign="baseline">
 							<!-- Start UR -->
@@ -418,31 +467,29 @@ function movimiento(){
 						<!-- Start Subprogramas -->
 						<tr valign="baseline">
 							<td nowrap align="left"><label class="label">Subprograma:</label></td>
-							<td colspan="3">
-								<select id="subprogramas" style="width: 180px;">
+							<td colspan="3"><select id="subprogramas" style="width: 180px;">
 									<option value="<?php echo $_GET['subprograma'];?>"><?php echo $_GET['subprograma'];?></option>
-								</select>
-							</td>
+							</select></td>
 							<!-- Block end after -->
 						</tr>
 						<!-- Start Categoria -->
 						<tr valign="baseline">
 							<td nowrap align="left"><label class="label">Categoria:</label></td>
-							<td><select id="categoria" name="categoria" style="width: 180px;"
-								<option value="<?php echo $_GET['categoria'];?>"><?php echo $_GET['categoria'];?></option>
-								<option value="<?php echo $_GET['categoria'];?>"><?php echo $_GET['categoria'];?></option>
+							<td><select id="categoria" name="categoria" style="width: 180px;"<option
+										value="<?php echo $_GET['categoria'];?>"><?php echo $_GET['categoria'];?></option>
+									<option value="<?php echo $_GET['categoria'];?>"><?php echo $_GET['categoria'];?></option>
                   					<?php
-										do {
-									?>
+																							do {
+																								?>
 								
-                  				<option value="<?php echo $row_categorias['idcategoria']; ?>">
+                  				<option
+										value="<?php echo $row_categorias['idcategoria']; ?>">
 									<?php echo $row_categorias['clave'], " ", $row_categorias['descripcion']?>
 								</option>
                   					<?php
-											} while ( $row_categorias = mysqli_fetch_assoc ( $categorias ) );
-									?>
-                			</select><label class="label">*</label>
-                			</td>
+																							} while ( $row_categorias = mysqli_fetch_assoc ( $categorias ) );
+																							?>
+                			</select><label class="label">*</label></td>
 
 
 						</tr>
@@ -475,7 +522,7 @@ function movimiento(){
 					<!-- <input type="hidden" name="MM_update" value="form1"> 
 					<input type="hidden" name="idplaza" value="<?php //echo $colname_plaza; ?>">-->
 				</form>
-
+			
 				<!--   -------------------------------   Asignacion de la plaza desde el catalogo ------------------------------>
           <?php
 										
@@ -487,23 +534,24 @@ function movimiento(){
 											$estilo2 = 'style="display:block"';
 										}
 										?>
-          <div style="position: relative; top: 300px; left: -175px;">
+          <div style="position: relative; top: 300px; left: -175px; background-color: #F0F8FF"; width: 450px;>
 					<hr />
-					<h3 style="color: #666; margin-left: 50px position:relative; left: 250px;">ASIGNAR LA PLAZA</h3>
+					<h3 style="color: #666;">ASIGNAR LA PLAZA </h3>
           <?php
 										$select_empelado = "SELECT idnominaemp,CONCAT(paterno,' ',materno,' ',nombres) as nombre FROM nominaemp";
 										$res_empleado = mysqli_query ( $conexion, $select_empelado );
 										?>
-          <form name="f1">
+		
+          				<form name="f1">
 						<table align="right">
 							<tr>
 								<td nowrap align="left"><label class="label">Empleado:</label></td>
 								<td><select name="idempleado" id="idempleado">
 										<OPTION value="-1">Seleccione..</OPTION>
-                <?
+                		<?
 																while ( $ren_emp = mysqli_fetch_array ( $res_empleado ) ) {
 																	$select_disponible = "SELECT plaza_id FROM empleado_plaza WHERE idnominaemp=$ren_emp[idnominaemp]";
-																	echo $select_disponible;
+																	// echo $select_disponible;
 																	$respuesta = mysqli_query ( $conexion, $select_disponible );
 																	$numero = mysqli_num_rows ( $respuesta );
 																	if ($numero < 1) {
@@ -534,7 +582,8 @@ function movimiento(){
                     	</select></td>
 							</tr>
 							<tr>
-								<td nowrap align="left"><label class="label">Tipo de Asignaci�n:</label></td>
+								<td nowrap align="left"><label class="label">Tipo de
+										Asignaci�n:</label></td>
 								<td><select name="tipoAsignacion" id="tipoAsignacion">
 										<option value="ASIGNACION">ASIGNACION</option>
 										<option value="PERMISO">PERMISO</option>
@@ -567,26 +616,27 @@ function movimiento(){
 							</tr>
 
 							<tr>
+								<!--  <td align="right" colspan="2"><input type="button" class="boton"
+									onClick="movimiento();" value="Asignar"></td>-->
 								<td align="right" colspan="2"><input type="button" class="boton"
-									onClick="movimiento();" value="Asignar"></td>
-
+									onClick="asignar_plaza();" value="Asignar"></td>
 							</tr>
 						</table>
 					</form>
 				</div>
 				<!--   -------------------------   Liberacion de la plaza desde el catalogo ---------------------------------->
-				<div style="position:relative; top:-65px;">
+				<div style="position: absolute; top:245px; left: 700px; width: 500px; ">
 				
 					
 					
           <?php
-					$select_empelado = "SELECT idnominaemp,CONCAT(paterno,' ',materno,' ',nombres) as nombre FROM nominaemp";
-					$res_empleado = mysqli_query ( $conexion, $select_empelado );
+										$select_empelado = "SELECT idnominaemp,CONCAT(paterno,' ',materno,' ',nombres) as nombre FROM nominaemp";
+										$res_empleado = mysqli_query ( $conexion, $select_empelado );
 										?>
            <form name="f1">
-						<table align="right" style="position:relative; top:-115px;">
+						<table align="left">
 							<h3
-								style="color: #666; margin-left: 50px; position: relative; top: -40px; right: -245px;">LIBERAR
+								style="color: #666; ">LIBERAR
 								LA PLAZA</h3>
 							<tr>
 								<td nowrap align="left"><label class="label">Estado:</label></td>
@@ -600,10 +650,10 @@ function movimiento(){
 								<td><select name="tipoBaja" id="tipoBaja" style="width: 300px">
 										<option value="-1">Seleccione..</option>
                     <?php
-							$sql = "Select * from cat_movimientos where tipo='Baja' order by descripcion";
-							$res = mysqli_query ( $conexion, $sql );
-							while ( $ren = mysqli_fetch_array ( $res ) ) {
-					?>
+																				$sql = "Select * from cat_movimientos where tipo='Baja' order by descripcion";
+																				$res = mysqli_query ( $conexion, $sql );
+																				while ( $ren = mysqli_fetch_array ( $res ) ) {
+																					?>
                     	<option value="<? echo $ren[idmovimiento]?>"><? echo "(".$ren[clave].") ".$ren[descripcion]?></option>
                     <?php
 																				}
@@ -612,8 +662,8 @@ function movimiento(){
 							</tr>
 							<tr>
 								<td nowrap align="left"><label class="label">Fecha de Baja</label></td>
-								<td><input class="campo" type="text" size="6" name="fecha_inicial"
-									id="fecha_inicial" value=""></td>
+								<td><input class="campo" type="text" size="6"
+									name="fecha_inicial" id="fecha_inicial" value=""></td>
 							</tr>
 							<tr>
 								<td nowrap align="left"><label class="label">Fecha de Baja</label></td>
@@ -628,13 +678,10 @@ function movimiento(){
 						</table>
 					</form>
 				</div>
-			</div>
-			<div id="tituloabajo">
+			<div id="tituloabajo" style="position: absolute; top: 850px; width:982px;">
 				<div id="tituloinf">Plazas</div>
 			</div>
-		</div>
-
-	</div>
+		</div><!-- Div master" -->
 </body>
 </html>
 <?php

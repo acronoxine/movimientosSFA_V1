@@ -10,23 +10,23 @@ if($_SESSION["m_sesion"] != 1)
 ?>
 <?php 
 require_once('Connections/conexion.php'); 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 
 //---------------------- ASIGNAR LA PLAZA -----------------
 if(isset($_GET['idnominaemp']) &&isset($_GET['tipoContrato'])&& $_GET['estado']=="A"){
 	$update_sql="update empleado_plaza set idnominaemp=$_GET[idnominaemp],fecha_inicial='$_GET[fecha]', 
 	 			fecha_final='$_GET[fecha2]',asignacion='$_GET[asignacion]', estado='OCUPADO' where plaza_id=$_GET[plaza]";
-	mysql_query($update_sql,$conexion);	
+	mysqli_query( $conexion,$update_sql );	
 	$update_empleado="update nominaemp set activo=1, estatus=$_GET[tipoContrato] where idnominaemp=$_GET[idnominaemp]";
-	mysql_query($update_empleado,$conexion);
+	mysqli_query( $conexion, $update_empleado );
 }
 //--------------------- LIBERA LA PLAZA --------------------------
 if(isset($_GET['estado']) && $_GET['estado']!="A"){
 	$update_sql="update empleado_plaza set fecha_inicial='$_GET[fecha]', 
 	 			fecha_final=NULL where plaza_id=$_GET[plaza]";
-	mysql_query($update_sql,$conexion);	
+	mysqli_query($conexion, $update_sql);	
 	$update_empleado="update nominaemp set activo=0, estatus=$_GET[tipoContrato] where idnominaemp=$_GET[idnominaemp]";
-	mysql_query($update_empleado,$conexion);
+	mysqli_query( $conexion, $update_empleado );
 	$queryVacante="update empleado_plaza set idnominaemp=0, estado='VACANTE' where idnominaemp=$_GET[idnominaemp] AND plaza_id=$_GET[plaza]";
 }
 if(isset($_POST["movimiento"]))
@@ -153,10 +153,10 @@ $(document).ready(function(){
         <option value="">Seleccione</option>
         <?
             $sql = "Select * from cat_movimientos order by tipo,descripcion";
-            $res = mysql_query($sql, $conexion);
+            $res = mysqli_query($conexion, $sql );
             $tipo="Alta";
 			echo '\n<option value=" " disabled style="text-align:center">'.$tipo.'</option>';
-            while($ren = mysql_fetch_array($res))
+            while($ren = mysqli_fetch_array($res))
             {
 				if($ren[tipo]==$tipo){
                 	echo "\n<option value='$ren[idmovimiento]'>$ren[clave] $ren[descripcion]</option>";

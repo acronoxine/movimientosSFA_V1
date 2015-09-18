@@ -31,7 +31,7 @@ if (! function_exists ( "GetSQLValueString" )) {
 			$theValue = get_magic_quotes_gpc () ? stripslashes ( $theValue ) : $theValue;
 		}
 		
-		$theValue = function_exists ( "mysql_real_escape_string" ) ? mysql_real_escape_string ( $theValue ) : mysql_escape_string ( $theValue );
+		$theValue = function_exists ( "mysqli_real_escape_string" ) ? mysqli_real_escape_string ( $theValue ) : mysqli_escape_string ( $theValue );
 		
 		switch ($theType) {
 			case "text" :
@@ -58,14 +58,14 @@ if (! function_exists ( "GetSQLValueString" )) {
 if ((isset ( $_GET ['idnominaemp'] )) && ($_GET ['idnominaemp'] != "")) {
 	$deleteSQL = sprintf ( "DELETE FROM nominaemp WHERE idnominaemp=%s", GetSQLValueString ( $_GET ['idnominaemp'], "int" ) );
 	
-	mysql_select_db ( $database_conexion, $conexion );
-	$Result1 = mysql_query ( $deleteSQL, $conexion ) or die ( mysql_error () );
+	//mysql_select_db ( $database_conexion, $conexion );
+	$Result1 = mysqli_query ( $conexion, $deleteSQL ) or die ( mysqli_error () );
 }
 
 if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 	$sql = "Select curp,rfc_iniciales,rfc_fechanac,rfc_fechanac,rfc_homoclave from nominaemp where rfc_iniciales = '$_POST[rfc_iniciales]' and rfc_fechanac = '$_POST[rfc_fechanac]' and rfc_homoclave = '$_POST[rfc_homoclave]'";
-	$res = mysql_query ( $sql, $conexion );
-	$nrows=mysql_num_rows ( $res );
+	$res = mysqli_query ($conexion, $sql  );
+	$nrows=mysqli_num_rows ( $res );
 	print_r($nrows."Something");
 	if ($nrows == 0) {
 		@list ( $dia, $mes, $year ) = split ( '[-./]', $_POST ["fechainicio"] );
@@ -199,8 +199,8 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 				//GetSQLValueString ( $_POST ['trecurso'], "text" ), 
 				
 		
-		mysql_select_db ( $database_conexion, $conexion );
-		$Result1 = mysql_query ( $insertSQL, $conexion ) or die ( mysql_error () );
+		//mysql_select_db ( $database_conexion, $conexion );
+		$Result1 = mysql_query ( $conexion, $insertSQL ) or die ( mysqli_error () );
 		;
 		if ($Result1) {
 			
@@ -223,7 +223,7 @@ if ((isset ( $_POST ["MM_insert"] )) && ($_POST ["MM_insert"] == "form1")) {
 	}
 }
 
-mysql_select_db ( $database_conexion, $conexion );
+//mysql_select_db ( $database_conexion, $conexion );
 $query_empleado = "SELECT pz.plaza_clave,n.idnominaemp, case when n.activo = '1' then 'SI' else 'NO' end as activo, concat(ifnull(rfc_iniciales, ''), ifnull(rfc_fechanac, ''), ifnull(rfc_homoclave, '')) as rfc, curp, folio, paterno, materno, nombres, calle, numint, numext, colonia, cp, mun.municipio as ciudad, est.estado";
 $query_empleado .= " , curp, a.descripcion as area, c.descripcion as categoria, n.sueldobase, concat(lpad(day(fechanacimiento), 2, '0'), '/', lpad(month(fechanacimiento), 2, '0'), '/', year(fechanacimiento)) as fechanacimiento, case when sexo = 'M' then 'MASCULINO' when sexo = 'F' then 'FEMENINO' else '' end as sexo,";
 $query_empleado .= " case when ecivil = '1' then 'SOLTERO' when ecivil = '2' then 'CASADO' when ecivil = '3' then 'DIVORCIADO' when ecivil = '4' then 'VIUDO' when ecivil = '5' then 'UNION LIBRE' else '' end as ecivil, p.descripcion as programa, s.descripcion as subprograma,";
@@ -256,9 +256,9 @@ if (isset ( $_GET ["consulta"] )) {
 }
 
 $query_empleado .= " order by n.idnominaemp";
-$empleados = mysql_query ( $query_empleado, $conexion ) or die ( mysql_error () );
-$row_empleados = mysql_fetch_assoc ( $empleados );
-$totalRows_empleados = mysql_num_rows ( $empleados );
+$empleados = mysqli_query ( $conexion, $query_empleado ) or die ( mysqli_error () );
+$row_empleados = mysqli_fetch_assoc ( $empleados );
+$totalRows_empleados = mysqli_num_rows ( $empleados );
 ?>
 <!doctype html>
 <html>

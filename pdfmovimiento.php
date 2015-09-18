@@ -20,7 +20,7 @@ if ($_SESSION ["m_sesion"] != 1) {
  */
 
 include ("Connections/conexion.php");
-mysql_select_db ( $database_conexion, $conexion );
+//mysql_select_db ( $database_conexion, $conexion );
 function campo($texto, $long, $align) {
 	$texto = trim ( $texto );
 	$n = strlen ( $texto );
@@ -45,8 +45,8 @@ function campo($texto, $long, $align) {
 }
 $queryEmpresa = "SELECT director, titular from empresa";
 $queryEmpresa = "SELECT titular from empresa";
-$resqe = mysql_query ( $queryEmpresa, $conexion );
-$renqe = mysql_fetch_array ( $resqe );
+$resqe = mysqli_query ( $conexion,$queryEmpresa );
+$renqe = mysqli_fetch_array ( $resqe );
 $director_qe = $renqe ['director'];
 $titularupp_qe = $renqe ['titular'];
 
@@ -54,8 +54,8 @@ $titularupp_qe = $renqe ['titular'];
  * Check SQL sentence.
  */
 $idmovimeinto = " SELECT MAX(idmovimiento) as idmh FROM movimiento_historial";
-$resid = mysql_query ( $idmovimeinto );
-$renid = mysql_fetch_array ( $resid );
+$resid = mysqli_query ($conexion, $idmovimeinto );
+$renid = mysqli_fetch_array ( $resid );
 $maxid = $renid ['idmh'] + 1;
 $fecha_mov = date ( 'Y-m-d h:i:s' );
 $query_empleado = "SELECT " . $maxid . " as idmovimiento, '" . $fecha_mov . "' as fecha_movimiento, n.contrato as contrato_emp,mov.clave as movimiento,epz.fecha_inicial,epz.fecha_final,pz.plaza_id,pz.plaza_clave,n.idnominaemp, case when n.activo = '1' then 'SI' else 'NO' end as activo, concat(ifnull(rfc_iniciales, ''), ifnull(rfc_fechanac, ''), ifnull(rfc_homoclave, '')) as rfc, curp, folio, paterno, materno, nombres, calle, numint, numext, colonia, cp, mun.municipio as ciudad, est.estado";
@@ -91,7 +91,7 @@ $ren = mysql_fetch_array ( $res );
 if ($_GET [ver] != 1) {
 	$insertMH = "INSERT INTO movimiento_historial (" . $query_empleado . ")";
 	// insercion en movimiento historial
-	mysql_query ( $insertMH, $conexion );
+	mysqli_query ( $conexion,$insertMH );
 }
 
 /**
@@ -101,16 +101,16 @@ if ($_GET [ver] != 1) {
 $query_UPP = "SELECT nombre FROM cat_titular WHERE firma = 1";
 $query_UR = "SELECT nombre FROM cat_titular WHERE firma = 2";
 $query_RH = "SELECT nombre FROM cat_titular WHERE firma = 3";
-$res_upp = mysql_query ( $query_UPP, $conexion );
-$res_ur = mysql_query ( $query_UR, $conexion );
-$res_rh = mysql_query ( $query_RH, $conexion );
+$res_upp = mysqli_query ( $conexion,$query_UPP );
+$res_ur = mysqli_query ( $conexion,$query_UR );
+$res_rh = mysqli_query ( $conexion,$query_RH );
 
 /*
  * Get Values from titulares table.
  */
-$data_upp = mysql_fetch_array ( $res_upp );
-$data_ur = mysql_fetch_array ( $res_ur );
-$data_rh = mysql_fetch_array ( $res_rh );
+$data_upp = mysqli_fetch_array ( $res_upp );
+$data_ur = mysqli_fetch_array ( $res_ur );
+$data_rh = mysqli_fetch_array ( $res_rh );
 
 include ("./fpdf/fpdf.php");
 
@@ -135,8 +135,8 @@ $pdf->Text ( 174, 41, campo ( $ren ["folio"], 10, 2 ) );
 $pdf->SetFont ( 'Arial', 'B', 8 );
 
 $sql = "select upp as cveupp, razonsocial as upp, titular from empresa limit 1";
-$res_emp = mysql_query ( $sql, $conexion );
-$ren_emp = mysql_fetch_array ( $res_emp );
+$res_emp = mysqli_query ( $conexion,$sql );
+$ren_emp = mysqli_fetch_array ( $res_emp );
 
 $titularupp = $ren_emp ["titular"];
 
@@ -240,10 +240,10 @@ $pdf->Cell ( 32.5, 5, $ren ["nacionalidad"], 0, 0, 'C' );
 $pdf->Ln ( 13 );
 
 $sql = "select " . $maxid . " as idmovimiento, concepto, importe from nomina where idnominaemp = '$_GET[idnominaemp]' and tipo = 'P'";
-$res_con = mysql_query ( $sql, $conexion );
+$res_con = mysqli_query ( $conexion, $sql );
 if ($_GET [ver] != 1) {
 	$insertConptos = "INSERT INTO movimiento_hconcepto (" . $sql . ")";
-	mysql_query ( $insertConptos, $conexion );
+	mysql_query ( $conexion, $insertConptos );
 }
 $c = 1;
 $r = 1;
@@ -298,11 +298,11 @@ $pdf->Cell ( 197, 4, $data_rh ['nombre'], 0, 0, 'C' );
 $pdf->Output ( "pdfs/doc.pdf", "F" );
 
 if (isset ( $_GET [qvacante] )) {
-	mysql_query ( $_GET [qvacante], $conexion );
+	mysql_query ( $conexion, $_GET [qvacante] );
 }
 
 if (isset ( $_SESSION ['BAJA'] )) {
-	mysql_query ( $_SESSION ['BAJA'], $conexion );
+	mysql_query ( $conexion, $_SESSION ['BAJA'] );
 	unset ( $_SESSION ['BAJA'] );
 }
 echo "<script>";

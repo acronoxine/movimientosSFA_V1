@@ -1,11 +1,11 @@
 <?php
 require_once('Connections/conexion.php'); 
 include 'funcionesJL.php';
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_empleado="SELECT DISTINCT rfc_iniciales,rfc_fechanac,rfc_homoclave,
 						CONCAT(IFNULL(paterno, ''),' ',IFNULL(materno, ''),' ',IFNULL(nombres, '')) AS nombreAU FROM nominaemp ORDER BY nombreAU";
-$empleado = mysql_query($query_empleado, $conexion) or die(mysql_error());
-while($row_empleado = mysql_fetch_assoc($empleado)){
+$empleado = mysqli_query( $conexion, $query_empleado ) or die(mysqli_error());
+while($row_empleado = mysqli_fetch_assoc($empleado)){
 	$nombresAU[]=utf8_encode($row_empleado['nombreAU']);
 	$RFC[]=$row_empleado['rfc_iniciales']."-".$row_empleado['rfc_fechanac']."-".$row_empleado['rfc_homoclave'];
 }

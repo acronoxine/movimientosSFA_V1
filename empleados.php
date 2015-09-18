@@ -17,7 +17,7 @@ if (! function_exists ( "GetSQLValueString" )) {
 			$theValue = get_magic_quotes_gpc () ? stripslashes ( $theValue ) : $theValue;
 		}
 		
-		$theValue = function_exists ( "mysql_real_escape_string" ) ? mysql_real_escape_string ( $theValue ) : mysql_escape_string ( $theValue );
+		$theValue = function_exists ( "mysqli_real_escape_string" ) ? mysqli_real_escape_string ( $theValue ) : mysql_escape_string ( $theValue );
 		
 		switch ($theType) {
 			case "text" :
@@ -41,19 +41,19 @@ if (! function_exists ( "GetSQLValueString" )) {
 	}
 }
 
-mysql_select_db ( $database_conexion, $conexion );
+//mysql_select_db ( $database_conexion, $conexion );
 $query_areas = "SELECT * FROM cat_area order by descripcion";
-$areas = mysql_query ( $query_areas, $conexion ) or die ( mysql_error () );
-$row_areas = mysql_fetch_assoc ( $areas );
-$totalRows_areas = mysql_num_rows ( $areas );
+$areas = mysqli_query ( $conexion, $query_areas ) or die ( mysqli_error () );
+$row_areas = mysqli_fetch_assoc ( $areas );
+$totalRows_areas = mysqli_num_rows ( $areas );
 
-mysql_select_db ( $database_conexion, $conexion );
+//mysql_select_db ( $database_conexion, $conexion );
 $query_programas = "SELECT * FROM cat_programa order by descripcion";
-$programas = mysql_query ( $query_programas, $conexion ) or die ( mysql_error () );
-$row_programas = mysql_fetch_assoc ( $programas );
-$totalRows_programas = mysql_num_rows ( $programas );
+$programas = mysqli_query ( $conexion, $query_programas ) or die ( mysqli_error () );
+$row_programas = mysqli_fetch_assoc ( $programas );
+$totalRows_programas = mysqli_num_rows ( $programas );
 
-mysql_select_db ( $database_conexion, $conexion );
+//mysql_select_db ( $database_conexion, $conexion );
 $query_categorias = "SELECT distinct
     idcategoria,
     nivel,
@@ -67,27 +67,27 @@ FROM
 WHERE
    estado = 'VACANTE'
 ORDER BY descripcion";
-$categorias = mysql_query ( $query_categorias, $conexion ) or die ( mysql_error () );
-$row_categorias = mysql_fetch_assoc ( $categorias );
-$totalRows_categorias = mysql_num_rows ( $categorias );
+$categorias = mysqli_query ( $conexion, $query_categorias ) or die ( mysqli_error () );
+$row_categorias = mysqli_fetch_assoc ( $categorias );
+$totalRows_categorias = mysqli_num_rows ( $categorias );
 
-mysql_select_db ( $database_conexion, $conexion );
+//mysql_select_db ( $database_conexion, $conexion );
 $query_subprograma = "SELECT * FROM cat_subprograma order by descripcion";
-$subprograma = mysql_query ( $query_subprograma, $conexion ) or die ( mysql_error () );
-$row_subprograma = mysql_fetch_assoc ( $subprograma );
-$totalRows_subprograma = mysql_num_rows ( $subprograma );
+$subprograma = mysqli_query ( $conexion, $query_subprograma ) or die ( mysqli_error () );
+$row_subprograma = mysqli_fetch_assoc ( $subprograma );
+$totalRows_subprograma = mysqli_num_rows ( $subprograma );
 
-mysql_select_db ( $database_conexion, $conexion );
+//mysql_select_db ( $database_conexion, $conexion );
 $query_proyecto = "SELECT * FROM cat_proyecto order by descripcion";
-$proyecto = mysql_query ( $query_proyecto, $conexion ) or die ( mysql_error () );
-$row_proyecto = mysql_fetch_assoc ( $proyecto );
-$totalRows_proyecto = mysql_num_rows ( $proyecto );
+$proyecto = mysqli_query ( $conexion, $query_proyecto ) or die ( mysqli_error () );
+$row_proyecto = mysqli_fetch_assoc ( $proyecto );
+$totalRows_proyecto = mysqli_num_rows ( $proyecto );
 
-mysql_select_db ( $database_conexion, $conexion );
+//mysql_select_db ( $database_conexion, $conexion );
 $query_estados = "SELECT * FROM cat_estados ORDER BY estado ASC";
-$estados = mysql_query ( $query_estados, $conexion ) or die ( mysql_error () );
-$row_estados = mysql_fetch_assoc ( $estados );
-$totalRows_estados = mysql_num_rows ( $estados );
+$estados = mysqli_query ( $conexion, $query_estados ) or die ( mysqli_error () );
+$row_estados = mysqli_fetch_assoc ( $estados );
+$totalRows_estados = mysqli_num_rows ( $estados );
 ?>
 <!doctype html>
 <html>
@@ -629,39 +629,21 @@ function buscacatego(cve)
 </script>
 <script>
 /**
- * Author: Zirangua Mejia Jose Luis.
- *
  * Load values into comboBox on cascade
- * UR
- * Programas
- * Subprogramas
+ * Made by Jose Luis Zirangua Mejia
  */
 	function get_programas(){
-		var ur = jQuery( "#getUR" ).val();
-//		alert(ur);
 			jQuery.ajax({
 			      type		: "POST",
 			      dataType	: "json",
 			      url		: "ajax_programas.php", //Relative or absolute path to response.php file
-			      data		: {id_ur : ur },
 			      success	: function(data) {
-			        /*$(".the-return").html(
-			          "Favorite beverage: " + data["favorite_beverage"] + "<br />Favorite restaurant: " + data["favorite_restaurant"] + "<br />Gender: " + data["gender"] + "<br />JSON: " + data["json"]
-			        );*/
-			        //alert("Form submitted successfully.\nReturned json: " + data["2"]);
-				        if(ur != 0){
-				        	jQuery( "#programas" ).empty();
-				        	jQuery( "#subprogramas" ).empty();
-								jQuery.each(data,function(i,val){
-									jQuery( "#programas" ).append("<option value="+val+">"+ val +"</option>");
-								});
-				        }
-						else{
-								jQuery( "#programas" ).empty();
-								jQuery( "#programas" ).append('<option value="0">Seleccione</option>');
-						}
-			      }
-			    });
+						jQuery.each(data,function(i,val){
+							jQuery( "#programas" ).append("<option value="+val['idprograma']+">"+ val['clave'] +"</option>");
+						});
+				        
+			    }
+			});
 	}
 	function get_subprogramas(){
 			var programa = jQuery( "#programas" ).val();
@@ -671,16 +653,9 @@ function buscacatego(cve)
 				url 		: "jQuery_suprogramas.php",
 				data		: {id_programa: programa},
 				success		: function (data) {
-					if(programa != 0){
-							jQuery( "#subprogramas" ).empty();
-							jQuery.each(data,function(i,val){
-							jQuery( "#subprogramas" ).append("<option value="+val+">"+ val +"</option>");
+						jQuery.each(data,function(i,val){
+							jQuery( "#subprogramas" ).append("<option value="+val['idsubprograma']+">"+ val['clave'] +"</option>");
 						});
-				}
-				else{
-						jQuery( "#subprogramas" ).empty();
-						jQuery( "#subprogramas" ).append('<option value="0">Seleccione</option>');
-					}
 				}
 			});		
 	}
@@ -778,12 +753,12 @@ function buscacatego(cve)
 										</select> <label class="label">*</label></td>
 									</tr>
 
-									<tr valign="baseline">
+									<!-- <tr valign="baseline">
 										<td nowrap align="right"><label class="label">Proyecto:</label></td>
 										<td>
 											<div id="ajax_proyecto"></div>
 										</td>
-									</tr>
+									</tr>-->
 									<tr valign="baseline">
 										<td nowrap align="right"><label class="label">Plazas:</label></td>
 										<td><select name="categoria" style="width: 180px;"
@@ -795,7 +770,7 @@ function buscacatego(cve)
                   						<option
 													value="<?php echo $row_categorias['idcategoria']; ?>"><?php echo $row_categorias['clave'], " ", $row_categorias['descripcion']?></option>
                   					<?php
-																							} while ( $row_categorias = mysql_fetch_assoc ( $categorias ) );
+																							} while ( $row_categorias = mysqli_fetch_assoc ( $categorias ) );
 																							?>
                 						</select><label class="label">*</label></td>
 
@@ -905,7 +880,7 @@ function buscacatego(cve)
 																			?>
                   <option value="<?php echo $row_estados['idestados']?>"><?php echo $row_estados['estado'];?></option>
                   <?php
-																		} while ( $row_estados = mysql_fetch_assoc ( $estados ) );
+																		} while ( $row_estados = mysqli_fetch_assoc ( $estados ) );
 																		?>
                     </select><label class="label">*</label></td>
 									</tr>
@@ -1130,15 +1105,15 @@ function buscacatego(cve)
 </body>
 </html>
 <?php
-mysql_free_result ( $areas );
+mysqli_free_result ( $areas );
 
-mysql_free_result ( $programas );
+mysqli_free_result ( $programas );
 
-mysql_free_result ( $categorias );
+mysqli_free_result ( $categorias );
 
-mysql_free_result ( $subprograma );
+mysqli_free_result ( $subprograma );
 
-mysql_free_result ( $proyecto );
+mysqli_free_result ( $proyecto );
 
-mysql_free_result ( $estados );
+mysqli_free_result ( $estados );
 ?>

@@ -8,7 +8,7 @@ if($_SESSION["m_sesion"] != 1)
 	exit();
 }
 require_once('Connections/conexion.php'); 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 ?>
 <!doctype html>
 <html>

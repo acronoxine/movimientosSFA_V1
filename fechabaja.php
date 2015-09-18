@@ -10,17 +10,17 @@ if($_SESSION["m_sesion"] != 1)
 ?>
 <?php 
 require_once('Connections/conexion.php'); 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 
 if(isset($_POST["fecha"]))
 {
 	
 	$update_sql="update empleado_plaza set fecha_inicial='$_POST[fecha]', 
 	 			fecha_final=NULL where idnominaemp=$_POST[idnominaemp]";
-	mysql_query($update_sql,$conexion);
+	mysqli_query($conexion, $update_sql);
 
 	$update_empleado="update nominaemp set activo=0, estatus=$_POST[movimiento],fechabaja='$_POST[fecha]' where idnominaemp=$_POST[idnominaemp]";
-	mysql_query($update_empleado,$conexion);
+	mysqli_query($conexion,$update_empleado);
 	$queryVacante="update empleado_plaza set idnominaemp=0, estado='VACANTE' where idnominaemp=$_POST[idnominaemp]";
 	$_SESSION['BAJA']=$queryVacante;
 	echo "<script>";

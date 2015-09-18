@@ -35,7 +35,7 @@ $totalRows_categorias = mysqli_num_rows ( $categorias );
 <link rel="stylesheet" type="text/css"
 	href="controles_jquery/js/jquery.fancybox.css">
 <!--<script src="https://code.jquery.com/jquery-1.10.2.js"></script>-->
-<script src="controles_jquery/js/jquery-1.9.1.js"></script>
+<script src="controles_jquery/js/jquery-1.11.3.min.js"></script>
 <script src="controles_jquery/js/jquery-ui-1.10.3.custom.js"></script>
 <script src="controles_jquery/js/jquery.fancybox.js"></script>
 <title>Sistema de Movimientos</title>
@@ -230,24 +230,37 @@ function cargasueldo(idcategoria)
  * Script Finished
  */
 	function save_plaza(){
-		var status;
-		var plaza_clave = jQuery( "#plaza_clave ").val();
-		var ur = $( "#getUR" ).val();
-		var programa = $( "#programas" ).val();
-		var subprograma = $( "#subprogramas" ).val();
-		var categoria = jQuery( "#categoria" ).val();
-		if(plaza_clave === ''){document.getElementById("plaza_clave").focus();}
-		if(plaza_clave != '' && ur != 0 && programa != null && subprograma != null ){
+		var plaza_clave 	= jQuery( "#plaza_clave ").val();
+		var ur 				= jQuery( "#getUR" ).val();
+		var programa 		= jQuery( "#programas" ).val();
+		var subprograma 	= jQuery( "#subprogramas" ).val();
+		var categoria 		= jQuery( "#categoria" ).val();
+
+		/*var nprogramas 	=	jQuery("#programas option").length;
+		var nsubprogramas 	=	jQuery("#subprogramas option").length;
+		var ncategoria		=	jQuery("#categoria option").length;*/
+		
+		var nprogramas 		= 	jQuery(" #programas ").val();
+		var nsubprogramas	=	jQuery(" #subprogramas ").val();
+		var ncategoria		=	jQuery(" #categoria ").val();
+		/*Validate data before send if any element is unselect request focus is activate*/
+		if(plaza_clave == '')	{document.getElementById("plaza_clave").focus();}
+		if(nprogramas== -1)  	{document.getElementById("programas").focus();}
+		if(nsubprogramas == -1)	{document.getElementById("subprogramas").focus();}
+		if(ncategoria == -1)	{document.getElementById("categoria").focus();}
+		
+		if(plaza_clave != '' && nprogramas > -1 && nsubprogramas > -1 && ncategoria > -1){
 			jQuery.ajax({
 				type		: "POST",
 				dataType	: "json",
 				url 		: "jQuery_save_plaza.php",
-				data		: {	plaza_clave	:	plaza_clave,
+				data		: 
+							{	plaza_clave	:	plaza_clave,
 								ur			: 	ur,
 								programa	: 	programa,
 								subprograma	: 	subprograma,
 								categoria	:	categoria
-								},
+							},
 				success		: function (data) {
 						alert(data['status']);					
 					/*jQuery.each(data,function(i,val){
@@ -256,7 +269,7 @@ function cargasueldo(idcategoria)
 			});
 		}
 		else{
-			alert("Debes de completar todos los campos");
+			alert("Debes de completar en el orden Clave, UR, programas, subprograma y categoria!");
 		}
 			
 	}
@@ -286,6 +299,7 @@ function cargasueldo(idcategoria)
 							<td nowrap align="left"><label class="label">UR:</label></td>
 							<td><select id="getUR" style="width: 180px;"
 								onfocus="get_programas()">
+									<option value=-1>selecciona</option>
 									<option value="01">01</option>
 									<option value="02">02</option>
 									<option value="03">03</option>
@@ -313,7 +327,7 @@ function cargasueldo(idcategoria)
 							<td colspan="3">
 								<select id="programas" style="width: 180px;"
 								onfocus="get_subprogramas()">
-									<option value="0">Seleccione</option>
+									<option value="-1">Seleccione</option>
 								</select>
 							</td>
 						</tr>
@@ -322,7 +336,7 @@ function cargasueldo(idcategoria)
 							<td nowrap align="left"><label class="label">Subprograma:</label></td>
 							<td colspan="3">
 								<select id="subprogramas" style="width: 180px;">
-									<option value="0">Seleccione</option>
+									<option value="-1">Seleccione</option>
 								</select>
 							</td>
 							<!-- Block end after -->
@@ -332,7 +346,7 @@ function cargasueldo(idcategoria)
 							<td nowrap align="left"><label class="label">Categoria:</label></td>
 							<td><select name="categoria" id="categoria" style="width: 180px;"
 								onChange="cargasueldo(this.value);">
-									<option value="">Seleccione</option>
+									<option value="-1">Seleccione</option>
                   			<?php
 																		do {
 																			?>

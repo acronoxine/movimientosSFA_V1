@@ -41,7 +41,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 }
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $colname_empleado = "-1";
 	$nombreCompleto=explode(":",$_POST['nombreUS']);
 	$rfc_TOTAL=$nombreCompleto[1];
@@ -53,10 +53,10 @@ $colname_empleado = "-1";
 
 	$sql = "Select idnominaemp from nominaemp where ifnull(rfc_iniciales, '') = '$rfc_iniciales' and ifnull(rfc_fechanac, '') = '$rfc_fechanac' and ifnull(rfc_homoclave, '') like '%$rfc_homoclave%'";
 
-	$res = mysql_query($sql, $conexion);
-	$ren = mysql_fetch_array($res);
+	$res = mysqli_query($conexion,$sql);
+	$ren = mysqli_fetch_array($res);
 
-if(mysql_num_rows($res) > 0)
+if(mysqli_num_rows($res) > 0)
 {
 
 $colname_empleado = $ren["idnominaemp"];
@@ -88,9 +88,9 @@ $query_empleado .= " left join cat_estados est on n.estado = est.idestados";
 $query_empleado .= " left join cat_municipios mun on n.ciudad = mun.idmunicipios"; 
 $query_empleado .= " left join cat_movimientos mov on n.estatus = mov.idmovimiento"; 
 $query_empleado .= " where n.idnominaemp='$colname_empleado'";
-$empleado = mysql_query($query_empleado, $conexion) or die(mysql_error());
-$row_empleado = mysql_fetch_assoc($empleado);
-$totalRows_empleado = mysql_num_rows($empleado);
+$empleado = mysqli_query( $conexion, $query_empleado) or die(mysqli_error());
+$row_empleado = mysqli_fetch_assoc($empleado);
+$totalRows_empleado = mysqli_num_rows($empleado);
 
 if($totalRows_empleado == 0)
 {
@@ -278,11 +278,11 @@ echo "<script>";
 echo "parent.document.mismovimientos.idnominaemp.value = '$row_empleado[idnominaemp]';";
 echo "</script>";
 
-mysql_free_result($empleado);
+mysqli_free_result($empleado);
 }else{
 	echo "<script>";
 	echo "alert('No se econtraron resultados para el empleado.');";
 	echo "</script>";
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 ?>

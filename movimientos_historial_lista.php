@@ -42,7 +42,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_plazas = " SELECT mh.idmovimiento as idmh, fecha_movimiento, CONCAT(e.paterno,' ',e.materno,' ',e.nombres) AS nombre,cm.tipo,mh.estatus,mh.cvecategoria,mh.categoria FROM movimiento_historial mh 
  INNER JOIN nominaemp e ON mh.idnominaemp=e.idnominaemp
  INNER JOIN cat_movimientos cm ON cm.clave=mh.movimiento ";
@@ -53,9 +53,9 @@ if(isset($_GET[consulta])){
 }
 $query_plazas.="ORDER BY mh.idmovimiento DESC LIMIT 0,50";
 //echo $query_empleados;
-$plazas = mysql_query($query_plazas, $conexion) or die(mysql_error());
-$row_plazas = mysql_fetch_assoc($plazas);
-$totalRows_plazas = mysql_num_rows($plazas);
+$plazas = mysqli_query( $conexion ,$query_plazas ) or die(mysqli_error());
+$row_plazas = mysqli_fetch_assoc($plazas);
+$totalRows_plazas = mysqli_num_rows($plazas);
 ?>
 <!doctype html>
 <html>
@@ -117,7 +117,7 @@ $totalRows_plazas = mysql_num_rows($plazas);
             <td width="80" align="center"><?php echo $row_plazas['cvecategoria']; ?></td>
             <td width="120" align="center"><?php echo $row_plazas['categoria']; ?></td>
     	</tr>
-    <?php } while ($row_plazas = mysql_fetch_assoc($plazas)); ?>
+    <?php } while ($row_plazas = mysqli_fetch_assoc($plazas)); ?>
 </table>
 <div id="enespera"></div>
 <input type="hidden" name="consulta" id="consulta" value="<? if(isset($_GET["consulta"])) echo $_GET["consulta"]; ?>">

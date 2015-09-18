@@ -8,8 +8,8 @@
 * Update a plaza_clave from cat_plazas.
 * Return a JSON struct
 */
-$con = mysql_connect ( "localhost", "movimientos", "sWTX/.9LQA2Jw" ) or die ( "Could not connect: " . mysql_error () );
-mysql_select_db ( "movimientos" );
+$con = mysqli_connect ( "localhost", "movimientos", "sWTX/.9LQA2Jw","movimientos" ) or die ( "Could not connect: " . mysql_error () );
+//mysql_select_db ( "movimientos" );
 
 $plaza_id = $_POST['plaza_id'];
 $fecha_inicial = $_POST['fecha_inicial'];
@@ -23,7 +23,7 @@ $update_emp_plaza = "UPDATE empleado_plaza "
 		."estado = 'VACANTE'"
 		." WHERE plaza_id= '$plaza_id'";
 
-$r_cat_plazas = mysql_query ( $update_emp_plaza, $con );
+$r_cat_plazas = mysqli_query ( $con,$update_emp_plaza );
 
 $array_result = array();
 $array_result[0]=$r_cat_plazas;
