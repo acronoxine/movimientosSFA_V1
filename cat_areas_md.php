@@ -17,7 +17,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+  //$theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
 
   switch ($theType) {
     case "text":
@@ -68,11 +68,11 @@ $colname_areas = "-1";
 if (isset($_GET['idarea'])) {
   $colname_areas = $_GET['idarea'];
 }
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_areas = sprintf("SELECT * FROM cat_area WHERE idarea = %s", GetSQLValueString($colname_areas, "int"));
-$areas = mysql_query($query_areas, $conexion) or die(mysql_error());
-$row_areas = mysql_fetch_assoc($areas);
-$totalRows_areas = mysql_num_rows($areas);
+$areas = mysqli_query( $conexion ,$query_areas ) or die(mysqli_error());
+$row_areas = mysqli_fetch_assoc($areas);
+$totalRows_areas = mysqli_num_rows($areas);
 ?>
 <!doctype html>
 <html>

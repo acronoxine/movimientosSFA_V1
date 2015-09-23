@@ -51,7 +51,8 @@ $totalRows_bancos = mysqli_num_rows($bancos);
 <html>
 <head>
 <meta charset="iso-8859-1">
-<link rel="shortcut icon" type="image/x-icon" href="http://www.michoacan.gob.mx/wp-content/themes/mich2015/img/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon"
+	href="http://www.michoacan.gob.mx/wp-content/themes/mich2015/img/favicon.ico">
 
 <title>Sistema de N&oacute;mina de Empleados</title>
 
@@ -178,110 +179,132 @@ function solonumeros(form, e)
 
 </head>
 <body topmargin="0" leftmargin="0">
-<div id="todo">
-	<div id="cabeza_prin">
-    </div>
-    <div id="cuerpo">
-    <div id="tituloarriba">
-   		<div id="titulosup">Dependencia</div>    
-    </div>
-    	<div id="panelizq">
+	<div id="todo">
+		<div id="cabeza_prin"></div>
+		<div id="cuerpo">
+			<div id="tituloarriba">
+				<div id="titulosup">Dependencia</div>
+			</div>
+			<div id="panelizq">
 			<? include("menu.php"); ?>
       </div>
-        <div id="centro_prin">
-          <form method="post" name="form1" action="empresas_lista.php" target="lista">
-          <table align="center">
-          <tr>
-          	<td>
-            <table align="center">
-              <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Razon social:</label></td>
-                <td><input class="campo" type="text" name="razonsocial" value="" size="32" maxlength="150"></td>
-              </tr>
-              <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Director:</label></td>
-                <td><input class="campo" type="text" name="director" value="" size="32" maxlength="90"></td>
-              </tr>
-              <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Titular:</label></td>
-                <td><input class="campo" type="text" name="titular" value="" size="32" maxlength="90"></td>
-              </tr>
-              <tr valign="baseline">
-                <td nowrap align="right"><label class="label">RFC:</label></td>
-                <td><input class="campo" type="text" name="rfc" value="" size="13" maxlength="13"></td>
-              </tr>
-              <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Clave patronal:</label></td>
-                <td><input class="campo" type="text" name="clavepatronal" value="" size="15" maxlength="15"></td>
-              </tr>
-              <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Calle:</label></td>
-                <td><input class="campo" type="text" name="calle" value="" size="32" maxlength="60"></td>
-              </tr>
-              <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Numero int:</label></td>
-                <td><input class="campo" type="text" name="numeroint" value="" size="7" maxlength="7" onKeyPress="return solonumeros(this.form, event)"></td>
-              </tr>
-              <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Numero ext:</label></td>
-                <td><input class="campo" type="text" name="numeroext" value="" size="7" maxlength="7" onKeyPress="return solonumeros(this.form, event)"></td>
-              </tr>
-            </table>
-            </td>
-          	<td valign="top">
-            <table align="center">
-              <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Colonia:</label></td>
-                <td><input class="campo" type="text" name="colonia" value="" size="32" maxlength="60"></td>
-              </tr>
-              <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Cp:</label></td>
-                <td><input class="campo" type="text" name="cp" value="" size="5" maxlength="5" onKeyPress="return solonumeros(this.form, event)"></td>
-              </tr>
-              <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Ciudad:</label></td>
-                <td><input class="campo" type="text" name="ciudad" value="Morelia" size="32" maxlength="60"></td>
-              </tr>
-              <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Estado:</label></td>
-                <td><input class="campo" type="text" name="estado" value="Michoac�n" size="32" maxlength="60"></td>
-              </tr>
-              <tr valign="baseline">
-                <td nowrap align="right"><label class="label">UPP:</label></td>
-                <td><input class="campo" type="text" name="upp" value="" size="2" maxlength="2" onKeyPress="return solonumeros(this.form, event)"></td>
-              </tr>
-              <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Banco:</label></td>
-                <td><select class="lista" name="idbancos">
-                	<option value="">Seleccione</option>
+			<div id="centro_prin">
+				<form method="post" name="form1" action="empresas_lista.php"
+					target="lista">
+					<table align="center">
+						<tr>
+							<td>
+								<table align="center">
+									<tr valign="baseline">
+										<td nowrap align="right"><label class="label">Razon social:</label></td>
+										<td><input class="campo" type="text" name="razonsocial"
+											value="" size="32" maxlength="150"></td>
+									</tr>
+									<tr valign="baseline">
+										<td nowrap align="right"><label class="label">Director:</label></td>
+										<td><input class="campo" type="text" name="director" value=""
+											size="32" maxlength="90"></td>
+									</tr>
+									<tr valign="baseline">
+										<td nowrap align="right"><label class="label">Titular:</label></td>
+										<td><input class="campo" type="text" name="titular" value=""
+											size="32" maxlength="90"></td>
+									</tr>
+									<tr valign="baseline">
+										<td nowrap align="right"><label class="label">RFC:</label></td>
+										<td><input class="campo" type="text" name="rfc" value=""
+											size="13" maxlength="13"></td>
+									</tr>
+									<tr valign="baseline">
+										<td nowrap align="right"><label class="label">Clave patronal:</label></td>
+										<td><input class="campo" type="text" name="clavepatronal"
+											value="" size="15" maxlength="15"></td>
+									</tr>
+									<tr valign="baseline">
+										<td nowrap align="right"><label class="label">Calle:</label></td>
+										<td><input class="campo" type="text" name="calle" value=""
+											size="32" maxlength="60"></td>
+									</tr>
+									<tr valign="baseline">
+										<td nowrap align="right"><label class="label">Numero int:</label></td>
+										<td><input class="campo" type="text" name="numeroint" value=""
+											size="7" maxlength="7"
+											onKeyPress="return solonumeros(this.form, event)"></td>
+									</tr>
+									<tr valign="baseline">
+										<td nowrap align="right"><label class="label">Numero ext:</label></td>
+										<td><input class="campo" type="text" name="numeroext" value=""
+											size="7" maxlength="7"
+											onKeyPress="return solonumeros(this.form, event)"></td>
+									</tr>
+								</table>
+							</td>
+							<td valign="top">
+								<table align="center">
+									<tr valign="baseline">
+										<td nowrap align="right"><label class="label">Colonia:</label></td>
+										<td><input class="campo" type="text" name="colonia" value=""
+											size="32" maxlength="60"></td>
+									</tr>
+									<tr valign="baseline">
+										<td nowrap align="right"><label class="label">Cp:</label></td>
+										<td><input class="campo" type="text" name="cp" value=""
+											size="5" maxlength="5"
+											onKeyPress="return solonumeros(this.form, event)"></td>
+									</tr>
+									<tr valign="baseline">
+										<td nowrap align="right"><label class="label">Ciudad:</label></td>
+										<td><input class="campo" type="text" name="ciudad"
+											value="Morelia" size="32" maxlength="60"></td>
+									</tr>
+									<tr valign="baseline">
+										<td nowrap align="right"><label class="label">Estado:</label></td>
+										<td><input class="campo" type="text" name="estado"
+											value="Michoac&aacute;n" size="32" maxlength="60"></td>
+									</tr>
+									<tr valign="baseline">
+										<td nowrap align="right"><label class="label">UPP:</label></td>
+										<td><input class="campo" type="text" name="upp" value=""
+											size="2" maxlength="2"
+											onKeyPress="return solonumeros(this.form, event)"></td>
+									</tr>
+									<tr valign="baseline">
+										<td nowrap align="right"><label class="label">Banco:</label></td>
+										<td><select class="lista" name="idbancos">
+												<option value="">Seleccione</option>
                   <?php 
 do {  
 ?>
-                  <option value="<?php echo $row_bancos['idbancos']?>" ><?php echo $row_bancos['banco']?></option>
+                  <option value="<?php echo $row_bancos['idbancos']?>"><?php echo $row_bancos['banco']?></option>
                   <?php
 } while ($row_bancos = mysqli_fetch_assoc($bancos));
 ?>
                 </select></td>
-            </table>
-            </td>
-              <tr valign="baseline">
-                <td colspan="2"><input class="boton" type="button" name="guardar" id="guardar" value="GUARDAR" onClick="if(valida(this.form)) submit();"></td>
-              </tr>
-              <tr>
-              	<td colspan="2">
-                	<iframe name="lista" id="lista" src="empresas_lista.php" style="width:950px; height:200px;"></iframe>
-                </td>
-              </tr>
-            </table>
-            <input type="hidden" name="MM_insert" value="form1">
-          </form>
-          <p>&nbsp;</p>
-        </div>
-    </div>
-    <div id="tituloabajo">
-   		<div id="tituloinf">Dependencia</div>    
-    </div>
-</div>
+								
+								</table>
+							</td>
+						
+						
+						<tr valign="baseline">
+							<td colspan="2"><input class="boton" type="button" name="guardar"
+								id="guardar" value="GUARDAR"
+								onClick="if(valida(this.form)) submit();"></td>
+						</tr>
+						<tr>
+							<td colspan="2"><iframe name="lista" id="lista"
+									src="empresas_lista.php" style="width: 950px; height: 200px;"></iframe>
+							</td>
+						</tr>
+					</table>
+					<input type="hidden" name="MM_insert" value="form1">
+				</form>
+				<p>&nbsp;</p>
+			</div>
+		</div>
+		<div id="tituloabajo">
+			<div id="tituloinf">Dependencia</div>
+		</div>
+	</div>
 </body>
 </html>
 <?php

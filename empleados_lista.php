@@ -31,7 +31,7 @@ if (! function_exists ( "GetSQLValueString" )) {
 			$theValue = get_magic_quotes_gpc () ? stripslashes ( $theValue ) : $theValue;
 		}
 		
-		$theValue = function_exists ( "mysqli_real_escape_string" ) ? mysqli_real_escape_string ( $theValue ) : mysqli_escape_string ( $theValue );
+		$theValue = function_exists ( "mysql_real_escape_string" ) ? mysql_real_escape_string ( $theValue ) : mysql_escape_string ( $theValue );
 		
 		switch ($theType) {
 			case "text" :
@@ -399,7 +399,7 @@ function miseleccion(dato, obj)
 		</div>
 		<table class="tablagrid" border="0" cellpadding="0" cellspacing="0"
 			width="6471" style="padding-top: 32px;">
-  		<?php //do { ?>
+  		<?php do { ?>
     		<tr id="<? echo $row_empleados["idnominaemp"]; ?>"
 				class="message_box tablaregistros"
 				onClick="miseleccion('<?php echo $row_empleados['idnominaemp']; ?>', 'id_<?php echo $row_empleados['idnominaemp']; ?>')">
@@ -455,7 +455,7 @@ function miseleccion(dato, obj)
 				<td align="center"><?php echo $row_empleados['fechabaja']; ?></td>
 			</tr>
     <?php
-				//} while ( $row_empleados = mysql_fetch_assoc ( $empleados ) );
+				} while ( $row_empleados = mysqli_fetch_assoc ( $empleados ) );
 				
 				?>
 </table>

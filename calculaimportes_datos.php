@@ -45,7 +45,7 @@ $colname_empleado = "-1";
 if (isset($_GET['idnominaemp'])) {
   $colname_empleado = $_GET['idnominaemp'];
 }
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_empleado = "SELECT n.idnominaemp, case when n.activo = '1' then 'SI' else 'NO' end as activo, concat(ifnull(rfc_iniciales, ''), ifnull(rfc_fechanac, ''), ifnull(rfc_homoclave, '')) as rfc, curp, folio, paterno, materno, nombres, calle, numint, numext, colonia, cp, mun.municipio as ciudad, est.estado";
 $query_empleado .= " , curp, a.descripcion as area, c.descripcion as categoria, n.sueldobase, concat(lpad(day(fechanacimiento), 2, '0'), '/', lpad(month(fechanacimiento), 2, '0'), '/', year(fechanacimiento)) as fechanacimiento, case when sexo = 'M' then 'MASCULINO' when sexo = 'F' then 'FEMENINO' else '' end as sexo,";
 $query_empleado .= " case when ecivil = '1' then 'SOLTERO' when ecivil = '2' then 'CASADO' when ecivil = '3' then 'DIVORCIADO' when ecivil = '4' then 'VIUDO' when ecivil = '5' then 'UNION LIBRE' else '' end as ecivil, p.descripcion as programa, s.descripcion as subprograma, pr.descripcion as proyecto,";
@@ -73,9 +73,9 @@ $query_empleado .= " left join cat_estados est on n.estado = est.idestados";
 $query_empleado .= " left join cat_municipios mun on n.ciudad = mun.idmunicipios"; 
 $query_empleado .= " left join cat_movimientos mov on n.estatus = mov.idmovimiento"; 
 $query_empleado .= " where n.idnominaemp='$colname_empleado'";
-$empleado = mysql_query($query_empleado, $conexion) or die(mysql_error());
-$row_empleado = mysql_fetch_assoc($empleado);
-$totalRows_empleado = mysql_num_rows($empleado);
+$empleado = mysqli_query( $conexion, $query_empleado) or die(mysqli_error());
+$row_empleado = mysqli_fetch_assoc($empleado);
+$totalRows_empleado = mysqli_num_rows($empleado);
 ?>
 <!doctype html>
 <html>
@@ -246,5 +246,5 @@ $totalRows_empleado = mysql_num_rows($empleado);
 </body>
 </html>
 <?php
-mysql_free_result($empleado);
+mysqli_free_result($empleado);
 ?>

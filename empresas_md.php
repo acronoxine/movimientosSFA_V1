@@ -17,7 +17,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+  //$theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
 
   switch ($theType) {
     case "text":
@@ -63,8 +63,8 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
                        GetSQLValueString($_POST['idbancos'], "int"),
                        GetSQLValueString($_POST['idempresa'], "int"));
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($updateSQL, $conexion) or die(mysql_error());
+  //mysql_select_db($database_conexion, $conexion);
+  $Result1 = mysqli_query( $conexion ,$updateSQL ) or die(mysqli_error());
 
   $updateGoTo = "empresas.php";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -75,21 +75,21 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
 }
 
 
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_bancos = "SELECT * FROM bancos";
-$bancos = mysql_query($query_bancos, $conexion) or die(mysql_error());
-$row_bancos = mysql_fetch_assoc($bancos);
-$totalRows_bancos = mysql_num_rows($bancos);
+$bancos = mysqli_query($conexion , $query_bancos) or die(mysqli_error());
+$row_bancos = mysqli_fetch_assoc($bancos);
+$totalRows_bancos = mysqli_num_rows($bancos);
 
 $colname_empresa = "-1";
 if (isset($_GET['idempresa'])) {
   $colname_empresa = $_GET['idempresa'];
 }
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_empresa = sprintf("SELECT idempresa, razonsocial, titular, rfc, clavepatronal, calle, numeroint, numeroext, colonia, cp, ciudad, estado, upp, idbancos FROM empresa WHERE idempresa = %s", GetSQLValueString($colname_empresa, "int"));
-$empresa = mysql_query($query_empresa, $conexion) or die(mysql_error());
-$row_empresa = mysql_fetch_assoc($empresa);
-$totalRows_empresa = mysql_num_rows($empresa);
+$empresa = mysqli_query($conexion , $query_empresa ) or die(mysqli_error());
+$row_empresa = mysqli_fetch_assoc($empresa);
+$totalRows_empresa = mysqli_num_rows($empresa);
 ?>
 <!doctype html>
 <html>
@@ -239,7 +239,7 @@ function solonumeros(form, e)
           	<td>
             <table align="center">
               <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Raz�n social:</label></td>
+                <td nowrap align="right"><label class="label">Raz&oacute;n social:</label></td>
                 <td><input class="campo" type="text" name="razonsocial" value="<?php echo htmlentities($row_empresa['razonsocial'], ENT_COMPAT, 'iso-8859-1'); ?>" size="32" maxlength="150"></td>
               </tr>
               <tr valign="baseline">
@@ -298,7 +298,7 @@ do {
 ?>
                   <option value="<?php echo $row_bancos['idbancos']?>" ><?php echo $row_bancos['banco']?></option>
                   <?php
-} while ($row_bancos = mysql_fetch_assoc($bancos));
+} while ($row_bancos = mysqli_fetch_assoc($bancos));
 ?>
                 </select></td>
               <tr>
@@ -322,7 +322,7 @@ do {
 </body>
 </html>
 <?php
-mysql_free_result($bancos);
+mysqli_free_result($bancos);
 
-mysql_free_result($empresa);
+mysqli_free_result($empresa);
 ?>

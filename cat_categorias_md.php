@@ -17,7 +17,13 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysqli_real_escape_string($theValue) : mysql_escape_string($theValue);
+  //$theValue = function_exists("mysqli_real_escape_string") ? mysqli_real_escape_string($conexion , $theValue) : mysqli_escape_string( $conexion , $theValue);
+  
+  if(function_exist){
+  	$obj = new database();
+  	$link = $obj->connect();
+  	$theValue = mysqli_real_escape_string($link,$theValue);
+  }
 
   switch ($theType) {
     case "text":
@@ -142,7 +148,7 @@ function solonumeros(form, e)
     </div>
     <div id="cuerpo">
     <div id="tituloarriba">
-   		<div id="titulosup">Categor�as</div>    
+   		<div id="titulosup">Categor&iacute;as</div>    
     </div>
     	<div id="panelizq">
 			<? include("menu.php"); ?>
@@ -159,7 +165,7 @@ function solonumeros(form, e)
                 <td><input class="campo" type="text" name="clave" value="<?php echo htmlentities($row_areas['clave'], ENT_COMPAT, 'iso-8859-1'); ?>" size="5" maxlength="5"></td>
               </tr>
               <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Descripci�n:</label></td>
+                <td nowrap align="right"><label class="label">Descripci&oacute;n:</label></td>
                 <td><input class="campo" type="text" name="descripcion" value="<?php echo htmlentities($row_areas['descripcion'], ENT_COMPAT, 'iso-8859-1'); ?>" size="40" maxlength="150"></td>
               </tr>
               <tr valign="baseline">
@@ -167,7 +173,7 @@ function solonumeros(form, e)
                 <td><input class="campo" type="text" name="sueldobase" value="<?php echo htmlentities($row_areas['sueldobase'], ENT_COMPAT, 'iso-8859-1'); ?>" size="25" maxlength="12" onKeyPress="return solonumeros(this.form, event);" style="text-align:right;"></td>
               </tr>
               <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Homologaci�n:</label></td>
+                <td nowrap align="right"><label class="label">Homologaci&oacute;n:</label></td>
                 <td><input class="campo" type="text" name="hom" value="<?php echo htmlentities($row_areas['hom'], ENT_COMPAT, 'iso-8859-1'); ?>" size="25" maxlength="12" onKeyPress="return solonumeros(this.form, event);" style="text-align:right;"></td>
               </tr>
               <tr valign="baseline">

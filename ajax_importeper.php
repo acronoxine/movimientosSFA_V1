@@ -1,28 +1,28 @@
 <?
 include("Connections/conexion.php");
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 
 switch($_POST["concepto"])
 {
 	case '101':
 		$sql = "Select sueldobase as importe from nominaemp where idnominaemp = '$_POST[idnominaemp]'";
-		$res = mysql_query($sql, $conexion);
-		$ren = mysql_fetch_array($res);
-		mysql_free_result($res);
+		$res = mysqli_query( $conexion, $sql );
+		$ren = mysqli_fetch_array( $res );
+		mysqli_free_result($res);
 	
 		$importe = $ren["importe"];
 	break;
 	case '114':
 		$sql = "Select sueldobase as importe from nominaemp where idnominaemp = '$_POST[idnominaemp]'";
-		$res_sb = mysql_query($sql, $conexion);
-		$ren_sb = mysql_fetch_array($res_sb);
-		mysql_free_result($res_sb);
+		$res_sb = mysqli_query( $conexion , $sql );
+		$ren_sb = mysqli_fetch_array( $res_sb );
+		mysqli_free_result( $res_sb );
 	
 	
 		$sql = "Select importe, porcentaje, dias, uso from cat_conceptos where clave = '114'";
-		$res = mysql_query($sql, $conexion);
-		$ren = mysql_fetch_array($res);
-		mysql_free_result($res);
+		$res = mysqli_query( $conexion, $sql );
+		$ren = mysqli_fetch_array( $res );
+		mysqli_free_result( $res );
 		
 		switch($ren["uso"])
 		{
@@ -48,9 +48,9 @@ switch($_POST["concepto"])
 		$sql = "select limiteinferior, cuotafija, porciento";
 		$sql .= " from isr";
 		$sql .= " where ($sueldobase between limiteinferior and limitesuperior) or ($sueldobase >= limiteinferior and limitesuperior=0)";
-		$res = mysql_query($sql, $conexion);
-		$ren = mysql_fetch_array($res);
-		mysql_free_result($res);
+		$res = mysqli_query( $conexion, $sql );
+		$ren = mysqli_fetch_array( $res );
+		mysqli_free_result( $res );
 		
 		$resultado = (($sueldobase - $ren["limiteinferior"]) * ($ren["porciento"]/100)) + $ren["cuotafija"];
 		
@@ -71,9 +71,9 @@ switch($_POST["concepto"])
   		$sql.=" WHERE (n.concepto=101 AND n.idnominaemp=$_POST[idnominaemp]) OR
 		 			(n.concepto=114 AND n.idnominaemp=$_POST[idnominaemp])";
 	     //echo $sql;
-		$res_sb = mysql_query($sql, $conexion);
-		$ren_sb = mysql_fetch_array($res_sb);
-		mysql_free_result($res_sb);
+		$res_sb = mysqli_query( $conexion, $sql );
+		$ren_sb = mysqli_fetch_array( $res_sb );
+		mysqli_free_result( $res_sb );
 		$sueldoDiario=($ren_sb['importe']*2)/30;
 		$ultimoDA=date('Y')."-12-31";
 		$diasTranscurridos=dias_transcurridos($ren_sb['fechaingr'],$ultimoDA);
@@ -87,9 +87,9 @@ switch($_POST["concepto"])
 		$sql.=" nomina n INNER JOIN nominaemp e ON n.idnominaemp=e.idnominaemp";
   		$sql.=" WHERE (n.concepto=101 AND n.idnominaemp=$_POST[idnominaemp]) OR
 		 			(n.concepto=114 AND n.idnominaemp=$_POST[idnominaemp])";
-		$res_sb = mysql_query($sql, $conexion);
-		$ren_sb = mysql_fetch_array($res_sb);
-		mysql_free_result($res_sb);
+		$res_sb = mysqli_query( $conexion, $sql );
+		$ren_sb = mysqli_fetch_array( $res_sb );
+		mysqli_free_result( $res_sb );
 		$sueldoDiario=($ren_sb['importe']*2)/30;
 		$ultimoDA=date('Y')."-12-31";
 		$diasTranscurridos=dias_transcurridos($ren_sb['fechaingr'],$ultimoDA);
@@ -101,15 +101,15 @@ switch($_POST["concepto"])
 	break;
 	default:
 		$sql = "Select sueldobase as importe from nominaemp where idnominaemp = '$_POST[idnominaemp]'";
-		$res_sb = mysql_query($sql, $conexion);
-		$ren_sb = mysql_fetch_array($res_sb);
-		mysql_free_result($res_sb);
+		$res_sb = mysqli_query( $conexion, $sql );
+		$ren_sb = mysqli_fetch_array( $res_sb );
+		mysqli_free_result( $res_sb );
 	
 	
 		$sql = "Select importe, porcentaje, dias, uso from cat_conceptos where clave = '$_POST[concepto]'";
-		$res = mysql_query($sql, $conexion);
-		$ren = mysql_fetch_array($res);
-		mysql_free_result($res);
+		$res = mysqli_query( $conexion, $sql );
+		$ren = mysqli_fetch_array( $res );
+		mysqli_free_result( $res );
 		
 		switch($ren["uso"])
 		{

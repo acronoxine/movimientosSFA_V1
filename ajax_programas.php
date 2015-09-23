@@ -2,10 +2,15 @@
 $con = mysqli_connect ( "localhost", "movimientos", "sWTX/.9LQA2Jw","movimientos" ) or die ( "Could not connect: " . mysqli_error () );
 //mysql_select_db ( "movimientos" );
 
-$query = "SELECT DISTINCT
-    idprograma, clave, descripcion, idarea
+$query = "SELECT
+	idprograma,
+	clave,
+	descripcion,
+	idarea
 FROM
-    cat_programa";
+	cat_programa
+GROUP BY
+	clave";
 $programas = array();
 
 $r_prog = mysqli_query ( $con, $query );

@@ -17,7 +17,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysqli_real_escape_string($theValue) : mysql_escape_string($theValue);
+  //$theValue = function_exists("mysql_real_escape_string") ? mysqli_real_escape_string($theValue) : mysql_escape_string($theValue);
 
   switch ($theType) {
     case "text":
@@ -186,7 +186,7 @@ function solonumeros(form, e)
                   <td><input <? if($row_conceptos['uso'] != "IMP") echo "disabled"; ?> class="campo" type="text" name="importe" id="importe" value="<?php echo htmlentities($row_conceptos['importe'], ENT_COMPAT, 'iso-8859-1'); ?>" size="12" maxlength="12" style="text-align:right;" onKeyPress="return solonumeros(this.form, event)"></td>
                   <td>
                   	<input <? if($row_conceptos['uso'] == "IMP") echo "checked"; ?> type="radio" name="uso" id="porimporte" value="IMP" onClick="document.getElementById('_activa').value = this.value; activa(this.form);">
-                    <label class="label" for="porimporte">Se usuará importe</label>
+                    <label class="label" for="porimporte">Se usuar&aacute; importe</label>
                   </td>
                 </tr>
                 <tr valign="baseline">
@@ -194,7 +194,7 @@ function solonumeros(form, e)
                   <td><input <? if($row_conceptos['uso'] != "DIA") echo "disabled"; ?> class="campo" type="text" name="dias" id="dias" value="<?php echo htmlentities($row_conceptos['dias'], ENT_COMPAT, 'iso-8859-1'); ?>" size="3" maxlength="3" style="text-align:right;" onKeyPress="return solonumeros(this.form, event)"></td>
                   <td>
                   	<input <? if($row_conceptos['uso'] == "DIA") echo "checked"; ?> type="radio" name="uso" id="pordias" value="DIA" onClick="document.getElementById('_activa').value = this.value; activa(this.form);">
-                    <label class="label" for="pordias">Se usuarán días</label>
+                    <label class="label" for="pordias">Se usuar&aacute;n d&iacute;as</label>
                   </td>
                 </tr>
                 <tr valign="baseline">
@@ -202,14 +202,14 @@ function solonumeros(form, e)
                   <td><input <? if($row_conceptos['uso'] != "POR") echo "disabled"; ?> class="campo" type="text" name="porcentaje" id="porcentaje" value="<?php echo htmlentities($row_conceptos['porcentaje'], ENT_COMPAT, 'iso-8859-1'); ?>" size="3" maxlength="3" style="text-align:right;" onKeyPress="return solonumeros(this.form, event)"></td>
                   <td>
                   	<input <? if($row_conceptos['uso'] == "POR") echo "checked"; ?> type="radio" name="uso" id="porporcentaje" value="POR" onClick="document.getElementById('_activa').value = this.value; activa(this.form);">
-                    <label class="label" for="porporcentaje">Se usuará porcentaje</label>
+                    <label class="label" for="porporcentaje">Se usuar&aacute; porcentaje</label>
                   </td>
                 </tr>
                 <tr valign="baseline">
                   <td nowrap align="right"><label class="label">Tipo:</label></td>
                   <td colspan="2"><select name="tipo" class="lista">
-                    <option value="P" <?php if (!(strcmp("P", htmlentities($row_conceptos['tipo'], ENT_COMPAT, 'iso-8859-1')))) {echo "SELECTED";} ?>>Percepción</option>
-                    <option value="D" <?php if (!(strcmp("D", htmlentities($row_conceptos['tipo'], ENT_COMPAT, 'iso-8859-1')))) {echo "SELECTED";} ?>>Deducción</option>
+                    <option value="P" <?php if (!(strcmp("P", htmlentities($row_conceptos['tipo'], ENT_COMPAT, 'UTF-8')))) {echo "SELECTED";} ?>>Percepción</option>
+                    <option value="D" <?php if (!(strcmp("D", htmlentities($row_conceptos['tipo'], ENT_COMPAT, 'UTF-8')))) {echo "SELECTED";} ?>>Deducción</option>
                   </select></td>
                 </tr>
                 <tr valign="baseline">

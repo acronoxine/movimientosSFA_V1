@@ -8,26 +8,30 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysqli_real_escape_string") ? mysqli_real_escape_string($theValue) : mysqli_escape_string($theValue);
-
+  //$theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+  if(function_exist){
+  	$obj = new database();
+  	$link = $obj->connect();
+  	$theValue = mysqli_real_escape_string($link,$theValue);
+  }
   switch ($theType) {
     case "text":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      $theValue = ( $theValue != "") ? "'" . $theValue . "'" : "NULL";
       break;    
     case "long":
     case "int":
-      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
+      $theValue = ( $theValue != "") ? intval( $theValue) : "NULL";
       break;
     case "double":
-      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
+      $theValue = ( $theValue != "") ? doubleval( $theValue) : "NULL";
       break;
     case "date":
-      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      $theValue = ( $theValue != "") ? "'" . $theValue . "'" : "NULL";
       break;
     case "defined":
-      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+      $theValue = ( $theValue != "") ? $theDefinedValue : $theNotDefinedValue;
       break;
-  }
+  	}
   return $theValue;
 }
 }
@@ -113,27 +117,27 @@ function recalculoISR($idnominaemp){
 	$database_conexion = "nominacetic";
 	$username_conexion = "adminnomina";
 	$password_conexion = "GNgOLWSQR780";
-	$conexion = mysql_pconnect($hostname_conexion, $username_conexion, $password_conexion) or trigger_error(mysql_error(),E_USER_ERROR); 
+	//$conexion = mysql_pconnect($hostname_conexion, $username_conexion, $password_conexion) or trigger_error(mysql_error(),E_USER_ERROR); 
 
 		$sql_isr="SELECT SUM(importe)-
 			(SELECT CASE WHEN SUM(importe)>0 THEN SUM(importe) ELSE 0 END FROM nomina WHERE idnominaemp='$idnominaemp' AND concepto='258') AS sueldobase 
 			FROM nomina 
 			WHERE (idnominaemp='$idnominaemp' AND concepto='101') 
 			OR (idnominaemp='$idnominaemp' AND concepto='114')";
-		$resisr=mysql_query($sql_isr,$conexion);
-		$renisr=mysql_fetch_array($resisr);
+		$resisr=mysqli_query( $conexion,$sql_isr );
+		$renisr=mysqli_fetch_array( $resisr );
 		$sueldoB=$renisr['sueldobase'];
 
-		mysql_free_result($res);
+		mysqli_free_result($res);
 		$sql = "select limiteinferior, cuotafija, porciento";
 		$sql .= " from isr";
 		$sql .= " where ($sueldoB between limiteinferior and limitesuperior) or ($sueldoB >= limiteinferior and limitesuperior=0)";
-		$res = mysql_query($sql, $conexion);
-		$ren = mysql_fetch_array($res);
-		mysql_free_result($res);
+		$res = mysqli_query( $conexion, $sql );
+		$ren = mysqli_fetch_array($res);
+		mysqli_free_result($res);
 		$resultado = (($sueldoB - $ren["limiteinferior"]) * ($ren["porciento"]/100)) + $ren["cuotafija"];//NUEVO ISR
 		$sql="UPDATE nomina SET importe='$resultado' WHERE idnominaemp='$idnominaemp' and concepto='251'";
-		mysql_query($sql,$conexion);
+		mysql_query( $conexion, $sql);
 
 }
 ?>

@@ -19,15 +19,15 @@ require_once('Connections/conexion.php');
 <title>Sistema de Movimientos</title>
 <link rel="stylesheet" type="text/css" href="css/estilos.css">
 
-<script src="js_popup/jquery.js"></script>
+<!-- <script src="js_popup/jquery.js"></script>
         <script src="js_popup/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-        <link rel="stylesheet" type="text/css" href="js_popup/fancybox/jquery.fancybox-1.3.4.css">
+        <link rel="stylesheet" type="text/css" href="js_popup/fancybox/jquery.fancybox-1.3.4.css">-->
 
         <script type="text/javascript">
 
                 function formato(datos)
                 {
-                    $.fancybox({
+                    jQuery.fancybox({
                         'href': 'pdfmovimiento_hist.php?idmh=' + datos,
                         'autoScale': false,
                         'transitionIn': 'none',

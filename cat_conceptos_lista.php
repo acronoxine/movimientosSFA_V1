@@ -8,7 +8,8 @@ if($_SESSION["m_sesion"] != 1)
 	exit();
 }
 ?>
-<?php require_once('Connections/conexion.php'); ?>
+<?php require_once('Connections/conexion.php'); 
+header('Content-Type: text/html; charset=UTF-8'); ?>
 <?php
 if (!function_exists("GetSQLValueString")) {
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
@@ -150,10 +151,10 @@ $totalRows_conceptos = mysqli_num_rows($conceptos);
   <tr class="tablahead">
     <td width="37" align="center">&nbsp;</td>
     <td width="71" align="center">CLAVE</td>
-    <td width="239" align="center">DESCRIPCIÓN</td>
-    <td width="83" align="center">AFECTACIÓN</td>
+    <td width="239" align="center">DESCRIPCI&Oacute;N</td>
+    <td width="83" align="center">AFECTACI&Oacute;N</td>
     <td width="125" align="center">IMPORTE</td>
-    <td width="47" align="center">DÍAS</td>
+    <td width="47" align="center">D&iacute;AS</td>
     <td width="82" align="center">PORCENTAJE</td>
     <td width="87" align="center">USO</td>
     <td align="center">TIPO</td>

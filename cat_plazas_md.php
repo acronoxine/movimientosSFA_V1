@@ -276,8 +276,7 @@ function movimiento(){
 		var categoria = jQuery( "#categoria" ).val();
 		var titular = jQuery( "#titular" ).val();
 		if(plaza_clave != 0 && ur != 0 && programa != null && subprograma != null  && titular != "" && categoria !="" ){
-			alert("Si clave =! null or empty"+clave);
-				/*jQuery.ajax({
+			jQuery.ajax({
 				type		: "POST",
 				dataType	: "json",
 				url 		: "jQuery_update_cat_plazas.php",
@@ -292,7 +291,6 @@ function movimiento(){
 								},
 				success		: function (data) {
 					jQuery.each(data,function(i,val){
-						//alert(val)
 						if(val ==true){
 							alert('Modificacion correcta.');
 							jQuery( "#programas" ).empty();
@@ -303,9 +301,9 @@ function movimiento(){
 							}
 					});
 				}
-			});*/
+			});
 		}
-		//else{alert("Todos los datos son requeridos, para modifcar una plaza");}		
+		else{alert("Todos los datos son requeridos, para modifcar una plaza");}		
 	}
 
 	function liberar_plaza(){
@@ -520,7 +518,7 @@ function movimiento(){
 						</tr>
 					</table>
 					<!-- <input type="hidden" name="MM_update" value="form1"> 
-					<input type="hidden" name="idplaza" value="<?php //echo $colname_plaza; ?>">-->
+					<input type="hidden" name="idplaza" value="<?php echo $colname_plaza; ?>">-->
 				</form>
 			
 				<!--   -------------------------------   Asignacion de la plaza desde el catalogo ------------------------------>

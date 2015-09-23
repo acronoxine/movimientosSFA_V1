@@ -101,23 +101,32 @@ function solonumeros(form, e)
 }
 </script>
 <script>
-function busca(dato,dato2)
-{
-	var boton=document.getElementById('r1');
-	boton.checked=false;
-	parent.lista.document.location.replace('cat_plazas_lista.php?consultap='+dato2.value+'&consulta='+dato);
-	
-}
+	/**
+		Execute event when press up a key from keyboard
+	*/
 function busca(sql){
 	var boton=document.getElementById('consultap');
 	boton.checked=false;
 	parent.lista.document.location.replace('cat_plazas_lista.php?consultap='+boton.value);
 }
-function busca2(dato,dato2)
+function buscaVacante()
+{
+	var boton=document.getElementById('r1');
+	boton.checked=false;
+	//parent.lista.document.location.replace('cat_plazas_lista.php?consultap='+dato2.value+'&consulta='+dato);
+	parent.lista.document.location.replace('cat_plazas_lista.php?consultap=VACANTE');
+}
+/*Search from imput througth input*/
+function buscaVencidas(dato,dato2){
+	var boton=document.getElementById('r1');
+	boton.checked=false;
+	parent.lista.document.location.replace('cat_plazas_lista.php?fecha='+dato+'&consulta='+dato2.value);
+	
+}
+function buscaOcupadas()
 {
 	document.getElementById('r1').value=false;
-	parent.lista.document.location.replace('cat_plazas_lista.php?fecha='+dato+'&consulta='+dato2.value);
-
+	parent.lista.document.location.replace('cat_plazas_lista.php?consultap=OCUPADO');
 }
 
 function sueldo(dato)
@@ -292,7 +301,7 @@ function cargasueldo(idcategoria)
 						<tr valign="baseline">
 							<!-- Start Clave segment -->
 							<td nowrap align="left"><label class="label">CLAVE:</label></td>
-							<td><input name="plaza_clave" id="plaza_clave" placeholder="Introduce la clave"/></td>
+							<td><input name="plaza_clave" id="plaza_clave" placeholder="Introduce la clave" size="21.7"/></td>
 						</tr>
 						<tr valign="baseline">
 							<!-- Start UR -->
@@ -393,20 +402,19 @@ function cargasueldo(idcategoria)
 						<!-- Im here edit, right now -->
 							<td colspan="3"><label class="label">Vacantes</label> 
 							<input
-								type="radio" value="1" name="r1" id="r1"
-								style="vertical-align: middle"
-								onFocus="busca('VACANTE',document.getElementById('consultap'))" />
-                    			<? $fecha=date("Y")."-".date("m")."-".date('d');?>
+								type="radio" value="1" name="r1" id="r1" style="vertical-align: middle"
+								onFocus="buscaVacante();" />
+                    			
                     			<label class="label">Vencidas</label> 
-                    		<input
-								type="radio" value="1" name="r1" id="r1"
-								onFocus="busca2('<? echo $fecha?>',document.getElementById('consultap'))"
+                    			<?php $fecha=date("Y")."-".date("m")."-".date('d');?>
+                    		<input type="radio" value="1" name="r1" id="r1"
+								onFocus="buscaVencidas('<? echo $fecha?>',document.getElementById('consultap'))"
 								style="vertical-align: middle" /> <label class="label">Ocupadas</label>
 							<input type="radio" value="1" name="r1" id="r1"
-								onFocus="busca('OCUPADO',document.getElementById('consultap'))"
+								onFocus="buscaOcupadas()"
 								style="vertical-align: middle" /> <label class="label">Todas</label>
 							<input type="radio" value="-1" name="r1"
-								onFocus="busca('',this)" style="vertical-align: middle" /></td>
+								onFocus="buscaVacante('',this)" style="vertical-align: middle" /></td>
 						</tr>
 						<tr valign="baseline">
 							<label class="label">Numero de entradas:</label>

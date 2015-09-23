@@ -125,15 +125,15 @@ function solonumeros(form, e)
             <table align="center">
               <tr valign="baseline">
                 <td nowrap align="right"><label class="label">Clave:</label></td>
-                <td><input class="campo" type="text" name="clave" value="" size="4" maxlength="4" onKeyPress="return solonumeros(this.form, event)"></td>
+                <td><input class="campo" type="text" name="clave" value="" size="32" maxlength="4" onKeyPress="return solonumeros(this.form, event)"></td>
               </tr>
               <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Descripci�n:</label></td>
+                <td nowrap align="right"><label class="label">Descripci&oacute;n:</label></td>
                 <td><input class="campo" type="text" name="descripcion" value="" size="32" maxlength="150"></td>
               </tr>
               <tr valign="baseline">
                 <td nowrap align="right"><label class="label">Programa:</label></td>
-                <td><select name="programa" class="lista" style="width:180px;">
+                <td><select name="programa" class="lista" style="width:20.7em;">
                 	<option value="">Seleccione</option>
                   <?php 
 do {  

@@ -17,7 +17,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysqli_real_escape_string($theValue) : mysql_escape_string($theValue);
+  //$theValue = function_exists("mysql_real_escape_string") ? mysqli_real_escape_string($theValue) : mysql_escape_string($theValue);
 
   switch ($theType) {
     case "text":
@@ -141,7 +141,7 @@ function solonumeros(form, e)
                 <td><input class="campo" type="text" name="clave" value="<?php echo htmlentities($row_programas['clave'], ENT_COMPAT, 'iso-8859-1'); ?>" size="2" maxlength="2"></td>
               </tr>
               <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Descripción:</label></td>
+                <td nowrap align="right"><label class="label">Descripci&oacute;n:</label></td>
                 <td><input class="campo" type="text" name="descripcion" value="<?php echo htmlentities($row_programas['descripcion'], ENT_COMPAT, 'iso-8859-1'); ?>" size="32" maxlength="150"></td>
               </tr>
               <tr valign="baseline">

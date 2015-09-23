@@ -8,7 +8,8 @@ if($_SESSION["m_sesion"] != 1)
 	exit();
 }
 ?>
-<?php require_once('Connections/conexion.php'); ?>
+<?php require_once('Connections/conexion.php');
+header('Content-Type: text/html; charset=UTF-8'); ?>
 <?php
 if (!function_exists("GetSQLValueString")) {
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
@@ -17,7 +18,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysqli_real_escape_string($theValue) : mysql_escape_string($theValue);
+ // $theValue = function_exists("mysql_real_escape_string") ? mysqli_real_escape_string($theValue) : mysql_escape_string($theValue);
 
   switch ($theType) {
     case "text":
@@ -76,7 +77,7 @@ $totalRows_subprogramas = mysqli_num_rows($subprogramas);
 
 //mysql_select_db($database_conexion, $conexion);
 $query_programa = "SELECT * FROM cat_programa";
-$programa = mysqli_query($query_programa, $conexion) or die(mysqli_error());
+$programa = mysqli_query( $conexion, $query_programa ) or die(mysqli_error());
 $row_programa = mysqli_fetch_assoc($programa);
 $totalRows_programa = mysqli_num_rows($programa);
 ?>
@@ -140,7 +141,7 @@ function valida(form)
                 <td><input class="campo" type="text" name="clave" value="<?php echo htmlentities($row_subprogramas['clave'], ENT_COMPAT, 'iso-8859-1'); ?>" size="2" maxlength="2"></td>
               </tr>
               <tr valign="baseline">
-                <td nowrap align="right"><label class="label">Descripción:</label></td>
+                <td nowrap align="right"><label class="label">Descripci&oacute;n:</label></td>
                 <td><input class="campo" type="text" name="descripcion" value="<?php echo htmlentities($row_subprogramas['descripcion'], ENT_COMPAT, 'iso-8859-1'); ?>" size="32" maxlength="150"></td>
               </tr>
               <tr valign="baseline">

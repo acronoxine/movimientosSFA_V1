@@ -1,6 +1,6 @@
 <?
 include("Connections/conexion.php");
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 
 switch($_POST["concepto"])
 {
@@ -14,9 +14,9 @@ switch($_POST["concepto"])
 			FROM nomina 
 			WHERE (idnominaemp='$_POST[idnominaemp]' AND concepto='101') 
 			OR (idnominaemp='$_POST[idnominaemp]' AND concepto='114')";
-		$res = mysql_query($sql, $conexion);
-		$ren = mysql_fetch_array($res);
-		mysql_free_result($res);
+		$res = mysqli_query( $conexion,$sql );
+		$ren = mysqli_fetch_array($res);
+		mysqli_free_result($res);
 		
 		$sueldobase = $ren["sueldobase"];
 /*		
@@ -63,14 +63,14 @@ switch($_POST["concepto"])
 			mysql_free_result($res);
 		}
 	*/	
-		mysql_free_result($res_isr);
+		mysqli_free_result($res_isr);
 		if($baseGr==0){
 			$sql = "select limiteinferior, cuotafija, porciento";
 			$sql .= " from isr";
 			$sql .= " where ($sueldobase between limiteinferior and limitesuperior) or ($sueldobase >= limiteinferior and limitesuperior=0)";
-			$res = mysql_query($sql, $conexion);
-			$ren = mysql_fetch_array($res);
-			mysql_free_result($res);
+			$res = mysqli_query( $conexion,$sql );
+			$ren = mysqli_fetch_array( $res );
+			mysqli_free_result( $res );
 		
 			$resultado = (($sueldobase - $ren["limiteinferior"]) * ($ren["porciento"]/100)) + $ren["cuotafija"];
 		
@@ -93,9 +93,9 @@ switch($_POST["concepto"])
 			if(isset($_POST["dias"]))
 			{
 				$sql = "Select sueldobase as importe from nominaemp where idnominaemp = '$_POST[idnominaemp]'";
-				$res_sb = mysql_query($sql, $conexion);
-				$ren_sb = mysql_fetch_array($res_sb);
-				mysql_free_result($res_sb);
+				$res_sb = mysqli_query( $conexion,$sql );
+				$ren_sb = mysqli_fetch_array( $res_sb );
+				mysqli_free_result( $res_sb );
 		
 				$sueldodiario = ($ren_sb["importe"] * 2) / 30;
 				$importe = $sueldodiario * $_POST["dias"];
@@ -115,15 +115,15 @@ switch($_POST["concepto"])
 	
 	default:
 		$sql = "Select sueldobase as importe from nominaemp where idnominaemp = '$_POST[idnominaemp]'";
-		$res_sb = mysql_query($sql, $conexion);
-		$ren_sb = mysql_fetch_array($res_sb);
-		mysql_free_result($res_sb);
+		$res_sb = mysqli_query( $conexion , $sql );
+		$ren_sb = mysqli_fetch_array( $res_sb );
+		mysqli_free_result( $res_sb );
 	
 	
 		$sql = "Select importe, porcentaje, dias, uso from cat_conceptos where clave = '$_POST[concepto]'";
-		$res = mysql_query($sql, $conexion);
-		$ren = mysql_fetch_array($res);
-		mysql_free_result($res);
+		$res = mysqli_query( $conexion,$sql );
+		$ren = mysqli_fetch_array( $res );
+		mysqli_free_result($res);
 		
 		switch($ren["uso"])
 		{

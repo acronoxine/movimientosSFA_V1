@@ -32,7 +32,7 @@
                     <a href="salariom.php">Salario m�nimo</a>
                 </li>
                 -->
-				<li><a href="cat_categorias.php">Categor�as</a></li>
+				<li><a href="cat_categorias.php">Categor&iacuteas</a></li>
 				<li><a href="cat_conceptos.php">Conceptos</a></li>
 				<li><a href="cat_programas.php">Programas</a></li>
 				<li><a href="cat_subprogramas.php">Subprogramas</a></li>

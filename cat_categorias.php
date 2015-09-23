@@ -24,21 +24,21 @@ function valida(form)
 {
 	if(form.nivel.value == "")
 	{
-		alert("Indique el nivel de la categor�a");
+		alert("Indique el nivel de la categor&iacute;a");
 		form.nivel.focus();
 		return false;
 	}
 	
 	if(form.clave.value == "")
 	{
-		alert("Indique la clave de la categor�a");
+		alert("Indique la clave de la categor&iacute;a");
 		form.clave.focus();
 		return false;
 	}
 	
 	if(form.descripcion.value == "")
 	{
-		alert("Indique el nombre de la categor�a");
+		alert("Indique el nombre de la categor&iacute;a");
 		form.decripcion.focus();
 		return false;
 	}
@@ -46,7 +46,7 @@ function valida(form)
 
 	if(form.sueldobase.value == "" || form.sueldobase.value == "0")
 	{
-		alert("Indique el sueldo base de la categor�a");
+		alert("Indique el sueldo base de la categor&iacute;a");
 		form.sueldobase.focus();
 		return false;
 	}
@@ -81,7 +81,7 @@ function solonumeros(form, e)
 	<div id="cabeza_prin">
     </div>
     <div id="tituloarriba">
-   		<div id="titulosup">Categor�as</div>    
+   		<div id="titulosup">Categor&iacute;as</div>    
     </div>
     <div id="cuerpo">
     	<div id="panelizq">
@@ -126,7 +126,7 @@ function solonumeros(form, e)
         </div>
     </div>
     <div id="tituloabajo">
-   		<div id="tituloinf">Categor�as</div>    
+   		<div id="tituloinf">Categor&iacute;as</div>    
     </div>
 </div>
 </body>

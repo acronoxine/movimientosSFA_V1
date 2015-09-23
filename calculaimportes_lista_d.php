@@ -17,21 +17,21 @@ if($_SESSION["m_sesion"] != 1)
 if ((isset($_GET['idnomina'])) && ($_GET['idnomina'] != "")) {
  
   $sql = "Select idbeneficiarios from nomina where idnomina = '$_GET[idnomina]'";
-  $res = mysql_query($sql, $conexion);
-  $ren = mysql_fetch_array($res);
+  $res = mysqli_query( $conexion, $sql );
+  $ren = mysqli_fetch_array($res);
 
   $deleteSQL = sprintf("DELETE FROM cat_beneficiarios WHERE idbeneficiarios=%s",
                        GetSQLValueString($ren['idbeneficiarios'], "int"));
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($deleteSQL, $conexion) or die(mysql_error());	
+ //mysql_select_db($database_conexion, $conexion);
+  $Result1 = mysqli_query( $conexion,$deleteSQL ) or die( mysqli_error() );	
 	
 	
   $deleteSQL = sprintf("DELETE FROM nomina WHERE idnomina=%s",
                        GetSQLValueString($_GET['idnomina'], "int"));
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($deleteSQL, $conexion) or die(mysql_error());
+  //mysql_select_db($database_conexion, $conexion);
+  $Result1 = mysqli_query( $conexion, $deleteSQL ) or die(mysqli_error());
     //------- Para obligar al recalculo del ISR en funcionesJL-----------------------------
    if($_GET['concepto']=='258'){
 		recalculoISR($_GET['idnominaemp']);
@@ -54,8 +54,8 @@ if ((isset($_POST["imported"])) && ($_POST["imported"] > 0)) {
 						   GetSQLValueString($_POST['pen_porcentaje'], "double"),
 						   GetSQLValueString($_POST['pen_importe'], "double"));
 	
-		mysql_select_db($database_conexion, $conexion);
-		$Result1 = mysql_query($insertSQL, $conexion) or die(mysql_error());
+		//mysql_select_db($database_conexion, $conexion);
+		$Result1 = mysql_query( $conexion, $insertSQL ) or die(mysqli_error() );
 
 		echo "<script>";		
 		echo "parent.document.form1.pen_paterno.value='';";
@@ -65,7 +65,7 @@ if ((isset($_POST["imported"])) && ($_POST["imported"] > 0)) {
 		echo "parent.document.form1.pen_importe.value='';";
 		echo "</script>";
 		
-		$idbeneficiarios = mysql_insert_id();
+		$idbeneficiarios = mysql_insert_id(); /* Check this */
 	}
 
 	$insertSQL = sprintf("INSERT INTO nomina (idnominaemp, concepto, importe, tipo, idbeneficiarios) VALUES (%s, %s, %s, %s, %s)",
@@ -75,8 +75,8 @@ if ((isset($_POST["imported"])) && ($_POST["imported"] > 0)) {
 					   GetSQLValueString('D', "text"),
 					   GetSQLValueString($idbeneficiarios, "double"));
 
-	mysql_select_db($database_conexion, $conexion);
-	$Result1 = mysql_query($insertSQL, $conexion) or die(mysql_error());
+	//mysql_select_db($database_conexion, $conexion);
+	$Result1 = mysql_query( $conexion, $insertSQL ) or die( mysqli_error() );
   //------- Para obligar al recalculo del ISR en funcionesJL-----------------------------
 	if($_POST['deducciones']==258){
 		recalculoISR($_POST['idnominaemp']);
@@ -94,11 +94,11 @@ if (isset($_GET['idnominaemp'])) {
 }else{
   $colname_nomina = $_POST['idnominaemp'];
 }
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_nomina = sprintf("SELECT n.idnomina, n.idnominaemp, n.concepto, c.descripcion, n.importe, n.tipo FROM nomina n left join cat_conceptos c on n.concepto = c.clave WHERE n.idnominaemp = %s and n.tipo='D'", GetSQLValueString($colname_nomina, "int"));
-$nomina = mysql_query($query_nomina, $conexion) or die(mysql_error());
-$row_nomina = mysql_fetch_assoc($nomina);
-$totalRows_nomina = mysql_num_rows($nomina);
+$nomina = mysqli_query( $conexion, $query_nomina ) or die( mysqli_error() );
+$row_nomina = mysqli_fetch_assoc( $nomina );
+$totalRows_nomina = mysqli_num_rows( $nomina );
 ?>
 <!doctype html>
 <html>
@@ -132,12 +132,12 @@ $totalRows_nomina = mysql_num_rows($nomina);
     <?
     	$totaldeducciones += $row_nomina['importe'];
 	?>
-    <?php } while ($row_nomina = mysql_fetch_assoc($nomina)); ?>
+    <?php } while ($row_nomina = mysqli_fetch_assoc( $nomina )); ?>
 </table>
 </body>
 </html>
 <?php
-mysql_free_result($nomina);
+mysqli_free_result($nomina);
 ?>
 <script>
 	parent.document.getElementById('totaldeducciones').value="<? echo $totaldeducciones; ?>";

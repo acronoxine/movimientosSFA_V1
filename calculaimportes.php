@@ -9,7 +9,7 @@ if($_SESSION["m_sesion"] != 1)
 }
 
 include("Connections/conexion.php");
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 ?>
 <!doctype html>
 <html>
@@ -142,7 +142,7 @@ function importeper(idnominaemp, concepto)
 {
 	Resultado = document.getElementById('ajax_importeper');
 	ajax=objetoAjax();
-	ajax.open("POST", "ajax_importeper.php",false);
+	ajax.open("POST", "ajax_importeper.php",true);
 	carga(Resultado,ajax);
 	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	ajax.send("idnominaemp="+idnominaemp+"&concepto="+concepto);
@@ -158,7 +158,7 @@ function importeded(idnominaemp, concepto)
 	
 	Resultado = document.getElementById('ajax_importeded');
 	ajax=objetoAjax();
-	ajax.open("POST", "ajax_importeded.php",false);
+	ajax.open("POST", "ajax_importeded.php",true);
 	carga(Resultado,ajax);
 	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	ajax.send("idnominaemp="+idnominaemp+"&concepto="+concepto);
@@ -168,7 +168,7 @@ function importeded_dias(dias)
 {
 	Resultado = document.getElementById('ajax_importeded');
 	ajax=objetoAjax();
-	ajax.open("POST", "ajax_importeded.php",false);
+	ajax.open("POST", "ajax_importeded.php",true);
 	carga(Resultado,ajax);
 	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	ajax.send("idnominaemp="+document.getElementById('idnominaemp').value+"&concepto="+form1.deducciones.value+"&dias="+dias);
@@ -178,7 +178,7 @@ function importeper_dias(dias)
 {
 	Resultado = document.getElementById('ajax_importeper');
 	ajax=objetoAjax();
-	ajax.open("POST", "ajax_importeper.php",false);
+	ajax.open("POST", "ajax_importeper.php",true);
 	carga(Resultado,ajax);
 	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	ajax.send("idnominaemp="+document.getElementById('idnominaemp').value+"&concepto="+form1.percepciones.value+"&dias="+dias);
@@ -189,7 +189,7 @@ function importeded_pension(paterno, materno, nombres, idnominaemp, porcentaje, 
 {
 	Resultado = document.getElementById('ajax_importeded');
 	ajax=objetoAjax();
-	ajax.open("POST", "ajax_importeded.php",false);
+	ajax.open("POST", "ajax_importeded.php",true);
 	carga(Resultado,ajax);
 	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	ajax.send("importepension="+importe+"&concepto="+form1.deducciones.value);
@@ -267,9 +267,9 @@ function solonumeros(form, e)
     <option value="">Seleccione</option>
     <?
     	$sql = "Select clave, descripcion, afectacion from cat_conceptos where tipo = 'P' and ver = 'SI' order by descripcion";
-		$res = mysql_query($sql, $conexion);
+		$res = mysqli_query( $conexion, $sql );
 		
-		while($ren = mysql_fetch_array($res))
+		while($ren = mysqli_fetch_array($res))
 		{
 			if($ren["afectacion"] == "G")
 				echo "\n<option value='$ren[clave]' style='background-color:#C4D0E4;'>$ren[clave] $ren[descripcion]";
@@ -277,7 +277,7 @@ function solonumeros(form, e)
 				echo "\n<option value='$ren[clave]'>$ren[clave] $ren[descripcion]";
 		}
 		
-		mysql_free_result($res);
+		mysqli_free_result($res);
 	?>
     </select>
     </td>
@@ -303,9 +303,9 @@ function solonumeros(form, e)
     <option value="">Seleccione</option>
     <?
     	$sql = "Select clave, descripcion, afectacion from cat_conceptos where tipo = 'D' and ver = 'SI' order by descripcion";
-		$res = mysql_query($sql, $conexion);
+		$res = mysqli_query( $conexion, $sql );
 		
-		while($ren = mysql_fetch_array($res))
+		while($ren = mysqli_fetch_array($res))
 		{
 			if($ren["afectacion"] == "G")
 				echo "\n<option value='$ren[clave]' style='background-color:#C4D0E4;'>$ren[clave] $ren[descripcion]";
@@ -313,7 +313,7 @@ function solonumeros(form, e)
 				echo "\n<option value='$ren[clave]'>$ren[clave] $ren[descripcion]";
 		}
 		
-		mysql_free_result($res);
+		mysqli_free_result($res);
 	?>
     </select>
     </td>

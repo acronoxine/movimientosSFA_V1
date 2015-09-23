@@ -85,8 +85,8 @@ $query_empleado .= " left join cat_municipios mun on n.ciudad = mun.idmunicipios
 $query_empleado .= " left join cat_movimientos mov on n.estatus = mov.idmovimiento";
 
 $query_empleado .= " where n.idnominaemp='$_GET[idnominaemp]'";
-$res = mysql_query ( $query_empleado, $conexion );
-$ren = mysql_fetch_array ( $res );
+$res = mysqli_query (  $conexion,$query_empleado );
+$ren = mysqli_fetch_array ( $res );
 
 if ($_GET [ver] != 1) {
 	$insertMH = "INSERT INTO movimiento_historial (" . $query_empleado . ")";
@@ -135,7 +135,7 @@ $pdf->Text ( 174, 41, campo ( $ren ["folio"], 10, 2 ) );
 $pdf->SetFont ( 'Arial', 'B', 8 );
 
 $sql = "select upp as cveupp, razonsocial as upp, titular from empresa limit 1";
-$res_emp = mysqli_query ( $conexion,$sql );
+$res_emp = mysqli_query ( $conexion, $sql );
 $ren_emp = mysqli_fetch_array ( $res_emp );
 
 $titularupp = $ren_emp ["titular"];

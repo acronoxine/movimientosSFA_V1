@@ -17,8 +17,12 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
-
+  //$theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+  if(function_exist){
+  	$obj = new database();
+  	$link = $obj->connect();
+  	$theValue = mysqli_real_escape_string($link,$theValue);
+  }
   switch ($theType) {
     case "text":
       $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
@@ -45,8 +49,8 @@ if ((isset($_GET['idnomina'])) && ($_GET['idnomina'] != "")) {
   $deleteSQL = sprintf("DELETE FROM nomina WHERE idnomina=%s",
                        GetSQLValueString($_GET['idnomina'], "int"));
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($deleteSQL, $conexion) or die(mysql_error());
+  //mysql_select_db($database_conexion, $conexion);
+  $Result1 = mysql_query( $conexion, $deleteSQL ) or die( mysqli_error() );
 }
 
 if ((isset($_POST["importep"])) && ($_POST["importep"] > 0)) {
@@ -56,8 +60,8 @@ if ((isset($_POST["importep"])) && ($_POST["importep"] > 0)) {
                        GetSQLValueString($_POST['importep'], "double"),
                        GetSQLValueString('P', "text"));
 
-  mysql_select_db($database_conexion, $conexion);
-  $Result1 = mysql_query($insertSQL, $conexion) or die(mysql_error());
+  //mysql_select_db($database_conexion, $conexion);
+  $Result1 = mysql_query( $conexion, $insertSQL ) or die(mysqli_error());
   
   echo "<script>";
   echo "parent.document.form1.percepciones.value='';";
@@ -72,11 +76,11 @@ if (isset($_GET['idnominaemp'])) {
 }else{
   $colname_nomina = $_POST['idnominaemp'];
 }
-mysql_select_db($database_conexion, $conexion);
+//mysql_select_db($database_conexion, $conexion);
 $query_nomina = sprintf("SELECT n.idnomina, n.idnominaemp, n.concepto, c.descripcion, n.importe, n.tipo FROM nomina n left join cat_conceptos c on n.concepto = c.clave WHERE n.idnominaemp = %s and n.tipo='P'", GetSQLValueString($colname_nomina, "int"));
-$nomina = mysql_query($query_nomina, $conexion) or die(mysql_error());
-$row_nomina = mysql_fetch_assoc($nomina);
-$totalRows_nomina = mysql_num_rows($nomina);
+$nomina = mysqli_query( $conexion, $query_nomina ) or die( mysqli_error() );
+$row_nomina = mysqli_fetch_assoc( $nomina );
+$totalRows_nomina = mysqli_num_rows( $nomina );
 ?>
 <!doctype html>
 <html>
@@ -106,12 +110,12 @@ $totalRows_nomina = mysql_num_rows($nomina);
     <?
     	$sueldobruto += $row_nomina['importe'];
 	?>
-    <?php } while ($row_nomina = mysql_fetch_assoc($nomina)); ?>
+    <?php } while ($row_nomina = mysqli_fetch_assoc( $nomina)); ?>
 </table>
 </body>
 </html>
 <?php
-mysql_free_result($nomina);
+mysqli_free_result( $nomina );
 ?>
 <script>
 

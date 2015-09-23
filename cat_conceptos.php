@@ -31,7 +31,7 @@ function valida(form)
 	
 	if(form.descripcion.value == "")
 	{
-		alert("Indique la descripci�n del concepto");
+		alert("Indique la descripci&iacute;n del concepto");
 		form.decripcion.focus();
 		return false;
 	}
@@ -109,7 +109,7 @@ function solonumeros(form, e)
                   <td colspan="2"><input class="campo" type="text" name="clave" value="" size="7" maxlength="7"></td>
                 </tr>
                 <tr valign="baseline">
-                  <td nowrap align="right"><label class="label">Descripci�n:</label></td>
+                  <td nowrap align="right"><label class="label">Descripci&oacute;n:</label></td>
                   <td colspan="2"><input class="campo" type="text" name="descripcion" value="" size="32" maxlength="150"></td>
                 </tr>
                 <tr valign="baseline">
@@ -130,15 +130,15 @@ function solonumeros(form, e)
                   <td><input class="campo" type="text" name="importe" id="importe" value="0" size="12" maxlength="12" style="text-align:right;" onKeyPress="return solonumeros(this.form, event)"></td>
                   <td>
                   	<input checked type="radio" name="uso" id="porimporte" value="IMP" onClick="document.getElementById('_activa').value = this.value; activa(this.form);">
-                    <label class="label" for="porimporte">Se usuar� importe</label>
+                    <label class="label" for="porimporte">Se usuar&aacute; importe</label>
                   </td>
                 </tr>
                 <tr valign="baseline">
-                  <td nowrap align="right"><label class="label">D�as:</label></td>
+                  <td nowrap align="right"><label class="label">D&iacute;as:</label></td>
                   <td><input disabled class="campo" type="text" name="dias" id="dias" value="0" size="3" maxlength="3" style="text-align:right;" onKeyPress="return solonumeros(this.form, event)"></td>
                   <td>
                   	<input type="radio" name="uso" id="pordias" value="DIA" onClick="document.getElementById('_activa').value = this.value; activa(this.form);">
-                    <label class="label" for="pordias">Se usuar�n d�as</label>
+                    <label class="label" for="pordias">Se usuar&aacute; d&iacute;as</label>
                   </td>
                 </tr>
                 <tr valign="baseline">
@@ -146,14 +146,14 @@ function solonumeros(form, e)
                   <td><input disabled class="campo" type="text" name="porcentaje" id="porcentaje" value="0" size="3" maxlength="3" style="text-align:right;" onKeyPress="return solonumeros(this.form, event)"></td>
                   <td>
                   	<input type="radio" name="uso" id="porporcentaje" value="POR" onClick="document.getElementById('_activa').value = this.value; activa(this.form);">
-                    <label class="label" for="porporcentaje">Se usuar� porcentaje</label>
+                    <label class="label" for="porporcentaje">Se usuar&aacute; porcentaje</label>
                   </td>
                 </tr>
                 <tr valign="baseline">
                   <td nowrap align="right"><label class="label">Tipo:</label></td>
                   <td colspan="2"><select name="tipo" class="lista">
-                    <option value="P" <?php if (!(strcmp("P", ""))) {echo "SELECTED";} ?>>Percepci�n</option>
-                    <option value="D" <?php if (!(strcmp("D", ""))) {echo "SELECTED";} ?>>Deducci�n</option>
+                    <option value="P" <?php if (!(strcmp("P", ""))) {echo "SELECTED";} ?>>Percepci&oacute;n</option>
+                    <option value="D" <?php if (!(strcmp("D", ""))) {echo "SELECTED";} ?>>Deducci&oacute;n</option>
                   </select></td>
                 </tr>
                 <tr valign="baseline">

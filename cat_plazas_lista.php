@@ -53,40 +53,37 @@ if ((isset ( $_GET ['idplaza'] )) && ($_GET ['idplaza'] != "")) {
 
 //mysql_select_db ( $database_conexion, $conexion );
 
- $query_plazas = "SELECT 
-    CONCAT(nemp.paterno,
-            ' ',
-            nemp.materno,
-            ' ',
-            nemp.nombres) AS nombre,
-    ep.estado AS plaza_estado,
-    ep.fecha_inicial,
-    ep.fecha_final,
+ $query_plazas = "SELECT
+	CONCAT(
+		nemp.paterno,
+		' ',
+		nemp.materno,
+		' ',
+		nemp.nombres
+	) AS nombre,
+	ep.estado AS plaza_estado,
+	ep.fecha_inicial,
+	ep.fecha_final,
 	a.clave AS ur_clave,
-    a.descripcion AS ur_desc,
-    pr.clave AS prog_clave,
-    pz.plaza_id AS plaza_id,
-    pz.plaza_clave AS plaza_clave,
-    pz.titular,
-    sp.idsubprograma AS subp_id,
-    sp.descripcion AS subp_descripcion,
+	a.descripcion AS ur_desc,
+	pr.clave AS prog_clave,
+	pz.plaza_id AS plaza_id,
+	pz.plaza_clave AS plaza_clave,
+	pz.titular,
+	sp.idsubprograma AS subp_id,
+	sp.descripcion AS subp_descripcion,
 	ct.clave AS cat_clave,
-    ct.descripcion AS cat_descripcion,
-    ct.clave
+	ct.descripcion AS cat_descripcion,
+	ct.clave,
+	ct.idcategoria
 FROM
-    cat_plazas pz
-        LEFT JOIN
-    empleado_plaza ep ON ep.plaza_id = pz.plaza_id
-        LEFT JOIN
-    nominaemp nemp ON nemp.idnominaemp = ep.idnominaemp
-        LEFT JOIN
-    cat_categoria ct ON ct.idcategoria = pz.categoria
-        LEFT JOIN
-    cat_subprograma sp ON sp.idsubprograma = pz.subprograma
-        LEFT JOIN
-    cat_programa pr ON pr.idprograma = pz.programa
-        LEFT JOIN
-    cat_area a ON a.idarea = pz.ur";
+	cat_plazas pz
+LEFT JOIN empleado_plaza ep ON ep.plaza_id = pz.plaza_id
+LEFT JOIN nominaemp nemp ON nemp.idnominaemp = ep.idnominaemp
+LEFT JOIN cat_categoria ct ON ct.idcategoria = pz.categoria
+LEFT JOIN cat_subprograma sp ON sp.idsubprograma = pz.subprograma
+LEFT JOIN cat_programa pr ON pr.idprograma = pz.programa
+LEFT JOIN cat_area a ON a.idarea = pz.ur";
 
 if(isset($_GET["consultap"]) and !isset($_GET["fecha"]) and $_GET["consultap"]!=-1)
 {
@@ -97,6 +94,7 @@ if(isset($_GET["consultap"]) and !isset($_GET["fecha"]) and $_GET["consultap"]!=
 	$query_plazas .= " where (pz.plaza_clave like '%$_GET[consultap]%')
 	OR (ct.descripcion like '%$_GET[consultap]%')
 	OR (sp.descripcion like '%$_GET[consultap]%')
+	OR (ep.estado like '%$_GET[consultap]%')
 	OR (nemp.paterno like '%$_GET[consultap]%')";
 }
 else if(isset($_GET["fecha"]))
@@ -189,7 +187,7 @@ $totalRows_plazas = mysqli_num_rows ( $plazas );
 				&ur=<?php echo $row_plazas['ur_clave']; ?>
 				&programa=<?php echo $row_plazas['prog_clave']; ?>
 				&subprograma=<?php echo $row_plazas['subp_descripcion']; ?>
-				&categoria=<?php echo $row_plazas['cat_clave']; ?>
+				&categoria=<?php echo $row_plazas['idcategoria']; ?>
 				"><img
 					src="imagenes/editar.png" width="20" height="20"></a></td>
 			<td width="50" align="center"><?php echo $row_plazas['plaza_clave']; ?></td>

@@ -107,7 +107,7 @@ $totalRows_plazas = mysqli_num_rows($plazas);
              <td width="120" align="center">
 			 <?php 
 			 	$fecha_formato=explode(' ',$row_plazas['fecha_movimiento']);
-				echo $fecha_formato[0]?><span style="vertical-align:bottom"> <img src="imagenes/reloj2.png" width="12" height="12"></span>
+				echo $fecha_formato[0]?><span style="vertical-align:bottom"> <img src="imagenes/reloj.png" width="12" height="12"></span>
                 <?php echo $fecha_formato[1]?>
              
              </td>
@@ -125,5 +125,5 @@ $totalRows_plazas = mysqli_num_rows($plazas);
 </body>
 </html>
 <?php
-mysql_free_result($plazas);
+mysqli_free_result($plazas);
 ?>
