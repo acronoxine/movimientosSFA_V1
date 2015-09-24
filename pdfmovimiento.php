@@ -94,24 +94,6 @@ if ($_GET [ver] != 1) {
 	mysqli_query ( $conexion,$insertMH );
 }
 
-/**
- * Query APP, UR, RH from db
- * This values can be set using Titulares module;
- */
-$query_UPP = "SELECT nombre FROM cat_titular WHERE firma = 1";
-$query_UR = "SELECT nombre FROM cat_titular WHERE firma = 2";
-$query_RH = "SELECT nombre FROM cat_titular WHERE firma = 3";
-$res_upp = mysqli_query ( $conexion,$query_UPP );
-$res_ur = mysqli_query ( $conexion,$query_UR );
-$res_rh = mysqli_query ( $conexion,$query_RH );
-
-/*
- * Get Values from titulares table.
- */
-$data_upp = mysqli_fetch_array ( $res_upp );
-$data_ur = mysqli_fetch_array ( $res_ur );
-$data_rh = mysqli_fetch_array ( $res_rh );
-
 include ("./fpdf/fpdf.php");
 
 $pdf = new FPDF ( 'P', 'mm', 'A4' );
@@ -279,7 +261,24 @@ if ($r >= 6)
 	$pdf->Ln ( 28 );
 else
 	$pdf->Ln ( 39 );
-	
+
+/**
+ * Query APP, UR, RH from db
+ * This values can be set using Titulares module;
+ */
+$query_UPP = "SELECT nombre FROM cat_titular WHERE firma = 1";
+$query_UR = "SELECT nombre FROM cat_titular WHERE firma = 2";
+$query_RH = "SELECT nombre FROM cat_titular WHERE firma = 3";
+$res_upp = mysqli_query ( $conexion,$query_UPP );
+$res_ur = mysqli_query ( $conexion,$query_UR );
+$res_rh = mysqli_query ( $conexion,$query_RH );
+
+/*
+ * Get Values from titulares table.
+*/
+$data_upp = mysqli_fetch_array ( $res_upp );
+$data_ur = mysqli_fetch_array ( $res_ur );
+$data_rh = mysqli_fetch_array ( $res_rh );
 	/*
  * Tituales DATA
  */

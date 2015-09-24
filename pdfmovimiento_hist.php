@@ -204,14 +204,39 @@ if ($r >= 6)
 	$pdf->Ln ( 28 );
 else
 	$pdf->Ln ( 39 );
+/**
+ * Query APP, UR, RH from db
+ * This values can be set using Titulares module;
+ */
+$query_UPP = "SELECT nombre FROM cat_titular WHERE firma = 1";
+$query_UR = "SELECT nombre FROM cat_titular WHERE firma = 2";
+$query_RH = "SELECT nombre FROM cat_titular WHERE firma = 3";
+$res_upp = mysqli_query ( $conexion,$query_UPP );
+$res_ur = mysqli_query ( $conexion,$query_UR );
+$res_rh = mysqli_query ( $conexion,$query_RH );
 
-$pdf->Cell ( 85, 4, $ren ["titular_ur"], 0, 0, 'C' );
-$pdf->Cell ( 30, 4, "", 0, 0, 'C' );
-$pdf->Cell ( 85, 4, $ren ["titular_upp"], 0, 0, 'C' );
+/*
+ * Get Values from titulares table.
+ */
+$data_upp = mysqli_fetch_array ( $res_upp );
+$data_ur = mysqli_fetch_array ( $res_ur );
+$data_rh = mysqli_fetch_array ( $res_rh );
+/*
+	/*
+ * Tituales DATA
+ */
+	// UPP data  
+$pdf->Cell ( 85, 4, $data_ur ['nombre'] , 0, 0, 'C' );
+// UR data
+$pdf->Cell ( 150, 4, $data_upp ['nombre'], 0, 0, 'C' );
 
-$pdf->Ln ( 13.5 );
-$pdf->Cell ( 197, 4, $ren ["titular_director"], 0, 0, 'C' );
+// RH data
+$pdf->Ln ( 13.15 );
+$pdf->Cell ( 197, 4, $data_rh ['nombre'], 0, 0, 'C' );
 
+/*
+ * End Titualres DATA
+ */
 $pdf->Output ( "pdfs/historial/doc.pdf", "F" );
 
 echo "<script>";

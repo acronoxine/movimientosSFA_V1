@@ -101,7 +101,8 @@ $totalRows_plazas = mysqli_num_rows($plazas);
 </div>
 <table class="tablagrid" border="0" cellpadding="0" cellspacing="0" width="950" style="padding-top: 32px;">
   <?php do { ?>
-    	<tr id="<? echo $row_plazas["idnominaemp"]; ?>" class="message_box tablaregistros" onClick="miseleccion('<?php echo $row_plazas['idnominaemp']; ?>', 'id_<?php echo $row_plazas['idnominaemp']; ?>')">
+    	<!-- <tr id="<? //echo $row_plazas["idnominaemp"]; ?>" class="message_box tablaregistros" onClick="miseleccion('<?php //echo $row_plazas['idnominaemp']; ?>', 'id_<?php //echo $row_plazas['idnominaemp']; ?>')">-->
+<tr id="<? echo $row_plazas["idnominaemp"]; ?>" class="message_box tablaregistros">
 
       		<td width="50" height="60" align="center"><a onClick="ver(<?php echo $row_plazas['idmh']; ?>)" href="#"><img src="imagenes/pdf-h.png" width="34" height="34"></a></td>
              <td width="120" align="center">

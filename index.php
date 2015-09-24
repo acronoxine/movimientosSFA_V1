@@ -1,11 +1,12 @@
 <?
-session_start();
+session_start ();
 ?>
 <!doctype html>
 <html>
 <head>
 <meta charset="iso-8859-1">
-<link rel="shortcut icon" type="image/x-icon" href="http://www.michoacan.gob.mx/wp-content/themes/mich2015/img/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon"
+	href="http://www.michoacan.gob.mx/wp-content/themes/mich2015/img/favicon.ico">
 
 <title>Sistema de Movimientos de Empleados</title>
 
@@ -47,42 +48,39 @@ function valida(form)
 
 </HEAD>
 <BODY topmargin="0" leftmargin="0">
-<div id="todo">
-	<div id="cabeza">
-    </div>
-    <div id="cuerpo">
-    	<div id="panelizq">
-
-        </div>
-        <div id="centro" style="border:0;">
-        	<div id="sesion">
-        	<form name="acceso" id="acceso" method="post" action="sesion.php">
-			<table id="datos" border = "0" cellpadding="1" cellspacing="1">
-            <tr><td colspan="2">
-            	<label class="label" style="font-size:18px;">Iniciar Sesion</label>
-            </td></tr>
-            <tr><td align="right">
-            	<label class="label">Nip:</label>
-            </td><td>
-            	<input class="campo" type="text" name="usuario" id="nip" value="">
-            </td></tr>
-            <tr><td align="right">
-            	<label class="label">Constraseña:</label>
-            </td><td>
-            	<input class="campo" type="password" name="password" id="clave" value="">
-            </td></tr>
-            <tr><td colspan="2" align="right">
-            	<input class="boton2" type="submit" name="entra" id="entra" value="Entrar">
-            </td></tr>
-            </table>
-            </form>
-            </div>
-        </div>
-        <div id="panelder">
-        </div>
-    </div>
-    <div id="pie">
-    </div>
-</div>
+	<div id="todo">
+		<div id="cabeza"></div>
+		<div id="cuerpo">
+			<div id="panelizq"></div>
+			<div id="centro" style="border: 0;">
+				<div id="sesion">
+					<form name="acceso" id="acceso" method="post" action="sesion.php">
+						<table id="datos" border="0" cellpadding="1" cellspacing="1">
+							<tr>
+								<td colspan="2"><label class="label" style="font-size: 18px;">Iniciar
+										Sesion</label></td>
+							</tr>
+							<tr>
+								<td align="right"><label class="label">Nip:</label></td>
+								<td><input class="campo" type="text" name="usuario" id="nip"
+									value=""></td>
+							</tr>
+							<tr>
+								<td align="right"><label class="label">Constraseña:</label></td>
+								<td><input class="campo" type="password" name="password"
+									id="clave" value=""></td>
+							</tr>
+							<tr>
+								<td colspan="2" align="right"><input class="boton2"
+									type="submit" name="entra" id="entra" value="Entrar"></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+			</div>
+			<div id="panelder"></div>
+		</div>
+		<div id="pie"></div>
+	</div>
 </body>
 </html>

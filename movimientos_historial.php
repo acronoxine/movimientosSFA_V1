@@ -65,7 +65,7 @@ require_once('Connections/conexion.php');
                 	<td colspan="4">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td align="left" width="200"><label class="label">Fecha � Nombre del empleado:</label></td>
+                    <td align="left" width="200"><label class="label">Fecha Nombre del empleado:</label></td>
                     <td align="left" width="200"><input id="busca" name="busca"   class="campo" value="" onKeyUp="buscaemp(this.value);"></td>
                     <td align="left">
                     	<label class="label">Altas</label>
