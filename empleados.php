@@ -711,7 +711,7 @@ function buscacatego(cve)
 									<tr valign="baseline">
 										<!-- Start UR -->
 										<td nowrap align="right"><label class="label">UR:</label></td>
-										<td><select id="getUR" style="width: 180px;"
+										<td><select class="lista" id="getUR" style="width: 180px;"
 											onchange="get_programas()">
 												<option value="0">Seleccione</option>
 												<option value="01">01</option>
@@ -739,7 +739,7 @@ function buscacatego(cve)
 
 									<tr valign="baseline">
 										<td nowrap align="right"><label class="label">Programa:</label></td>
-										<td><select id="programas" style="width: 180px;"
+										<td><select class="lista" id="programas" style="width: 180px;"
 											onchange="get_subprogramas()">
 												<option value="0">Seleccione</option>
 										</select> <label class="label">*</label></td>
@@ -748,7 +748,7 @@ function buscacatego(cve)
 
 									<tr valign="baseline">
 										<td nowrap align="right"><label class="label">Subprograma:</label></td>
-										<td><select id="subprogramas" style="width: 180px;">
+										<td><select class="lista" id="subprogramas" style="width: 180px;">
 												<option value="0">Seleccione</option>
 										</select> <label class="label">*</label></td>
 									</tr>
@@ -761,7 +761,7 @@ function buscacatego(cve)
 									</tr>-->
 									<tr valign="baseline">
 										<td nowrap align="right"><label class="label">Plazas:</label></td>
-										<td><select name="categoria" style="width: 180px;"
+										<td><select class="lista" name="categoria" style="width: 180px;"
 											onChange="cargasueldo(this.value);">
 												<option value="">Seleccione</option>
                   					<?php

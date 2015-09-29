@@ -52,15 +52,27 @@ fieldset:hover {
 	border-top-right-radius: 5px;
 }
 
+.btn-form:hover {
+	border-left: 4px solid gray;
+	border-top: 4px solid gray;
+	border-right: 4px solid gray;
+	background-color: #65D386;
+}
 .btn-save-all {
 	position: relative;
 	top: 12px;
 	left: 50px;
 	width: 150px;
 	height: 45px;
-	border: solid gray 0.25em;
+	border: solid green 0.25em;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
+}
+.btn-save-all:hover{
+	border-left: 4px solid gray;
+	border-top: 4px solid gray;
+	border-right: 4px solid gray;
+	background-color: #65D386e ;
 }
 </style>
 <script>
@@ -181,15 +193,15 @@ fieldset:hover {
 						<form name="form_upp" action="">
 							<th colspan="2"><h2>TITULAR UPP</h2></th>
 							<tr>
-								<input type="hidden" name="upp" id="upp_titular" value="1">
+								<input class="campo" type="hidden" name="upp" id="upp_titular" value="1">
 							</tr>
 							<tr>
 								<td><label>NOMBRE</label></td>
-								<td><input name="upp_nombre" id="upp_nombre" size="35" required></td>
+								<td><input class="campo" name="upp_nombre" id="upp_nombre" size="35" required></td>
 							</tr>
 							<tr>
 								<td><label>PUESTO</label></td>
-								<td><input name="upp_puesto" id="upp_puesto" size="35" required></td>
+								<td><input class="campo" name="upp_puesto" id="upp_puesto" size="35" required></td>
 							</tr>
 							<tr>
 								<td><input class="btn-form" type="submit" name="submit_upp"
@@ -208,11 +220,11 @@ fieldset:hover {
 							</tr>
 							<tr>
 								<td><label>NOMBRE</label></td>
-								<td><input name="ur_nombre" id="ur_nombre" size="35" required></td>
+								<td><input class="campo" name="ur_nombre" id="ur_nombre" size="35" required></td>
 							</tr>
 							<tr>
 								<td><label>PUESTO</label></td>
-								<td><input name="ur_puesto" id="ur_puesto" size="35" required></td>
+								<td><input class="campo" name="ur_puesto" id="ur_puesto" size="35" required></td>
 							</tr>
 							<tr>
 								<td><input class="btn-form" type="submit" name="submit_ur"
@@ -230,11 +242,11 @@ fieldset:hover {
 							</tr>
 							<tr>
 								<td><label>NOMBRE</label></td>
-								<td><input name="rh_nombre" id="rh_nombre" size="35" required></td>
+								<td><input class="campo" name="rh_nombre" id="rh_nombre" size="35" required></td>
 							</tr>
 							<tr>
 								<td><label>PUESTO</label></td>
-								<td><input name="rh_puesto" id="rh_puesto" size="35" required></td>
+								<td><input class="campo" name="rh_puesto" id="rh_puesto" size="35" required></td>
 							</tr>
 							<tr>
 								<td><input class="btn-form" type="submit" name="submit_rh"

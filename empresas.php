@@ -213,12 +213,12 @@ function solonumeros(form, e)
 									<tr valign="baseline">
 										<td nowrap align="right"><label class="label">RFC:</label></td>
 										<td><input class="campo" type="text" name="rfc" value=""
-											size="13" maxlength="13"></td>
+											size="32" maxlength="13"></td>
 									</tr>
 									<tr valign="baseline">
 										<td nowrap align="right"><label class="label">Clave patronal:</label></td>
 										<td><input class="campo" type="text" name="clavepatronal"
-											value="" size="15" maxlength="15"></td>
+											value="" size="32" maxlength="15"></td>
 									</tr>
 									<tr valign="baseline">
 										<td nowrap align="right"><label class="label">Calle:</label></td>
@@ -228,13 +228,13 @@ function solonumeros(form, e)
 									<tr valign="baseline">
 										<td nowrap align="right"><label class="label">Numero int:</label></td>
 										<td><input class="campo" type="text" name="numeroint" value=""
-											size="7" maxlength="7"
+											size="32" maxlength="7"
 											onKeyPress="return solonumeros(this.form, event)"></td>
 									</tr>
 									<tr valign="baseline">
 										<td nowrap align="right"><label class="label">Numero ext:</label></td>
 										<td><input class="campo" type="text" name="numeroext" value=""
-											size="7" maxlength="7"
+											size="32" maxlength="7"
 											onKeyPress="return solonumeros(this.form, event)"></td>
 									</tr>
 								</table>
@@ -249,7 +249,7 @@ function solonumeros(form, e)
 									<tr valign="baseline">
 										<td nowrap align="right"><label class="label">Cp:</label></td>
 										<td><input class="campo" type="text" name="cp" value=""
-											size="5" maxlength="5"
+											size="32" maxlength="5"
 											onKeyPress="return solonumeros(this.form, event)"></td>
 									</tr>
 									<tr valign="baseline">
@@ -265,7 +265,7 @@ function solonumeros(form, e)
 									<tr valign="baseline">
 										<td nowrap align="right"><label class="label">UPP:</label></td>
 										<td><input class="campo" type="text" name="upp" value=""
-											size="2" maxlength="2"
+											size="32" maxlength="2"
 											onKeyPress="return solonumeros(this.form, event)"></td>
 									</tr>
 									<tr valign="baseline">

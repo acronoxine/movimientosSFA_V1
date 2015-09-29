@@ -1,8 +1,8 @@
-﻿<?
-session_start();
+﻿<?php
+	session_start();
+?>
+<?php
 include("Connections/conexion.php");
-//mysql_select_db($database_conexion, $conexion);
-//print_r($conexion);
 
 $usuario = $_POST["usuario"];
 $password = $_POST["password"];

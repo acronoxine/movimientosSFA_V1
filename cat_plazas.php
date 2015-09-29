@@ -301,12 +301,12 @@ function cargasueldo(idcategoria)
 						<tr valign="baseline">
 							<!-- Start Clave segment -->
 							<td nowrap align="left"><label class="label">CLAVE:</label></td>
-							<td><input name="plaza_clave" id="plaza_clave" placeholder="Introduce la clave" size="21.7"/></td>
+							<td><input class="campo" name="plaza_clave" id="plaza_clave" placeholder="Introduce la clave" /></td>
 						</tr>
 						<tr valign="baseline">
 							<!-- Start UR -->
 							<td nowrap align="left"><label class="label">UR:</label></td>
-							<td><select id="getUR" style="width: 180px;"
+							<td><select class="lista" id="getUR"
 								onfocus="get_programas()">
 									<option value=-1>selecciona</option>
 									<option value="01">01</option>
@@ -334,7 +334,7 @@ function cargasueldo(idcategoria)
 						<tr valign="baseline">
 							<td nowrap align="left"><label class="label">Programa:</label></td>
 							<td colspan="3">
-								<select id="programas" style="width: 180px;"
+								<select class="lista" id="programas"
 								onfocus="get_subprogramas()">
 									<option value="-1">Seleccione</option>
 								</select>
@@ -344,7 +344,7 @@ function cargasueldo(idcategoria)
 						<tr valign="baseline">
 							<td nowrap align="left"><label class="label">Subprograma:</label></td>
 							<td colspan="3">
-								<select id="subprogramas" style="width: 180px;">
+								<select class="lista" id="subprogramas">
 									<option value="-1">Seleccione</option>
 								</select>
 							</td>
@@ -353,7 +353,7 @@ function cargasueldo(idcategoria)
 						<!-- Start Categoria -->
 						<tr valign="baseline">
 							<td nowrap align="left"><label class="label">Categoria:</label></td>
-							<td><select name="categoria" id="categoria" style="width: 180px;"
+							<td><select class="lista" name="categoria" id="categoria"
 								onChange="cargasueldo(this.value);">
 									<option value="-1">Seleccione</option>
                   			<?php
@@ -370,7 +370,7 @@ function cargasueldo(idcategoria)
 						</tr>
 						<tr valign="baseline">
 							<td align="left"></td>
-								<td><div id="ajax_sueldos" style="margin: -3px auto; width: 267px;"></div></td>
+								<td><div class="campo" id="ajax_sueldos" style="margin: -3px auto; width: 267px;"></div></td>
 							
 							<script>
 								cargasueldo('');
