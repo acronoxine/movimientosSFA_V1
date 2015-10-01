@@ -95,8 +95,7 @@ $totalRows_estados = mysqli_num_rows ( $estados );
 <meta charset="iso-8859-1">
 <title>Sistema de N&oacute;mina de Empleados</title>
 
-<link rel="shortcut icon" type="image/x-icon"
-	href="http://www.michoacan.gob.mx/wp-content/themes/mich2015/img/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="http://www.michoacan.gob.mx/wp-content/themes/estaenti/img/favicon.ico">
 
 
 <link rel="stylesheet" type="text/css" href="css/estilos.css">

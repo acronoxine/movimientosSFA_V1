@@ -27,8 +27,7 @@ $totalRows_categorias = mysqli_num_rows ( $categorias );
 
 
 
-<link rel="shortcut icon" type="image/x-icon"
-	href="http://www.michoacan.gob.mx/wp-content/themes/mich2015/img/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="http://www.michoacan.gob.mx/wp-content/themes/estaenti/img/favicon.ico">
 <link rel="stylesheet" type="text/css" href="css/estilos.css">
 <link rel="stylesheet" type="text/css"
 	href="controles_jquery/css/overcast/jquery-ui-1.10.3.custom.css">

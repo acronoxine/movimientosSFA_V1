@@ -13,8 +13,7 @@ include ("Connections/conexion.php");
 <html>
 <head>
 <meta charset="iso-8859-1">
-<link rel="shortcut icon" type="image/x-icon"
-	href="http://www.michoacan.gob.mx/wp-content/themes/mich2015/img/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="http://www.michoacan.gob.mx/wp-content/themes/estaenti/img/favicon.ico">
 <title>Sistema de N&oacute;mina de Empleados</title>
 
 <link rel="stylesheet" type="text/css" href="css/estilos.css">
